@@ -1,0 +1,85 @@
+name: Raja Ampat
+slug: raja-ampat
+country: Indonesia
+countrySlug: indonesia
+ocean: pacific
+continent: asia
+coordinates:
+  lat: -0.5
+  lng: 130.5
+visibilityMeters: 30
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: moderate_to_strong
+difficulty: intermediate
+maxDepthMeters: 40
+bestMonths: [10, 11, 12, 1, 2, 3, 4]
+peakSeason: [12, 1, 2]
+certificationRequired: advanced_open_water
+minDivesRecommended: 20
+budgetLevel: luxury
+averageDailyCostUsd: 250
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, night, wall]
+shoreDive: limited
+marineLife:
+  sharks: 5
+  mantaRays: 5
+  whaleSharks: 1
+  turtles: 4
+  coral: 5
+  macro: 4
+  pelagics: 5
+  dolphins: 2
+beginnerFriendly: 2
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.9
+tagline: The epicenter of marine biodiversity - the Amazon of the seas
+description: Raja Ampat sits at the heart of the Coral Triangle, home to over 1,500 fish species and 75% of the world's known coral species. With pristine reefs, massive schools of fish, and encounters with manta rays, walking sharks, and pygmy seahorses, it is widely considered the best diving destination on Earth for biodiversity.
+whyDive:
+  - Highest marine biodiversity on the planet with over 1,500 fish species
+  - Pristine coral reefs with 75% of all known coral species
+  - Consistent manta ray encounters at cleaning stations
+  - Both wide-angle and macro photography paradise in the same dive
+  - Remote location means uncrowded dive sites and healthy ecosystems
+bestDiveSpots:
+  - name: Cape Kri
+    description: Record-breaking fish count site with massive schools of jacks, barracuda, and snapper swirling over pristine coral gardens.
+    depthRange: 5-35m
+    difficulty: Intermediate
+    highlights: Schooling fish, reef sharks, napoleon wrasse
+  - name: Manta Sandy
+    description: A sandy-bottomed cleaning station where manta rays glide overhead while cleaner wrasse attend to them.
+    depthRange: 8-15m
+    difficulty: Beginner
+    highlights: Manta rays up close, easy conditions
+  - name: Blue Magic
+    description: A seamount in the Dampier Strait where currents bring in pelagics including oceanic mantas, wobbegong sharks, and barracuda.
+    depthRange: 10-30m
+    difficulty: Advanced
+    highlights: Oceanic mantas, wobbegongs, barracuda tornadoes
+  - name: Melissa's Garden
+    description: Stunning hard coral garden on a sloping reef with excellent visibility and an overwhelming variety of reef fish.
+    depthRange: 5-30m
+    difficulty: Intermediate
+    highlights: Pristine hard corals, colorful reef fish
+  - name: The Passage
+    description: A narrow channel connecting two bays with mangroves above and soft coral-covered walls below.
+    depthRange: 3-20m
+    difficulty: Intermediate
+    highlights: Unique topography, archerfish, soft corals
+pros:
+  - Unmatched marine biodiversity anywhere on Earth
+  - Both wide angle and macro subjects in abundance
+  - Remote and uncrowded dive sites
+  - Liveaboard diving means access to remote areas
+cons:
+  - Expensive to reach with multiple flights required
+  - Strong currents require good buoyancy control
+  - Limited shore-based diving options
+  - Rainy season from June to September
+nearestAirport: Sorong (SOQ)
+timezoneOffset: UTC+9
+imageLocal: /images/raja-ampat.webp
+imageCredit: AI generated

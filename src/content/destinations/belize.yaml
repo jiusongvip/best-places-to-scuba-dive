@@ -1,0 +1,66 @@
+name: Belize Barrier Reef
+slug: belize
+country: Belize
+countrySlug: belize
+ocean: caribbean
+continent: north-america
+coordinates: { lat: 17.2, lng: -87.5 }
+visibilityMeters: 25
+waterTempCelsius: 27
+waterTempRange: 26-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 40
+bestMonths: [3, 4, 5, 6]
+peakSeason: [4, 5]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: mid_range
+averageDailyCostUsd: 150
+liveaboardAvailable: true
+diveTypes: [boat, liveaboard, night, wall, shore]
+shoreDive: good
+marineLife:
+  sharks: 4
+  mantaRays: 2
+  whaleSharks: 4
+  turtles: 4
+  coral: 4
+  macro: 3
+  pelagics: 3
+  dolphins: 3
+beginnerFriendly: 4
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.4
+tagline: The Great Blue Hole and the largest barrier reef in the northern hemisphere
+description: Belize is home to the largest barrier reef in the Western Hemisphere and the world-famous Great Blue Hole, a giant marine sinkhole made legendary by Jacques Cousteau. Beyond the Blue Hole, the atolls of Lighthouse Reef, Turneffe, and Glover's Reef offer healthy coral, abundant marine life, and seasonal whale shark encounters.
+whyDive:
+  - The iconic Great Blue Hole sinkhole experience
+  - Largest barrier reef in the northern hemisphere
+  - Seasonal whale shark encounters at Gladden Spit
+  - Easy access from the US with English as the primary language
+  - Three pristine atolls offering diverse diving
+bestDiveSpots:
+  - name: Great Blue Hole
+    description: A 300m-wide, 125m-deep sinkhole with stalactites at 30m and circling reef sharks in the crystal-clear depths.
+    depthRange: 10-40m
+    difficulty: Advanced
+    highlights: Stalactite formations, unique geology, Caribbean reef sharks
+  - name: Gladden Spit
+    description: A spawning aggregation site where whale sharks gather seasonally to feed on snapper spawn.
+    depthRange: 15-30m
+    difficulty: Intermediate
+    highlights: Seasonal whale shark encounters
+pros:
+  - The Great Blue Hole is a bucket-list dive
+  - Easy access from the US
+  - Whale shark encounters in season
+cons:
+  - Blue Hole is a single-depth deep dive with limited marine life
+  - Hurricane season from June to November
+  - Some reefs show signs of bleaching
+nearestAirport: Belize City (BZE)
+timezoneOffset: UTC-6
+imageLocal: /images/belize.webp
+imageCredit: AI generated

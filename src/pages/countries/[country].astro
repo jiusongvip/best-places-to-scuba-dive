@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allDests = await getCollection('destinations');
+  const countries = [...new Set(allDests.map((d: any) => d.data.countrySlug))];
+  return countries.map((c: string) => ({ params: { country: c } }));
+}
+
+const { country } = Astro.params;
+const allDests = await getCollection('destinations');
+const countryNames: Record<string, string> = {};
+allDests.forEach((d: any) => { countryNames[d.data.countrySlug] = d.data.country; });
+const countryName = countryNames[country || ''] || country || '';
+const dests = allDests.filter((d: any) => d.data.countrySlug === country).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
+const title = 'Scuba Diving in ' + countryName;
+
+// Aggregate data for intro
+const oceans = [...new Set(dests.map((d: any) => d.data.ocean))];
+const oceanLabels: Record<string, string> = { pacific: 'Pacific', indian: 'Indian', caribbean: 'Caribbean', 'red-sea': 'Red Sea', atlantic: 'Atlantic', mediterranean: 'Mediterranean' };
+const difficulties = [...new Set(dests.map((d: any) => d.data.difficulty))];
+const diffLabels: Record<string, string> = { beginner: 'beginner', intermediate: 'intermediate', advanced: 'advanced', technical: 'technical' };
+const budgetLevels = [...new Set(dests.map((d: any) => d.data.budgetLevel))];
+const budgetLabels: Record<string, string> = { budget: 'budget-friendly', mid_range: 'mid-range', premium: 'premium', luxury: 'luxury' };
+const budgetRange = budgetLevels.map((b: string) => budgetLabels[b]);
+const totalSpots = dests.reduce((sum: number, d: any) => sum + d.data.bestDiveSpots.length, 0);
+const avgVis = Math.round(dests.reduce((sum: number, d: any) => sum + d.data.visibilityMeters, 0) / dests.length);
+const avgRating = (dests.reduce((sum: number, d: any) => sum + d.data.overallRating, 0) / dests.length).toFixed(1);
+const topMarine = ['sharks','mantaRays','whaleSharks','turtles','coral','macro'] as const;
+const mlLabels: Record<string, string> = { sharks: 'Sharks', mantaRays: 'Manta Rays', whaleShakes: 'Whale Sharks', turtles: 'Turtles', coral: 'Coral Reefs', macro: 'Macro Life' };
+let bestML = topMarine
+  .filter(k => dests.some((d: any) => d.data.marineLife[k] >= 4))
+  .map(k => mlLabels[k] || k)
+  .slice(0, 4);
+if (bestML.length === 0) bestML = ['diverse marine life'];
+---
+
+<BaseLayout title={title} description={'Discover the best scuba diving in ' + countryName + '. Compare ' + dests.length + ' dive sites by visibility, marine life, season, difficulty, and daily costs. Rated ' + avgRating + '/5 by the dive community.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: countryName }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-700">{countryName}</span>
+      </div>
+    </div>
+  </nav>
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">Scuba Diving in {countryName}</h1>
+      <p class="text-lg text-sand-200/80 max-w-2xl">{dests.length} dive destinations across {oceans.length > 1 ? oceans.length + ' ocean regions' : 'the ' + (oceanLabels[oceans[0]] || '') + ' Ocean'}. Average visibility {avgVis}m, rated {avgRating}/5 by the dive community.</p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-6">Why Dive in {countryName}</h2>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-4">
+        <p>{countryName} offers {dests.length} distinct dive destinations spanning {oceans.map((o: string) => oceanLabels[o] || o).join(', ')} waters. Divers can expect {avgVis}m average visibility across {totalSpots}+ named dive sites, with conditions suitable for {difficulties.length > 1 ? 'all experience levels from ' + diffLabels[difficulties[0]] + ' through ' + diffLabels[difficulties[difficulties.length-1]] : diffLabels[difficulties[0]] + ' divers'}.</p>
+        <p>The region is known for {bestML.slice(0, 2).join(' and ').toLowerCase()}{bestML.length > 2 ? ', among other marine life' : ''}. Daily diving costs range from {budgetRange[0]} to {budgetRange[budgetRange.length-1]}, making it accessible for {budgetRange.length > 2 ? 'a range of budgets' : budgetRange.join(' and ') + ' travelers'}.</p>
+        <p>Each destination below has been rated by the dive community on visibility, marine life abundance, current conditions, and overall experience. Click through for detailed dive site guides, seasonal calendars, and certification requirements.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{dests.length}</p>
+          <p class="text-xs text-ocean-700 mt-1">Destinations</p>
+        </div>
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{totalSpots}</p>
+          <p class="text-xs text-ocean-700 mt-1">Dive Sites</p>
+        </div>
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{avgVis}m</p>
+          <p class="text-xs text-ocean-700 mt-1">Avg Visibility</p>
+        </div>
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{avgRating}</p>
+          <p class="text-xs text-ocean-700 mt-1">Avg Rating</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Dive Destinations in {countryName}</h2>
+      <p class="text-navy-600 mb-10">{dests.length} destinations, sorted by community rating</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {dests.map((d: any) => {
+          const dd = d.data;
+          return (
+            <a href={'/destinations/' + dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
+              <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
+                <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" />
+              </div>
+              <div class="p-6">
+                <div class="flex items-start justify-between mb-3">
+                  <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600">{dd.name}</h3>
+                  <span class="text-xs text-amber-500 bg-sand-100 px-2 py-1 rounded font-medium">{dd.overallRating}</span>
+                </div>
+                <p class="text-sm text-navy-600 leading-relaxed mb-4">{dd.tagline}</p>
+                <div class="grid grid-cols-2 gap-2 text-xs text-navy-500">
+                  <div>Vis: {dd.visibilityMeters}m</div>
+                  <div>Temp: {dd.waterTempCelsius}C</div>
+                  <div>Difficulty: {dd.difficulty}</div>
+                  <div>Budget: {dd.budgetLevel}</div>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

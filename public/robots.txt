@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://best-places-to-scuba-dive.com/sitemap-index.xml

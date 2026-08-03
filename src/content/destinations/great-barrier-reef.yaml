@@ -1,0 +1,66 @@
+name: Great Barrier Reef
+slug: great-barrier-reef
+country: Australia
+countrySlug: australia
+ocean: pacific
+continent: oceania
+coordinates: { lat: -18.2, lng: 147.5 }
+visibilityMeters: 25
+waterTempCelsius: 26
+waterTempRange: 24-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 30
+bestMonths: [6, 7, 8, 9, 10, 11]
+peakSeason: [7, 8, 9]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: mid_range
+averageDailyCostUsd: 200
+liveaboardAvailable: true
+diveTypes: [boat, liveaboard, night, wall]
+shoreDive: limited
+marineLife:
+  sharks: 3
+  mantaRays: 2
+  whaleSharks: 2
+  turtles: 5
+  coral: 4
+  macro: 4
+  pelagics: 3
+  dolphins: 3
+beginnerFriendly: 5
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.5
+tagline: The world's largest living structure - 2,300 kilometers of underwater wilderness
+description: The Great Barrier Reef is the world's largest coral reef system stretching over 2,300 kilometers along Australia's Queensland coast. With over 2,900 individual reefs and 900 islands, it offers diverse diving from beginner-friendly coral gardens to outer reef walls and the famous Cod Hole. While parts of the reef face bleaching pressure, the outer reef and Coral Sea sites remain spectacular.
+whyDive:
+  - Accessible to divers of all levels from total beginners onward
+  - Massive variety with 2,900+ individual reefs to explore
+  - Dwarf minke whale encounters in winter months
+  - World-class liveaboard trips to the Coral Sea
+  - Excellent infrastructure with dive operators everywhere
+bestDiveSpots:
+  - name: Cod Hole
+    description: A famous site where massive potato cod (up to 2m) approach divers fearlessly, creating unforgettable photo opportunities.
+    depthRange: 10-20m
+    difficulty: Beginner
+    highlights: Giant potato cod, friendly reef fish
+  - name: Osprey Reef
+    description: A remote Coral Sea atoll with 40m+ visibility and shark action including grey reef, silvertips, and occasional hammerheads.
+    depthRange: 10-40m
+    difficulty: Intermediate
+    highlights: Shark feedings, pristine walls, excellent visibility
+pros:
+  - Huge variety across thousands of reefs
+  - Suitable for total beginners
+  - Excellent infrastructure
+cons:
+  - Parts of the reef have suffered significant bleaching
+  - Not a big-animal destination compared to Galapagos
+  - Can be crowded at popular sites
+nearestAirport: Cairns (CNS)
+timezoneOffset: UTC+10
+imageLocal: /images/great-barrier-reef.webp
+imageCredit: AI generated

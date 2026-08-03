@@ -1,0 +1,66 @@
+name: Ras Mohammed
+slug: red-sea
+country: Egypt
+countrySlug: egypt
+ocean: red-sea
+continent: africa
+coordinates: { lat: 27.8, lng: 34.2 }
+visibilityMeters: 35
+waterTempCelsius: 25
+waterTempRange: 21-29C
+current: moderate
+difficulty: beginner
+maxDepthMeters: 40
+bestMonths: [3, 4, 5, 9, 10, 11]
+peakSeason: [10, 11]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: budget
+averageDailyCostUsd: 80
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, night, wall, wreck]
+shoreDive: good
+marineLife:
+  sharks: 3
+  mantaRays: 2
+  whaleSharks: 1
+  turtles: 4
+  coral: 4
+  macro: 3
+  pelagics: 3
+  dolphins: 3
+beginnerFriendly: 5
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.3
+tagline: The best value diving in the world with the legendary SS Thistlegorm wreck
+description: The Red Sea offers some of the best value diving on the planet, combining world-class wrecks, vibrant coral walls, and consistent conditions at a fraction of the price of tropical destinations. Ras Mohammed National Park at the tip of the Sinai Peninsula boasts wall dives with pelagics, while the SS Thistlegorm is arguably the greatest wreck dive on Earth.
+whyDive:
+  - The SS Thistlegorm - one of the world's best wreck dives
+  - Incredible value with excellent dive resorts at budget prices
+  - Vibrant hard and soft coral walls
+  - Easy access from Europe with short flight times
+  - Year-round diving with two distinct seasons
+bestDiveSpots:
+  - name: SS Thistlegorm
+    description: A WWII supply ship sunk in 1941 loaded with trucks, motorcycles, rifles, and other wartime cargo, now an underwater museum teeming with marine life.
+    depthRange: 16-30m
+    difficulty: Intermediate
+    highlights: WWII artifacts, cargo holds, schooling batfish
+  - name: Shark Reef and Yolanda Reef
+    description: Iconic Ras Mohammed wall dives where currents bring in pelagics past vibrant soft coral-covered walls.
+    depthRange: 10-40m
+    difficulty: Intermediate
+    highlights: Schooling barracuda, snapper, occasional hammerheads
+pros:
+  - Best value in world-class diving
+  - World-famous wreck dives
+  - Short flights from Europe
+cons:
+  - Can be crowded at popular sites
+  - Water cooler than tropical destinations
+  - Desert environment limits topside activities
+nearestAirport: Sharm el-Sheikh (SSH)
+timezoneOffset: UTC+2
+imageLocal: /images/red-sea.webp
+imageCredit: AI generated

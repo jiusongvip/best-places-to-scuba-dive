@@ -1,0 +1,66 @@
+name: Fernando de Noronha
+slug: fernando-de-noronha
+country: Brazil
+countrySlug: brazil
+ocean: atlantic
+continent: south-america
+coordinates: { lat: -3.85, lng: -32.4 }
+visibilityMeters: 30
+waterTempCelsius: 27
+waterTempRange: 26-29C
+current: moderate
+difficulty: intermediate
+maxDepthMeters: 35
+bestMonths: [8, 9, 10, 11, 12]
+peakSeason: [9, 10]
+certificationRequired: open_water
+minDivesRecommended: 15
+budgetLevel: premium
+averageDailyCostUsd: 180
+liveaboardAvailable: false
+diveTypes: [boat, drift, night, wall]
+shoreDive: good
+marineLife:
+  sharks: 4
+  mantaRays: 4
+  whaleSharks: 2
+  turtles: 5
+  coral: 3
+  macro: 3
+  pelagics: 4
+  dolphins: 5
+beginnerFriendly: 3
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.7
+tagline: Brazil's diving jewel - spinner dolphin bay and year-round turtle encounters
+description: Fernando de Noronha is a UNESCO-listed archipelago 350km off Brazil's coast, where spinner dolphins gather by the thousands in the famous Dolphins Bay and sea turtles are ubiquitous on every dive. With 30m+ visibility in warm Atlantic waters and dramatic volcanic rock formations, it is South America's premier dive destination, offering a unique Atlantic-Pacific mix of species.
+whyDive:
+  - Thousands of spinner dolphins in Dolphins Bay
+  - Turtles on literally every dive
+  - 30m+ visibility in warm Atlantic waters
+  - Dramatic volcanic underwater topography
+  - Pristine marine national park with strict visitor limits
+bestDiveSpots:
+  - name: Caverna da Sapata
+    description: A dramatic site with underwater caves and swim-throughs where turtles are guaranteed and schooling fish fill the passages.
+    depthRange: 8-25m
+    difficulty: Advanced
+    highlights: Underwater caves, turtles, schooling fish
+  - name: Ilha do Meio
+    description: Channels and walls around the main island where reef sharks, eagle rays, and massive schools of jacks patrol the blue water.
+    depthRange: 10-30m
+    difficulty: Intermediate
+    highlights: Reef sharks, eagle rays, schooling jacks
+pros:
+  - Guaranteed turtles on every dive
+  - Spinner dolphin encounters
+  - Excellent visibility
+cons:
+  - Very expensive with limited accommodation
+  - Strict visitor limits make access competitive
+  - Challenging travel logistics
+nearestAirport: Fernando de Noronha (FEN)
+timezoneOffset: UTC-2
+imageLocal: /images/fernando-de-noronha.webp
+imageCredit: AI generated

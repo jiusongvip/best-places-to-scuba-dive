@@ -1,0 +1,66 @@
+name: Bonaire
+slug: bonaire
+country: Bonaire
+countrySlug: bonaire
+ocean: caribbean
+continent: north-america
+coordinates: { lat: 12.15, lng: -68.27 }
+visibilityMeters: 25
+waterTempCelsius: 27
+waterTempRange: 26-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 35
+bestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+peakSeason: [1, 2, 3]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: mid_range
+averageDailyCostUsd: 130
+liveaboardAvailable: false
+diveTypes: [boat, night, shore]
+shoreDive: excellent
+marineLife:
+  sharks: 2
+  mantaRays: 1
+  whaleSharks: 0
+  turtles: 5
+  coral: 4
+  macro: 4
+  pelagics: 2
+  dolphins: 2
+beginnerFriendly: 5
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.6
+tagline: Shore diving freedom - the world's best self-guided dive destination
+description: Bonaire is the shore diving capital of the world, with over 90 marked dive sites accessible directly from the island's coastal road. The entire coastline from the high-water mark to 60m depth is a protected marine park. Divers rent a truck, load up tanks, and explore at their own pace - a liberating, choose-your-own-adventure approach that no other destination matches.
+whyDive:
+  - Unlimited shore diving at over 90 marked sites
+  - Dive on your own schedule with no boat times or groups
+  - Entire coastline protected as a marine park since 1979
+  - Perfect for underwater photography at your own pace
+  - Excellent for dive training and course completions
+bestDiveSpots:
+  - name: Hilma Hooker
+    description: A 72m cargo ship intentionally sunk as an artificial reef in 1984, now encrusted with corals and sponges at a depth accessible to all divers.
+    depthRange: 18-30m
+    difficulty: Intermediate
+    highlights: Wreck penetration, angelfish, tarpon, resident green moray
+  - name: Salt Pier
+    description: The working salt pier's pillars are encrusted with colorful sponges and corals, with huge schools of fish and occasional seahorses hiding among the growth.
+    depthRange: 5-15m
+    difficulty: Beginner
+    highlights: Seahorses, frogfish, schooling tarpon, octopus
+pros:
+  - Freedom to dive independently anytime
+  - Excellent shore diving infrastructure
+  - Year-round diving with consistent conditions
+cons:
+  - Limited big-animal encounters
+  - No liveaboard option
+  - Island can feel quiet for non-divers
+nearestAirport: Bonaire (BON)
+timezoneOffset: UTC-4
+imageLocal: /images/bonaire.webp
+imageCredit: AI generated

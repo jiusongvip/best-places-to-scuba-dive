@@ -1,0 +1,66 @@
+name: Cozumel
+slug: cozumel
+country: Mexico
+countrySlug: mexico
+ocean: caribbean
+continent: north-america
+coordinates: { lat: 20.4, lng: -86.9 }
+visibilityMeters: 30
+waterTempCelsius: 27
+waterTempRange: 25-29C
+current: moderate
+difficulty: beginner
+maxDepthMeters: 35
+bestMonths: [12, 1, 2, 3, 4, 5]
+peakSeason: [1, 2, 3]
+certificationRequired: open_water
+minDivesRecommended: 5
+budgetLevel: mid_range
+averageDailyCostUsd: 120
+liveaboardAvailable: false
+diveTypes: [boat, drift, night, wall]
+shoreDive: good
+marineLife:
+  sharks: 3
+  mantaRays: 2
+  whaleSharks: 1
+  turtles: 5
+  coral: 4
+  macro: 4
+  pelagics: 3
+  dolphins: 2
+beginnerFriendly: 4
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.3
+tagline: The drift diving capital with endless walls, turtles, and easy Caribbean access
+description: Cozumel is one of the world's most popular dive destinations for good reason. Its famous drift dives along dramatic walls let divers float effortlessly past colorful sponges and corals, with eagle rays, turtles, and nurse sharks making regular appearances. Clear water, warm temperatures, and easy access from the US make it a perennial favorite.
+whyDive:
+  - Effortless drift diving along dramatic walls
+  - Consistently good visibility and warm water
+  - Abundant turtles and eagle ray encounters
+  - Easy access from the US with direct flights
+  - Excellent topside dining and Mayan ruins
+bestDiveSpots:
+  - name: Palancar Reef
+    description: An extensive reef system with towering coral formations, swim-throughs, and deep walls that make for classic Cozumel drift dives.
+    depthRange: 10-30m
+    difficulty: Intermediate
+    highlights: Swim-throughs, eagle rays, turtles, vibrant sponges
+  - name: Santa Rosa Wall
+    description: A dramatic deep wall dive starting at 15m and plunging beyond recreational limits, with passing pelagics and beautiful sponge growth.
+    depthRange: 15-40m
+    difficulty: Advanced
+    highlights: Deep wall, eagle rays, intermittent shark sightings
+pros:
+  - Reliable drift diving with minimal effort
+  - Easy access from North America
+  - Excellent for intermediate divers
+cons:
+  - Currents can be strong for beginners
+  - Crowded in peak winter months
+  - Limited shore diving compared to Bonaire
+nearestAirport: Cozumel (CZM)
+timezoneOffset: UTC-5
+imageLocal: /images/cozumel.webp
+imageCredit: AI generated

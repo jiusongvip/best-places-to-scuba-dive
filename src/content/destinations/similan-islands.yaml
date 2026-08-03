@@ -1,0 +1,66 @@
+name: Similan Islands
+slug: similan-islands
+country: Thailand
+countrySlug: thailand
+ocean: indian
+continent: asia
+coordinates: { lat: 8.6, lng: 97.6 }
+visibilityMeters: 25
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: moderate
+difficulty: beginner
+maxDepthMeters: 35
+bestMonths: [11, 12, 1, 2, 3, 4]
+peakSeason: [1, 2]
+certificationRequired: open_water
+minDivesRecommended: 5
+budgetLevel: mid_range
+averageDailyCostUsd: 130
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, night, wall]
+shoreDive: limited
+marineLife:
+  sharks: 3
+  mantaRays: 4
+  whaleSharks: 2
+  turtles: 4
+  coral: 4
+  macro: 3
+  pelagics: 3
+  dolphins: 2
+beginnerFriendly: 4
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.3
+tagline: Thailand's finest diving - granite boulders draped in soft corals with manta ray flybys
+description: The Similan Islands off Thailand's Andaman coast feature spectacular granite boulder formations underwater, draped in colorful soft corals and surrounded by vibrant reef life. With warm water, good visibility, and reliable manta ray encounters at Richelieu Rock, the Similans offer some of Southeast Asia's best liveaboard diving.
+whyDive:
+  - Spectacular granite boulder formations
+  - Reliable manta ray encounters at Richelieu Rock
+  - Excellent value liveaboard diving
+  - Warm water and good visibility
+  - Perfect entry to liveaboard diving for beginners
+bestDiveSpots:
+  - name: Richelieu Rock
+    description: A horseshoe-shaped pinnacle rising from the deep, this is Thailand's most famous dive site with frequent manta ray and whale shark encounters.
+    depthRange: 5-35m
+    difficulty: Intermediate
+    highlights: Manta rays, whale sharks, seahorses, frogfish
+  - name: Elephant Head Rock
+    description: Dramatic swim-throughs between massive granite boulders where currents bring schooling fish and leopard sharks.
+    depthRange: 10-35m
+    difficulty: Intermediate
+    highlights: Swim-throughs, leopard sharks, barracuda
+pros:
+  - Great value liveaboard diving
+  - Beautiful underwater topography
+  - Reliable manta ray season
+cons:
+  - Closed during monsoon (May-October)
+  - Liveaboard access only
+  - Sites can be crowded in peak season
+nearestAirport: Phuket (HKT)
+timezoneOffset: UTC+7
+imageLocal: /images/similan-islands.webp
+imageCredit: AI generated

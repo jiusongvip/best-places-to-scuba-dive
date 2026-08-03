@@ -1,0 +1,74 @@
+name: Maldives
+slug: maldives
+country: Maldives
+countrySlug: maldives
+ocean: indian
+continent: asia
+coordinates:
+  lat: 3.2
+  lng: 73.2
+visibilityMeters: 35
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 30
+bestMonths: [11, 12, 1, 2, 3, 4]
+peakSeason: [12, 1, 2, 3]
+certificationRequired: open_water
+minDivesRecommended: 5
+budgetLevel: luxury
+averageDailyCostUsd: 300
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, night, wall]
+shoreDive: limited
+marineLife:
+  sharks: 4
+  mantaRays: 5
+  whaleSharks: 3
+  turtles: 5
+  coral: 3
+  macro: 3
+  pelagics: 4
+  dolphins: 3
+beginnerFriendly: 5
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.7
+tagline: The world's most accessible luxury diving - gentle currents and abundant megafauna
+description: The Maldives is a chain of 26 atolls in the Indian Ocean offering some of the most accessible and luxurious diving on Earth. With warm, clear water, gentle currents, and reliable encounters with manta rays, whale sharks, and reef sharks, it is the perfect destination for divers of all experience levels seeking comfort and marine megafauna.
+whyDive:
+  - Year-round warm water with excellent visibility
+  - Reliable manta ray and whale shark encounters
+  - Gentle currents make it perfect for beginners and families
+  - Luxury resorts with house reefs accessible from the beach
+  - World-class liveaboard safaris exploring remote atolls
+bestDiveSpots:
+  - name: Maaya Thila
+    description: A pinnacle site famous for its white tip reef sharks patrolling the reef and occasional grey reef shark encounters at night.
+    depthRange: 6-30m
+    difficulty: Intermediate
+    highlights: White tips, grey reef sharks, night dives
+  - name: Hanifaru Bay
+    description: A UNESCO biosphere reserve where massive seasonal aggregations of manta rays feed in the plankton-rich waters.
+    depthRange: 3-15m
+    difficulty: Beginner
+    highlights: Manta ray feeding frenzies during plankton season
+  - name: Kuredu Express
+    description: A thrilling drift dive in a channel with high chances of eagle rays, grey reef sharks, and huge schools of fish.
+    depthRange: 8-30m
+    difficulty: Advanced
+    highlights: Drift diving, eagle rays, grey reef sharks
+pros:
+  - Easy diving with warm water and gentle currents
+  - Reliable encounters with manta rays and whale sharks
+  - Luxury resorts with world-class house reefs
+  - Excellent for beginner divers and families
+cons:
+  - Very expensive accommodation and dining
+  - Some reefs suffered significant bleaching events
+  - Limited cultural experiences outside resorts
+nearestAirport: Male (MLE)
+timezoneOffset: UTC+5
+imageLocal: /images/maldives.webp
+imageCredit: AI generated

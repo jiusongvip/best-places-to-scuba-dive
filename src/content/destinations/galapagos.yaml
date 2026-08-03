@@ -1,0 +1,66 @@
+name: Galapagos Islands
+slug: galapagos
+country: Ecuador
+countrySlug: ecuador
+ocean: pacific
+continent: south-america
+coordinates: { lat: -0.7, lng: -90.3 }
+visibilityMeters: 20
+waterTempCelsius: 22
+waterTempRange: 18-26C
+current: strong
+difficulty: advanced
+maxDepthMeters: 35
+bestMonths: [6, 7, 8, 9, 10, 11]
+peakSeason: [7, 8, 9]
+certificationRequired: advanced_open_water
+minDivesRecommended: 50
+budgetLevel: luxury
+averageDailyCostUsd: 400
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, wall]
+shoreDive: none
+marineLife:
+  sharks: 5
+  mantaRays: 4
+  whaleSharks: 5
+  turtles: 5
+  coral: 2
+  macro: 2
+  pelagics: 5
+  dolphins: 4
+beginnerFriendly: 1
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.9
+tagline: The ultimate big-animal diving destination - Darwin and Wolf await
+description: The Galapagos Islands offer the most intense big-animal diving on the planet. Schooling hammerhead sharks by the hundreds, whale sharks, giant manta rays, sea lions, marine iguanas, and penguins share these nutrient-rich waters. Darwin and Wolf islands are the crown jewels, accessible only by liveaboard, where the action never stops.
+whyDive:
+  - Largest hammerhead shark schools in the world at Darwin and Wolf
+  - Only place to dive with marine iguanas and Galapagos penguins
+  - Whale shark encounters during the warm season
+  - Swimming with playful sea lions on every dive
+  - Darwin's living laboratory above and below water
+bestDiveSpots:
+  - name: Darwin Island
+    description: The ultimate shark diving site where dozens of hammerheads school in the blue, joined by Galapagos sharks, silky sharks, and occasionally whale sharks.
+    depthRange: 10-30m
+    difficulty: Advanced
+    highlights: Hammerhead schools, whale sharks, Galapagos sharks
+  - name: Wolf Island
+    description: Another shark paradise with slightly calmer conditions than Darwin, known for its massive schools of hammerheads and eagle rays.
+    depthRange: 10-30m
+    difficulty: Advanced
+    highlights: Hammerheads, eagle rays, dolphins, dense pelagic action
+pros:
+  - Unmatched big-animal encounters
+  - Unique endemic species above and below water
+  - Truly wild, untouched ecosystems
+cons:
+  - Cold water with challenging conditions
+  - Only accessible by expensive liveaboard
+  - Long travel to reach the islands
+nearestAirport: Baltra (GPS)
+timezoneOffset: UTC-6
+imageLocal: /images/galapagos.webp
+imageCredit: AI generated

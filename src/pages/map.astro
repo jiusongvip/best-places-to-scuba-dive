@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allDests = await getCollection('destinations');
+const mapData = allDests.map(d => ({
+  name: d.data.name,
+  slug: d.data.slug,
+  country: d.data.country,
+  lat: d.data.coordinates.lat,
+  lng: d.data.coordinates.lng,
+  rating: d.data.overallRating,
+  ocean: d.data.ocean,
+  difficulty: d.data.difficulty,
+}));
+const jsonData = JSON.stringify(mapData);
+---
+
+<BaseLayout title="Interactive Scuba Diving World Map" description="Explore 300+ scuba diving destinations on an interactive world map. Filter by ocean, difficulty, and rating to find your next dive adventure." breadcrumbs={[{ name: "Home", url: "/" }, { name: "Map" }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-navy-700">
+        <a href="/#browse" class="hover:text-coral-500 transition-colors">Browse</a>
+        <a href="/#destinations" class="hover:text-coral-500 transition-colors">Destinations</a>
+        <a href="/#collections" class="hover:text-coral-500 transition-colors">Collections</a>
+        <a href="/map" class="text-coral-500 font-medium">Map</a>
+        <a href="/compare" class="hover:text-coral-500 transition-colors">Compare</a>
+        <a href="/finder" class="hover:text-coral-500 transition-colors">Finder</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="bg-navy-950 py-12 md:py-20">
+    <div class="container-page">
+      <h1 class="text-3xl md:text-5xl font-semibold text-white tracking-tight mb-3">World Dive Map</h1>
+      <p class="text-lg text-sand-200/80 max-w-xl">Explore {allDests.length} dive destinations across the globe.</p>
+      <div class="flex flex-wrap gap-2 mt-6">
+        {[{k:'all',l:'All'},{k:'pacific',l:'Pacific'},{k:'indian',l:'Indian'},{k:'caribbean',l:'Caribbean'},{k:'red-sea',l:'Red Sea'},{k:'atlantic',l:'Atlantic'},{k:'mediterranean',l:'Mediterranean'}].map(f => (
+          <button class="px-3 py-1.5 rounded-lg text-xs font-medium bg-navy-700 text-sand-300 hover:bg-ocean-500 hover:text-white transition-colors map-filter" data-ocean={f.k}>{f.l}</button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div id="world-map" class="w-full" style="height: 70vh;" data-destinations={JSON.stringify(mapData)}></div>
+
+  <section class="py-12">
+    <div class="container-page">
+      <h2 class="text-2xl font-semibold text-navy-950 mb-6">All Destinations on Map</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="map-dest-list">
+        {mapData.map(d => (
+          <a href={'/destinations/' + d.slug} class="block p-3 rounded-lg bg-white border border-sand-200 hover:border-ocean-300 transition-all text-sm" data-ocean={d.ocean}>
+            <span class="font-medium text-navy-900">{d.name}</span>
+            <span class="text-navy-500 ml-1">{d.country}</span>
+            <span class="text-amber-500 ml-1 text-xs">{d.rating}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  #world-map { min-height: 500px; }
+  #world-map .leaflet-container { background: #eae6e1; }
+</style>
+
+<script is:inline>
+(function(){
+  var mapDiv = document.getElementById('world-map');
+  if (!mapDiv) return;
+  var data = JSON.parse(mapDiv.dataset.destinations || '[]');
+  if (!data.length) return;
+
+  if (typeof L !== 'undefined' && L.map) { initMap(data); }
+  else {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(link);
+    var s = document.createElement('script');
+    s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    s.onload = function() { initMap(data); };
+    s.onerror = function() { mapDiv.innerHTML = '<p style="text-align:center;padding:60px;color:#999">Map could not be loaded. Please check your internet connection.</p>'; };
+    document.head.appendChild(s);
+  }
+
+  function initMap(data) {
+    var map = L.map('world-map', { scrollWheelZoom: true, zoomControl: true }).setView([0, 30], 2);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+      maxZoom: 12,
+    }).addTo(map);
+
+    var markers = [];
+    var oceanColors = {
+      pacific: '#2e8ab8', indian: '#4da6d1', caribbean: '#1c557e',
+      'red-sea': '#c75b3a', atlantic: '#21638f', mediterranean: '#17476a',
+    };
+
+    data.forEach(function(d) {
+      if (!d.lat || !d.lng) return;
+      var color = oceanColors[d.ocean] || '#d96c4a';
+      var marker = L.circleMarker([d.lat, d.lng], {
+        radius: 7 + d.rating * 1.5,
+        fillColor: color, color: '#fff', weight: 1.5, fillOpacity: 0.85,
+      }).addTo(map);
+      marker.bindPopup(
+        '<div style="font-family:system-ui,sans-serif;min-width:180px">' +
+        '<strong style="font-size:14px">' + d.name + '</strong><br>' +
+        '<span style="font-size:12px;color:#555">' + d.country + '</span><br>' +
+        '<span style="font-size:12px;color:#d96c4a">' + '★'.repeat(Math.round(d.rating)) + ' ' + d.rating + '</span><br>' +
+        '<a href="/destinations/' + d.slug + '" style="font-size:12px;color:#2e8ab8">View details →</a>' +
+        '</div>'
+      );
+      marker._ocean = d.ocean;
+      markers.push(marker);
+    });
+
+    var filterBtns = document.querySelectorAll('.map-filter');
+    for (var i = 0; i < filterBtns.length; i++) {
+      filterBtns[i].addEventListener('click', function() {
+        var ocean = this.dataset.ocean;
+        for (var j = 0; j < filterBtns.length; j++) {
+          filterBtns[j].classList.remove('bg-ocean-500','text-white');
+          filterBtns[j].classList.add('bg-navy-700','text-sand-300');
+        }
+        this.classList.remove('bg-navy-700','text-sand-300');
+        this.classList.add('bg-ocean-500','text-white');
+
+        for (var k = 0; k < markers.length; k++) {
+          if (ocean === 'all' || markers[k]._ocean === ocean) {
+            if (!map.hasLayer(markers[k])) markers[k].addTo(map);
+          } else {
+            if (map.hasLayer(markers[k])) map.removeLayer(markers[k]);
+          }
+        }
+
+        var listItems = document.querySelectorAll('#map-dest-list a');
+        for (var m = 0; m < listItems.length; m++) {
+          listItems[m].style.display = (ocean === 'all' || listItems[m].dataset.ocean === ocean) ? '' : 'none';
+        }
+      });
+    }
+  }
+})();
+</script>
+

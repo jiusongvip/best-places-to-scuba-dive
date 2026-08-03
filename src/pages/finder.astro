@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allDests = await getCollection('destinations');
+const destsData = allDests.map(d => {
+  const dd = d.data;
+  return {
+    name: dd.name, slug: dd.slug, country: dd.country, countrySlug: dd.countrySlug,
+    ocean: dd.ocean, difficulty: dd.difficulty, budgetLevel: dd.budgetLevel,
+    beginnerFriendly: dd.beginnerFriendly, bestMonths: dd.bestMonths,
+    visibilityMeters: dd.visibilityMeters, waterTempCelsius: dd.waterTempCelsius,
+    averageDailyCostUsd: dd.averageDailyCostUsd, overallRating: dd.overallRating,
+    tagline: dd.tagline, current: dd.current,
+    marineLife: dd.marineLife, diveTypes: dd.diveTypes,
+    imageLocal: dd.imageLocal,
+    certificationRequired: dd.certificationRequired,
+    liveaboardAvailable: dd.liveaboardAvailable,
+  };
+});
+const jsonData = JSON.stringify(destsData);
+---
+
+<BaseLayout title="Scuba Dive Destination Finder" description="Answer 3 simple questions about travel dates, experience level, and marine life preferences. Get matched with the best scuba diving destinations for your trip." breadcrumbs={[{ name: "Home", url: "/" }, { name: "Finder" }]}>
+    <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-navy-700">
+        <a href="/#browse" class="hover:text-coral-500 transition-colors">Browse</a>
+        <a href="/#destinations" class="hover:text-coral-500 transition-colors">Destinations</a>
+        <a href="/#collections" class="hover:text-coral-500 transition-colors">Collections</a>
+        <a href="/map" class="hover:text-coral-500 transition-colors">Map</a>
+        <a href="/compare" class="hover:text-coral-500 transition-colors">Compare</a>
+        <a href="/finder" class="text-coral-500 font-medium">Finder</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page max-w-2xl mx-auto text-center">
+      <p class="text-coral-400 text-sm tracking-wider mb-3 font-medium">DIVE DESTINATION FINDER</p>
+      <h1 class="text-3xl md:text-5xl font-semibold text-white tracking-tight mb-4">Find Your Perfect Dive Destination</h1>
+      <p class="text-lg text-sand-200/80">Answer 3 quick questions and we'll match you with the best dive destinations for your next trip.</p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-2xl mx-auto">
+      <div id="step-1" class="finder-step" data-destinations={jsonData}>
+        <div class="flex items-center gap-2 mb-8">
+          <span class="w-8 h-8 rounded-full bg-coral-500 text-white flex items-center justify-center text-sm font-semibold">1</span>
+          <span class="w-16 h-0.5 bg-sand-300"></span>
+          <span class="w-8 h-8 rounded-full bg-sand-200 text-navy-500 flex items-center justify-center text-sm">2</span>
+          <span class="w-16 h-0.5 bg-sand-300"></span>
+          <span class="w-8 h-8 rounded-full bg-sand-200 text-navy-500 flex items-center justify-center text-sm">3</span>
+        </div>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">When are you planning to dive?</h2>
+        <p class="text-navy-600 mb-8">Pick the month of your trip — this helps us find destinations at their peak</p>
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mb-8">
+          {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m,i) => (
+            <button class="finder-month-btn px-4 py-3 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:bg-ocean-50 transition-all text-sm font-medium text-navy-900" data-month={i+1}>{m}</button>
+          ))}
+        </div>
+        <p class="text-sm text-navy-500">Or <button class="finder-skip-btn text-coral-500 hover:underline font-medium">skip — show me year-round options</button></p>
+      </div>
+
+      <div id="step-2" class="finder-step hidden">
+        <div class="flex items-center gap-2 mb-8">
+          <span class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-semibold">&#10003;</span>
+          <span class="w-16 h-0.5 bg-emerald-400"></span>
+          <span class="w-8 h-8 rounded-full bg-coral-500 text-white flex items-center justify-center text-sm font-semibold">2</span>
+          <span class="w-16 h-0.5 bg-sand-300"></span>
+          <span class="w-8 h-8 rounded-full bg-sand-200 text-navy-500 flex items-center justify-center text-sm">3</span>
+        </div>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">What's your experience level?</h2>
+        <p class="text-navy-600 mb-8">We'll match destinations to your comfort level</p>
+        <div class="space-y-3 mb-8">
+          {[
+            {v:'beginner',l:'Beginner',d:'Just certified — gentle currents, shallow reefs, easy shore dives',icon:'B'},
+            {v:'intermediate',l:'Intermediate',d:'Comfortable with moderate currents and deeper profiles (20-50 dives)',icon:'I'},
+            {v:'advanced',l:'Advanced',d:'Experienced — drifts, deep walls, pelagics, 50+ dives',icon:'A'},
+            {v:'any',l:'Any Level',d:'Show me all destinations regardless of difficulty',icon:'*'},
+          ].map(o => (
+            <button class={'finder-diff-btn w-full text-left px-5 py-4 rounded-xl border transition-all bg-white border-sand-200 hover:border-ocean-300 hover:bg-ocean-50'} data-diff={o.v}>
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-ocean-100 text-ocean-600 flex items-center justify-center font-semibold text-sm flex-shrink-0">{o.icon}</span>
+                <div><p class="font-semibold text-navy-900">{o.l}</p><p class="text-xs text-navy-600">{o.d}</p></div>
+              </div>
+            </button>
+          ))
+          }
+        </div>
+        <button class="finder-back-btn text-sm text-navy-500 hover:text-coral-500 font-medium">&larr; Back</button>
+      </div>
+
+      <div id="step-3" class="finder-step hidden">
+        <div class="flex items-center gap-2 mb-8">
+          <span class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-semibold">&#10003;</span>
+          <span class="w-16 h-0.5 bg-emerald-400"></span>
+          <span class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-semibold">&#10003;</span>
+          <span class="w-16 h-0.5 bg-emerald-400"></span>
+          <span class="w-8 h-8 rounded-full bg-coral-500 text-white flex items-center justify-center text-sm font-semibold">3</span>
+        </div>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">What do you most want to see?</h2>
+        <p class="text-navy-600 mb-8">Pick the experience that excites you most</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
+          {[
+            {v:'sharks',l:'Sharks',icon:'🦈'},
+            {v:'manta-rays',l:'Manta Rays',icon:'🐬'},
+            {v:'whale-sharks',l:'Whale Sharks',icon:'🐋'},
+            {v:'coral-reefs',l:'Coral Reefs',icon:'🐠'},
+            {v:'macro',l:'Macro / Critters',icon:'🐙'},
+            {v:'wrecks',l:'Wrecks',icon:'⚓'},
+            {v:'any',l:'Show Me Everything',icon:'🌍'},
+          ].map(o => (
+            <button class={'finder-life-btn px-5 py-4 rounded-xl border transition-all text-left bg-white border-sand-200 hover:border-coral-300 hover:bg-coral-50'} data-life={o.v}>
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">{o.icon}</span>
+                <span class="font-semibold text-navy-900">{o.l}</span>
+              </div>
+            </button>
+          ))
+          }
+        </div>
+        <button class="finder-back-btn text-sm text-navy-500 hover:text-coral-500 font-medium">&larr; Back</button>
+      </div>
+
+      <div id="results" class="hidden">
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">Your Matched Destinations</h2>
+        <p class="text-navy-600 mb-8" id="results-subtitle"></p>
+        <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <div class="mt-10 text-center">
+          <button id="restart-btn" class="px-6 py-2.5 rounded-xl bg-navy-950 text-white hover:bg-navy-800 transition-colors text-sm font-medium">Start Over</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline src="/finder.js"></script>
+
+</script>
+
+
+
+
+
+
+

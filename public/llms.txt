@@ -1,0 +1,20 @@
+# DiveAtlas - Dive Destination Search Engine
+DiveAtlas is a structured database of scuba diving destinations worldwide.
+Each destination includes visibility, water temperature, best season,
+marine life ratings, difficulty level, and budget estimates.
+
+## Core Pages
+- /: Homepage with destination finder, interactive map, and browse categories
+- /destinations/[slug]: Individual destination guide with diving conditions,
+  marine life ratings, best dive spots, pros/cons, and FAQ
+- /browse/month/[1-12]: Monthly dive guides with seasonal marine life calendars
+- /compare/[slug]: Side-by-side destination comparisons with data tables
+- /collections/[slug]: Curated lists (best shark diving, best wrecks, etc.)
+- /countries/[slug]: Country-level diving overviews
+
+## Data Model
+Each destination has structured data for: visibility (meters),
+water temperature (Celsius), current strength, difficulty level,
+best months, certification requirements, budget tier, and
+marine life ratings for sharks, manta rays, whale sharks, turtles,
+coral, macro, and pelagics.

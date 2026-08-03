@@ -1,0 +1,71 @@
+name: Palau
+slug: palau
+country: Palau
+countrySlug: palau
+ocean: pacific
+continent: oceania
+coordinates: { lat: 7.5, lng: 134.5 }
+visibilityMeters: 30
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: moderate_to_strong
+difficulty: intermediate
+maxDepthMeters: 40
+bestMonths: [11, 12, 1, 2, 3, 4, 5]
+peakSeason: [12, 1, 2, 3]
+certificationRequired: open_water
+minDivesRecommended: 10
+budgetLevel: premium
+averageDailyCostUsd: 220
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, night, wall, wreck]
+shoreDive: limited
+marineLife:
+  sharks: 5
+  mantaRays: 4
+  whaleSharks: 1
+  turtles: 4
+  coral: 4
+  macro: 3
+  pelagics: 5
+  dolphins: 3
+beginnerFriendly: 3
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.8
+tagline: The shark diving capital with the legendary Blue Corner and Jellyfish Lake
+description: Palau is a Micronesian paradise combining world-class reef and drift diving with a fascinating WWII wreck collection. The legendary Blue Corner delivers non-stop shark action, while Jellyfish Lake offers a surreal snorkeling experience with millions of stingless jellyfish. Palau was the world's first shark sanctuary, and its waters teem with grey reef, white tip, and black tip sharks.
+whyDive:
+  - Blue Corner - one of the most famous dive sites on Earth
+  - Incredible shark density with grey reef sharks on almost every dive
+  - Surreal Jellyfish Lake experience with millions of stingless jellyfish
+  - Excellent WWII wreck diving from the Pacific campaign
+  - Pristine Rock Islands with hidden marine lakes
+bestDiveSpots:
+  - name: Blue Corner
+    description: A plateau jutting into deep water where divers hook into the reef and watch grey reef sharks, turtles, and eagle rays cruise by in the current.
+    depthRange: 8-25m
+    difficulty: Intermediate
+    highlights: Grey reef sharks, eagle rays, Napoleon wrasse, schooling jacks
+  - name: German Channel
+    description: A man-made channel where manta rays gather at cleaning stations and reef sharks patrol the walls.
+    depthRange: 10-25m
+    difficulty: Intermediate
+    highlights: Manta ray cleaning stations, reef sharks
+  - name: Ulong Channel
+    description: A scenic drift dive through a channel with beautiful coral formations and schooling fish ending in a sandy area with giant clams.
+    depthRange: 8-20m
+    difficulty: Beginner
+    highlights: Beautiful coral gardens, drift diving, giant clams
+pros:
+  - Non-stop shark action at Blue Corner
+  - Unique Jellyfish Lake experience
+  - Excellent combination of reef and wreck diving
+cons:
+  - Expensive to reach from most countries
+  - Strong currents at the best sites
+  - Limited shore-based activities
+nearestAirport: Koror (ROR)
+timezoneOffset: UTC+9
+imageLocal: /images/palau.webp
+imageCredit: AI generated

@@ -1,0 +1,66 @@
+name: Azores
+slug: azores
+country: Portugal
+countrySlug: portugal
+ocean: atlantic
+continent: europe
+coordinates: { lat: 37.7, lng: -25.5 }
+visibilityMeters: 20
+waterTempCelsius: 19
+waterTempRange: 16-23C
+current: moderate
+difficulty: intermediate
+maxDepthMeters: 35
+bestMonths: [6, 7, 8, 9]
+peakSeason: [7, 8]
+certificationRequired: advanced_open_water
+minDivesRecommended: 20
+budgetLevel: mid_range
+averageDailyCostUsd: 140
+liveaboardAvailable: false
+diveTypes: [boat, night, wall, shore]
+shoreDive: good
+marineLife:
+  sharks: 4
+  mantaRays: 4
+  whaleSharks: 2
+  turtles: 3
+  coral: 1
+  macro: 1
+  pelagics: 5
+  dolphins: 5
+beginnerFriendly: 2
+familyFriendly: false
+photographyScore: 4
+overallRating: 4.3
+tagline: Europe's best kept secret - dive with blue sharks and mobula rays in the Atlantic
+description: "The Azores is Europe's wild frontier for diving - a remote archipelago in the mid-Atlantic where underwater volcanic landscapes meet pelagic action. The main draw: in-water encounters with blue sharks and massive mobula ray aggregations. Topsides, the islands offer dramatic volcanic scenery, whale watching, and a uniquely European-Atlantic culture."
+whyDive:
+  - Blue shark and mobula ray encounters
+  - Dramatic volcanic underwater topography
+  - Excellent whale watching topside
+  - Unique European-Atlantic culture and cuisine
+  - No crowds - still an under-the-radar destination
+bestDiveSpots:
+  - name: Princess Alice Bank
+    description: An offshore seamount 45 nautical miles from Pico Island where blue sharks and mobula rays gather reliably in summer.
+    depthRange: 5-30m
+    difficulty: Advanced
+    highlights: Blue sharks, mobula ray schools, ocean triggerfish
+  - name: Dori Wreck
+    description: A WWII Liberty ship resting upright at 22m, now home to massive dusky groupers, moray eels, and swirling baitfish schools.
+    depthRange: 12-22m
+    difficulty: Intermediate
+    highlights: Giant dusky groupers, barracuda, wreck penetration
+pros:
+  - Unique pelagic encounters in Europe
+  - Dramatic volcanic scenery
+  - Great whale watching
+cons:
+  - Cold water requiring 7mm wetsuits
+  - Weather-dependent operations
+  - Limited dive season for pelagics
+nearestAirport: Ponta Delgada (PDL)
+timezoneOffset: UTC-1
+imageLocal: /images/azores.webp
+imageCredit: AI generated

@@ -1,0 +1,71 @@
+name: Komodo National Park
+slug: komodo
+country: Indonesia
+countrySlug: indonesia
+ocean: pacific
+continent: asia
+coordinates: { lat: -8.6, lng: 119.5 }
+visibilityMeters: 25
+waterTempCelsius: 27
+waterTempRange: 25-29C
+current: strong
+difficulty: advanced
+maxDepthMeters: 40
+bestMonths: [4, 5, 6, 7, 8, 9, 10, 11]
+peakSeason: [7, 8]
+certificationRequired: advanced_open_water
+minDivesRecommended: 30
+budgetLevel: mid_range
+averageDailyCostUsd: 180
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, night, wall]
+shoreDive: limited
+marineLife:
+  sharks: 5
+  mantaRays: 5
+  whaleSharks: 2
+  turtles: 4
+  coral: 4
+  macro: 4
+  pelagics: 5
+  dolphins: 4
+beginnerFriendly: 2
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.8
+tagline: The wild heart of the Coral Triangle - where dragons meet dragons of the deep
+description: Komodo National Park offers some of the most exciting diving in the world, with powerful currents delivering nutrients that fuel an explosion of marine life. From schooling sharks and manta rays at the famous sites in the north to the macro treasures of the south, Komodo is a diver's playground that rewards experience and strong skills.
+whyDive:
+  - Thrilling drift dives through nutrient-rich channels
+  - Reliable manta ray encounters year-round
+  - Exceptional mix of wide-angle and macro subjects
+  - Chance to see Komodo dragons on land excursions
+  - Pink sand beaches and dramatic volcanic landscapes
+bestDiveSpots:
+  - name: Batu Bolong
+    description: A world-famous pinnacle in a high-current area teeming with fish, sharks, turtles, and vibrant corals covering every surface.
+    depthRange: 5-35m
+    difficulty: Advanced
+    highlights: Napoleon wrasse, turtles, reef sharks, pristine coral
+  - name: Manta Alley
+    description: A cleaning station in the south where mantas gather reliably during the right season.
+    depthRange: 8-20m
+    difficulty: Intermediate
+    highlights: Manta rays circling cleaning stations
+  - name: Cannibal Rock
+    description: A rich macro site on a submerged seamount with rare nudibranchs, frogfish, and sea horses.
+    depthRange: 5-30m
+    difficulty: Intermediate
+    highlights: Macro life, rhinopias, frogfish, sea horses
+pros:
+  - World-class drift diving and pelagic action
+  - Excellent variety of dive landscapes
+  - Komodo dragons on land excursions
+cons:
+  - Strong and unpredictable currents
+  - Not suitable for inexperienced divers
+  - Remote location with limited infrastructure
+nearestAirport: Labuan Bajo (LBJ)
+timezoneOffset: UTC+8
+imageLocal: /images/komodo.webp
+imageCredit: AI generated

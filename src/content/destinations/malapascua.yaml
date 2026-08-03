@@ -1,0 +1,66 @@
+name: Malapascua
+slug: malapascua
+country: Philippines
+countrySlug: philippines
+ocean: pacific
+continent: asia
+coordinates: { lat: 11.3, lng: 124.1 }
+visibilityMeters: 20
+waterTempCelsius: 27
+waterTempRange: 26-29C
+current: moderate
+difficulty: intermediate
+maxDepthMeters: 30
+bestMonths: [1, 2, 3, 4, 5, 11, 12]
+peakSeason: [3, 4]
+certificationRequired: open_water
+minDivesRecommended: 10
+budgetLevel: budget
+averageDailyCostUsd: 70
+liveaboardAvailable: false
+diveTypes: [boat, night, wall]
+shoreDive: limited
+marineLife:
+  sharks: 5
+  mantaRays: 1
+  whaleSharks: 1
+  turtles: 3
+  coral: 3
+  macro: 4
+  pelagics: 2
+  dolphins: 1
+beginnerFriendly: 3
+familyFriendly: false
+photographyScore: 4
+overallRating: 4.5
+tagline: The only place in the world where you can reliably see thresher sharks every morning
+description: Malapascua is globally unique because Monad Shoal, a submerged island 30 minutes offshore, is a cleaning station for pelagic thresher sharks. Every morning at dawn, these deep-water sharks with their impossibly long tails rise to the seamount to be cleaned. It is the only reliable place on Earth for thresher shark encounters, and it is accessible at a budget price.
+whyDive:
+  - Only reliable thresher shark site in the world
+  - Daily dawn encounters with pelagic threshers
+  - Excellent macro and muck diving at nearby sites
+  - Budget-friendly with excellent value diving
+  - Gato Island with its underwater tunnel and whitetip sharks
+bestDiveSpots:
+  - name: Monad Shoal
+    description: A submerged seamount rising from 230m to 15m where thresher sharks ascend each dawn for cleaning, providing reliable year-round encounters.
+    depthRange: 15-28m
+    difficulty: Intermediate
+    highlights: Thresher sharks at dawn, devil rays, eagle rays
+  - name: Gato Island
+    description: A marine sanctuary with a swim-through tunnel, whitetip reef sharks sleeping on the bottom, and excellent macro life on the surrounding slopes.
+    depthRange: 5-25m
+    difficulty: Beginner
+    highlights: Swim-through tunnel, whitetip sharks, sea snakes, seahorses
+pros:
+  - Unique thresher shark encounters
+  - Excellent value for money
+  - Good macro diving nearby
+cons:
+  - Pre-dawn wake-ups required for sharks
+  - Limited topside activities
+  - Small island with basic amenities
+nearestAirport: Cebu (CEB)
+timezoneOffset: UTC+8
+imageLocal: /images/malapascua.webp
+imageCredit: AI generated

@@ -1,0 +1,66 @@
+@import 'leaflet/dist/leaflet.css';
+@import 'tailwindcss';
+
+@theme {
+  --color-navy-950: #091c2e;
+  --color-navy-900: #0d2b42;
+  --color-navy-800: #123956;
+  --color-navy-700: #17476a;
+  --color-navy-600: #1c557e;
+  --color-navy-500: #21638f;
+  --color-ocean-500: #2e8ab8;
+  --color-ocean-400: #4da6d1;
+  --color-ocean-300: #7cc1e6;
+  --color-ocean-200: #a9d9f2;
+  --color-ocean-100: #d6edf9;
+  --color-coral-600: #c75b3a;
+  --color-coral-500: #d96c4a;
+  --color-coral-400: #e8825e;
+  --color-coral-300: #f0a080;
+  --color-coral-200: #f6c4ae;
+  --color-coral-100: #fce8dd;
+  --color-sand-50: #fafaf8;
+  --color-sand-100: #f5f3f0;
+  --color-sand-200: #eae6e1;
+  --color-sand-300: #d5cfc8;
+  --font-display: 'Geist', sans-serif;
+  --font-body: 'Geist', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+    color: var(--color-navy-950);
+    background: var(--color-sand-50);
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: var(--color-ocean-200);
+    color: var(--color-navy-900);
+  }
+}
+
+@layer utilities {
+  .container-page {
+    max-width: 1400px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+}
+
+
+#world-map { min-height: 500px; }
+#world-map .leaflet-container { background: #eae6e1; }

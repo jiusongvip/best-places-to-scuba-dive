@@ -1,0 +1,66 @@
+name: Anilao
+slug: anilao
+country: Philippines
+countrySlug: philippines
+ocean: pacific
+continent: asia
+coordinates: { lat: 13.7, lng: 120.9 }
+visibilityMeters: 15
+waterTempCelsius: 28
+waterTempRange: 26-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 25
+bestMonths: [1, 2, 3, 4, 5, 11, 12]
+peakSeason: [3, 4]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: budget
+averageDailyCostUsd: 60
+liveaboardAvailable: false
+diveTypes: [boat, night, muck, shore]
+shoreDive: excellent
+marineLife:
+  sharks: 1
+  mantaRays: 0
+  whaleSharks: 0
+  turtles: 2
+  coral: 2
+  macro: 5
+  pelagics: 1
+  dolphins: 0
+beginnerFriendly: 5
+familyFriendly: true
+photographyScore: 5
+overallRating: 4.4
+tagline: The nudibranch capital - over 800 species and a macro photographer's paradise
+description: Anilao in Batangas is one of the most accessible macro diving destinations in the world, just a few hours drive from Manila. It boasts over 800 documented nudibranch species alongside rare critters like the blue-ringed octopus, hairy frogfish, and a bewildering variety of ghost pipefish. The shallow, calm conditions and extremely affordable prices make it accessible to divers of all levels.
+whyDive:
+  - Over 800 nudibranch species documented
+  - Blue-ringed octopus and mimic octopus sightings
+  - Extremely affordable diving just 3 hours from Manila
+  - Excellent dive guides with expert critter-spotting skills
+  - Perfect for beginner photographers and new divers
+bestDiveSpots:
+  - name: Secret Bay
+    description: A muck diving site as rich as Lembeh, with mimics, wonderpus, blue-ringed octopus, and frogfish reliably found on most dives.
+    depthRange: 5-25m
+    difficulty: Beginner
+    highlights: Blue-ringed octopus, mimic octopus, frogfish
+  - name: Twin Rocks
+    description: Two rocky pinnacles covered in soft corals and sea fans where pygmy seahorses and ornate ghost pipefish hide among the branches.
+    depthRange: 5-18m
+    difficulty: Beginner
+    highlights: Pygmy seahorses, ghost pipefish, nudibranchs
+pros:
+  - World-class macro / muck diving
+  - Very affordable with easy access from Manila
+  - Shallow, calm conditions ideal for beginners
+cons:
+  - Poor visibility with silty conditions
+  - No reefs, big animals, or pelagics
+  - Limited topside attractions
+nearestAirport: Manila (MNL)
+timezoneOffset: UTC+8
+imageLocal: /images/anilao.webp
+imageCredit: AI generated

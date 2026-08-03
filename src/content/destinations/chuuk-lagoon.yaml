@@ -1,0 +1,66 @@
+name: Chuuk Lagoon
+slug: chuuk-lagoon
+country: Micronesia
+countrySlug: micronesia
+ocean: pacific
+continent: oceania
+coordinates: { lat: 7.4, lng: 151.8 }
+visibilityMeters: 25
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: mild
+difficulty: advanced
+maxDepthMeters: 60
+bestMonths: [12, 1, 2, 3, 4]
+peakSeason: [1, 2]
+certificationRequired: technical
+minDivesRecommended: 50
+budgetLevel: premium
+averageDailyCostUsd: 200
+liveaboardAvailable: true
+diveTypes: [boat, liveaboard, wreck, wall, cave]
+shoreDive: limited
+marineLife:
+  sharks: 3
+  mantaRays: 2
+  whaleSharks: 1
+  turtles: 3
+  coral: 3
+  macro: 4
+  pelagics: 2
+  dolphins: 1
+beginnerFriendly: 1
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.7
+tagline: The world's greatest wreck diving - a WWII Japanese fleet frozen in time
+description: Chuuk Lagoon is universally recognized as the best wreck diving destination on Earth. In 1944, Operation Hailstone sent over 60 Japanese ships and 250 aircraft to the lagoon floor. Decades later, these wrecks have become artificial reefs encrusted in corals and teeming with marine life, from trucks still lined up in cargo holds to fighter planes resting on sandy bottoms.
+whyDive:
+  - Over 60 WWII shipwrecks and 250 aircraft in one lagoon
+  - Wrecks encrusted in corals with resident marine life
+  - Accessible cargo holds with wartime artifacts intact
+  - Shallow wrecks for recreational divers and deep technical wrecks
+  - The Fujikawa Maru - arguably the most photogenic wreck on Earth
+bestDiveSpots:
+  - name: Fujikawa Maru
+    description: A 132m cargo ship sitting upright with its cargo of Zero fighter planes still visible in the holds, now encrusted in soft corals and teeming with fish.
+    depthRange: 9-34m
+    difficulty: Intermediate
+    highlights: Zero fighters in cargo holds, soft coral growth, engine room
+  - name: Shinkoku Maru
+    description: A massive tanker with a dramatic operating table still in the sick bay, beautiful coral growth, and resident lionfish at every corner.
+    depthRange: 12-38m
+    difficulty: Intermediate
+    highlights: Operating table, soft corals, lionfish, bow gun
+pros:
+  - Unmatched wreck diving density and quality
+  - Many wrecks accessible to recreational limits
+  - Warm water with good visibility
+cons:
+  - Remote and difficult to reach
+  - Requires wreck and technical certifications for best wrecks
+  - Limited topside tourism infrastructure
+nearestAirport: Chuuk (TKK)
+timezoneOffset: UTC+10
+imageLocal: /images/chuuk-lagoon.webp
+imageCredit: AI generated

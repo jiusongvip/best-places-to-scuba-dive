@@ -1,0 +1,61 @@
+name: Rangiroa
+slug: rangiroa
+country: French Polynesia
+countrySlug: french-polynesia
+ocean: pacific
+continent: oceania
+coordinates: { lat: -14.97, lng: -147.6 }
+visibilityMeters: 40
+waterTempCelsius: 27
+waterTempRange: 26-29C
+current: strong
+difficulty: advanced
+maxDepthMeters: 40
+bestMonths: [5, 6, 7, 8, 9, 10]
+peakSeason: [7, 8]
+certificationRequired: advanced_open_water
+minDivesRecommended: 30
+budgetLevel: luxury
+averageDailyCostUsd: 250
+liveaboardAvailable: false
+diveTypes: [boat, drift, wall, night]
+shoreDive: limited
+marineLife:
+  sharks: 5
+  mantaRays: 4
+  whaleSharks: 0
+  turtles: 4
+  coral: 3
+  macro: 2
+  pelagics: 5
+  dolphins: 5
+beginnerFriendly: 1
+familyFriendly: false
+photographyScore: 4
+overallRating: 4.7
+tagline: Pass diving with dolphins, hammerheads, and the great hammerhead sharks
+description: Rangiroa is the world's second largest atoll in the Tuamotu Archipelago of French Polynesia. Its two main passes, Tiputa and Avatoru, are world-famous drift dives where strong tidal currents bring in hammerhead sharks, manta rays, bottlenose dolphins, and silvertip sharks. The dolphin encounters in particular are intimate and unforgettable.
+whyDive:
+  - Legendary pass dives with hammerhead schools
+  - Intimate dolphin encounters on most dives
+  - Crystal-clear visibility at 40m+
+  - Silvertip shark and great hammerhead encounters
+  - French Polynesia's most accessible shark diving
+bestDiveSpots:
+  - name: Tiputa Pass
+    description: A legendary tidal channel where bottlenose dolphins play with divers while silvertip sharks, grey reefs, and hammerheads cruise by.
+    depthRange: 10-35m
+    difficulty: Advanced
+    highlights: Dolphins, hammerheads, silvertips, manta rays
+pros:
+  - World-class pass drift dives
+  - Intimate dolphin interactions
+  - Incredible visibility
+cons:
+  - Very expensive destination
+  - Strong currents limit beginner access
+  - Very long travel from most locations
+nearestAirport: Rangiroa (RGI)
+timezoneOffset: UTC-10
+imageLocal: /images/rangiroa.webp
+imageCredit: AI generated

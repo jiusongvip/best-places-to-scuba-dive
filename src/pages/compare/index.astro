@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allDests = await getCollection('destinations');
+const destMap = new Map(allDests.map((d: any) => [d.data.slug, d.data]));
+---
+
+<BaseLayout title="Compare Scuba Diving Destinations" description="Compare scuba diving destinations side by side. Evaluate visibility, marine life, difficulty, budget, and water temperature to choose your perfect dive trip." breadcrumbs={[{ name: "Home", url: "/" }, { name: "Compare" }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-navy-700">
+        <a href="/#browse" class="hover:text-coral-500 transition-colors">Browse</a>
+        <a href="/#destinations" class="hover:text-coral-500 transition-colors">Destinations</a>
+        <a href="/#collections" class="hover:text-coral-500 transition-colors">Collections</a>
+        <a href="/map" class="hover:text-coral-500 transition-colors">Map</a>
+        <a href="/compare" class="text-coral-500 font-medium">Compare</a>
+        <a href="/finder" class="hover:text-coral-500 transition-colors">Finder</a>
+      </div>
+    </div>
+  </nav>
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">Compare Dive Destinations</h1>
+      <p class="text-lg text-sand-200/80 max-w-xl">Side-by-side comparisons of the world's top scuba diving destinations. Find which one is right for you.</p>
+    </div>
+  </section>
+  <section class="py-20">
+    <div class="container-page max-w-2xl">
+      <h2 class="text-2xl font-semibold text-navy-950 mb-8">Popular Comparisons</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          { a: 'Raja Ampat', b: 'Maldives', slug: 'raja-ampat-vs-maldives' },
+          { a: 'Komodo', b: 'Sipadan', slug: 'komodo-vs-sipadan' },
+          { a: 'Great Barrier Reef', b: 'Galapagos', slug: 'great-barrier-reef-vs-galapagos' },
+          { a: 'Cozumel', b: 'Bonaire', slug: 'cozumel-vs-bonaire' },
+          { a: 'Red Sea', b: 'Similan Islands', slug: 'red-sea-vs-similan-islands' },
+          { a: 'Bali', b: 'Malapascua', slug: 'bali-vs-malapascua' },
+        ].map(p => {
+          const da = destMap.get(p.a.toLowerCase().replace(/\s+/g, '-'));
+          const db = destMap.get(p.b.toLowerCase().replace(/\s+/g, '-'));
+          return (
+          <a href={'/compare/' + p.slug} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm rounded-xl overflow-hidden transition-all">
+            <div class="grid grid-cols-2 gap-px bg-sand-200">
+              <div class="aspect-[3/2] bg-sand-100 overflow-hidden">
+                {da && <img src={da.imageLocal} alt={da.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />}
+              </div>
+              <div class="aspect-[3/2] bg-sand-100 overflow-hidden">
+                {db && <img src={db.imageLocal} alt={db.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />}
+              </div>
+            </div>
+            <div class="p-5">
+            <h3 class="font-semibold text-navy-900 group-hover:text-coral-600">{p.a} vs {p.b}</h3>
+            <p class="text-sm text-navy-500 mt-1">Compare visibility, marine life, difficulty, budget, and season</p>
+            </div>
+          </a>
+          );
+        })}
+      </div>
+      <p class="mt-12 text-center text-navy-500 text-sm">More comparisons coming soon. Each comparison includes side-by-side data tables and personalized recommendations.</p>
+    </div>
+  </section>
+</BaseLayout>
+

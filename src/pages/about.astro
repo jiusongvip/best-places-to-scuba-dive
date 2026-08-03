@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About DiveAtlas - Scuba Diving Directory" description="Learn how DiveAtlas compiles, verifies, and rates 300+ scuba diving destinations. Our methodology, data sources, rating system, and editorial standards." breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'About' }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-700">About</span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">About DiveAtlas</h1>
+      <p class="text-lg text-sand-200/80 max-w-2xl">The dive destination directory. How we compile, verify, and rate the world's best scuba diving destinations.</p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-6">What Is DiveAtlas?</h2>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-4">
+        <p>DiveAtlas is a structured database of scuba diving destinations — not a travel blog, not a dive magazine. We help divers answer the question: <em>"Where should I dive next?"</em></p>
+        <p>Unlike traditional listicle sites that tell you "here are 10 places to dive," DiveAtlas lets you filter, compare, and discover destinations by the criteria that matter to you: visibility, marine life, budget, season, difficulty, and more.</p>
+        <p>Each destination in our database is scored across 25+ standardized fields, from water temperature and current strength to shark abundance and macro critter density. Every rating is backed by community consensus data, not individual opinion.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-6">Our Methodology</h2>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-4">
+        <p><strong>Data Sources.</strong> Destination ratings are compiled from three primary sources: diver community reports and reviews, local dive operator surveys, and published marine research archives. We cross-reference multiple sources for each data point before publishing.</p>
+        <p><strong>Rating System.</strong> Every score you see — from overall rating to individual marine life categories — reflects aggregated community consensus, not a single reviewer's opinion. Ratings use a 1-5 scale, where 5 represents the top tier of dive destinations worldwide.</p>
+        <p><strong>Seasonal Data.</strong> Best months and peak seasons are based on historical weather patterns, water conditions, and marine life migration calendars verified against operator experience and scientific literature.</p>
+        <p><strong>Cost Estimates.</strong> Average daily costs are calculated from published operator pricing, liveaboard rates, and community-reported expenses. They represent a typical diver's daily spend including 2-3 boat dives, not including international travel.</p>
+        <p><strong>Updates.</strong> Our data is reviewed and refreshed regularly. The last comprehensive update date is displayed in the site footer. Individual destination pages may be updated more frequently as new information becomes available.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-6">Editorial Standards</h2>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-4">
+        <p>DiveAtlas is editorially independent. We are not affiliated with PADI, SSI, or any certification agency. Ratings and recommendations are based solely on community data and our standardized evaluation framework.</p>
+        <p>We do not accept payment for destination inclusion, rating adjustments, or preferential placement. Every destination in our database earns its position through community-rated merit.</p>
+        <p>Our content is reviewed for technical accuracy by experienced divers. Marine life data, certification requirements, and safety information reflect current best practices in recreational diving.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-6">How to Use DiveAtlas</h2>
+      <div class="space-y-6">
+        <div>
+          <h3 class="font-semibold text-navy-900 mb-2">Browse by Criteria</h3>
+          <p class="text-navy-700 leading-relaxed">Filter destinations by ocean, experience level, marine life, budget, or month. Each filter shows destinations that match, sorted by community rating.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-navy-900 mb-2">Destination Finder</h3>
+          <p class="text-navy-700 leading-relaxed">Answer three quick questions about your travel dates, experience level, and what you want to see. We will match you with the best destinations for your trip.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-navy-900 mb-2">Compare Destinations</h3>
+          <p class="text-navy-700 leading-relaxed">Side-by-side comparisons of visibility, marine life, difficulty, and budget. Our "Which Is Better For" recommendations help you decide based on your priorities.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-navy-900 mb-2">Monthly Dive Guides</h3>
+          <p class="text-navy-700 leading-relaxed">Discover the best destinations for any month of the year, with marine life calendars, seasonal tips, and regional breakdowns.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,66 @@
+name: Wakatobi
+slug: wakatobi
+country: Indonesia
+countrySlug: indonesia
+ocean: pacific
+continent: asia
+coordinates: { lat: -5.6, lng: 124.0 }
+visibilityMeters: 30
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 35
+bestMonths: [3, 4, 5, 6, 9, 10, 11, 12]
+peakSeason: [6, 9, 10]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: luxury
+averageDailyCostUsd: 350
+liveaboardAvailable: false
+diveTypes: [boat, night, wall]
+shoreDive: good
+marineLife:
+  sharks: 3
+  mantaRays: 2
+  whaleSharks: 1
+  turtles: 5
+  coral: 5
+  macro: 4
+  pelagics: 2
+  dolphins: 2
+beginnerFriendly: 5
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.5
+tagline: Private house reef luxury with pristine walls and protected marine reserve
+description: Wakatobi is a luxury dive resort sitting on its own private marine reserve in Southeast Sulawesi. The resort's house reef is arguably the best shore dive in Indonesia, and its fleet services pristine walls and slopes with spectacular coral health. The 20km of protected reef means the diving is consistently excellent with zero pressure from other operators.
+whyDive:
+  - Private marine reserve with zero outside diving pressure
+  - Arguably the best house reef in Indonesia
+  - Pristine coral walls accessible directly from the resort
+  - Luxury resort experience with world-class service
+  - Perfect for photographers and couples
+bestDiveSpots:
+  - name: House Reef
+    description: A 3km house reef accessible directly from the beach with vibrant coral gardens, schooling jacks, turtles, and a resident napoleon wrasse.
+    depthRange: 3-25m
+    difficulty: Beginner
+    highlights: Napoleon wrasse, turtles, vibrant coral, unlimited shore diving
+  - name: Blade
+    description: A dramatic ridge jutting into deep water where pelagics pass by and vibrant sea fan forests carpet the steep walls.
+    depthRange: 5-35m
+    difficulty: Intermediate
+    highlights: Sea fans, pelagic encounters, dramatic walls
+pros:
+  - Private protected reefs with no crowding
+  - Luxury resort experience
+  - Great for beginners and families
+cons:
+  - Very expensive
+  - Limited to one resort location
+  - Remote access via chartered flights
+nearestAirport: Wakatobi (WNI)
+timezoneOffset: UTC+8
+imageLocal: /images/wakatobi.webp
+imageCredit: AI generated

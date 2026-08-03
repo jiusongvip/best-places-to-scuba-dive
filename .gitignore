@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+diveatlas.com-audit/
+_audit_results.json
+_fix.cjs
+_fix2.cjs
+_fix3.py
+_fix4.py
+_patch.cjs
+_tab.py
+preview_collage.jpg

@@ -1,0 +1,66 @@
+name: Bali
+slug: bali
+country: Indonesia
+countrySlug: indonesia
+ocean: pacific
+continent: asia
+coordinates: { lat: -8.4, lng: 115.5 }
+visibilityMeters: 20
+waterTempCelsius: 27
+waterTempRange: 25-29C
+current: moderate
+difficulty: beginner
+maxDepthMeters: 40
+bestMonths: [4, 5, 6, 7, 8, 9, 10, 11]
+peakSeason: [7, 8]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: budget
+averageDailyCostUsd: 80
+liveaboardAvailable: true
+diveTypes: [boat, drift, night, wreck, wall, muck, shore]
+shoreDive: good
+marineLife:
+  sharks: 3
+  mantaRays: 4
+  whaleSharks: 1
+  turtles: 5
+  coral: 3
+  macro: 5
+  pelagics: 3
+  dolphins: 2
+beginnerFriendly: 5
+familyFriendly: true
+photographyScore: 5
+overallRating: 4.2
+tagline: The ultimate dive vacation island - muck diving mecca meets manta ray magic
+description: Bali is the Swiss Army knife of dive destinations, offering everything from beginner-friendly coral slopes to the USAT Liberty wreck, from world-class muck diving for rare critters to manta ray cleaning stations. Combined with Bali's legendary topside culture, food, and accommodation options at every budget, it is one of the most complete dive vacations on Earth.
+whyDive:
+  - USAT Liberty wreck - one of the most photogenic wrecks in the world
+  - Mola mola (ocean sunfish) encounters in season
+  - Manta ray cleaning stations at Manta Point
+  - World-class macro and muck diving in the same island
+  - Incredible topside culture, temples, food, and beaches
+bestDiveSpots:
+  - name: USAT Liberty Wreck
+    description: A 120m US cargo ship torpedoed in WWII and beached, then pushed into the water by a volcanic eruption. Now encrusted in coral and teeming with life.
+    depthRange: 5-28m
+    difficulty: Beginner
+    highlights: Bumphead parrotfish, schooling jacks, incredible coral growth
+  - name: Manta Point
+    description: A rocky cleaning station off Nusa Penida where manta rays circle while cleaner fish attend to them.
+    depthRange: 8-15m
+    difficulty: Beginner
+    highlights: Manta ray encounters year-round
+pros:
+  - Unbeatable variety of dive types
+  - Legendary topside culture and tourism
+  - Perfect for dive training and beginner courses
+cons:
+  - Visibility is variable
+  - Can be very crowded at popular sites
+  - Currents at some sites can be challenging
+nearestAirport: Denpasar (DPS)
+timezoneOffset: UTC+8
+imageLocal: /images/bali.webp
+imageCredit: AI generated

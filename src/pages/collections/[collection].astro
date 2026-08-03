@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return ['best-shark-diving','best-wreck-diving','best-macro-diving','best-beginner','best-liveaboard','best-budget'].map(c => ({ params: { collection: c } }));
+}
+
+const { collection } = Astro.params;
+const allDests = await getCollection('destinations');
+
+const titles: Record<string, string> = {
+  'best-shark-diving': 'Best Shark Diving Destinations',
+  'best-wreck-diving': 'Best Wreck Diving Destinations',
+  'best-macro-diving': 'Best Macro Diving Destinations',
+  'best-beginner': 'Best Scuba Diving for Beginners',
+  'best-liveaboard': 'Best Liveaboard Diving Destinations',
+  'best-budget': 'Best Budget Scuba Diving Destinations',
+};
+
+const descs: Record<string, string> = {
+  'best-shark-diving': "Top shark diving spots with hammerheads, tigers, bulls, and reef sharks. Compare visibility, season, and costs",
+  'best-wreck-diving': 'WWII shipwrecks, artificial reefs, and historic wrecks rated by the dive community. Compare depths and accessibility',
+  'best-macro-diving': "Muck diving capitals and critter hotspots for macro photography. Compare species diversity and conditions",
+  'best-beginner': 'Warm water, gentle currents, and easy entries for newly certified divers. Compare visibility and costs',
+  'best-liveaboard': 'Multi-day safaris to remote atolls and pelagic hotspots. Compare itineraries, dive counts, and pricing',
+  'best-budget': 'World-class diving under $200/day. Compare daily costs, visibility, and marine life at top-rated spots',
+};
+
+// Extended methodology intros
+const intros: Record<string, string> = {
+  'best-shark-diving': 'Our shark diving ratings are based on encounter consistency and species diversity reported by the dive community. Destinations scoring 4+ out of 5 for sharks offer reliable, high-quality shark encounters across multiple dive sites.',
+  'best-wreck-diving': 'These destinations feature accessible wrecks at recreational depths. Ratings reflect wreck density, historical significance, marine life colonization, and penetration opportunities. Each listed destination has multiple named wreck sites.',
+  'best-macro-diving': 'Macro diving destinations are scored on critter density and diversity - frogfish, nudibranchs, pygmy seahorses, blue-ringed octopus, and other rare finds. Destinations with 4+ ratings offer world-class muck diving and macro photography conditions.',
+  'best-beginner': 'These destinations offer warm water (26+ degrees C), good visibility (20+ m), gentle currents, and abundant marine life at depths under 18m. Beginner-friendly scores of 4+ mean multiple operators cater to newly certified divers with guided dives and easy entry points.',
+  'best-liveaboard': 'Liveaboard diving unlocks remote sites inaccessible by day boat. These destinations offer multi-day safaris with 3-4 dives per day, all-inclusive pricing, and access to pristine reefs, walls, and pelagic action far from shore-based operations.',
+  'best-budget': 'Budget destinations are ranked by value: high ratings at low daily costs. All listed destinations have community ratings of 4+ and average daily costs under $200, proving that world-class diving does not require a luxury budget.',
+};
+
+let dests: any[] = [];
+if (collection === 'best-shark-diving') dests = allDests.filter((d: any) => d.data.marineLife.sharks >= 4).sort((a: any, b: any) => b.data.marineLife.sharks - a.data.marineLife.sharks);
+else if (collection === 'best-wreck-diving') dests = allDests.filter((d: any) => d.data.diveTypes.includes('wreck')).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
+else if (collection === 'best-macro-diving') dests = allDests.filter((d: any) => d.data.marineLife.macro >= 4).sort((a: any, b: any) => b.data.marineLife.macro - a.data.marineLife.macro);
+else if (collection === 'best-beginner') dests = allDests.filter((d: any) => d.data.beginnerFriendly >= 4).sort((a: any, b: any) => b.data.beginnerFriendly - a.data.beginnerFriendly);
+else if (collection === 'best-liveaboard') dests = allDests.filter((d: any) => d.data.liveaboardAvailable).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
+else if (collection === 'best-budget') dests = allDests.filter((d: any) => d.data.budgetLevel === 'budget' || d.data.budgetLevel === 'mid_range').sort((a: any, b: any) => a.data.averageDailyCostUsd - b.data.averageDailyCostUsd);
+
+dests = dests.slice(0, 15);
+const title = titles[collection] || collection;
+const desc = descs[collection] || '';
+const intro = intros[collection] || '';
+---
+
+<BaseLayout title={title} description={desc + ' - ' + dests.length + ' hand-picked destinations rated by the community.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Collections', url: '/collections' }, { name: title }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a><span class="mx-2">/</span>
+        <span class="text-navy-700">Collection</span>
+      </div>
+    </div>
+  </nav>
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">{title}</h1>
+      <p class="text-lg text-sand-200/80 max-w-2xl">{desc}</p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-6">About This Collection</h2>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-4">
+        <p>{intro}</p>
+        <p>{dests.length} destinations meet the criteria for this collection, ranked by community ratings and relevance. Each destination card links to a full guide with dive site details, seasonal calendars, and certification requirements.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Top {title}</h2>
+      <p class="text-navy-600 mb-10">{dests.length} destinations, ranked by community rating</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {dests.map((d: any) => {
+          const dd = d.data;
+          return (
+            <a href={`/destinations/${dd.slug}`} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
+              <div class="aspect-[3/2] bg-sand-200 overflow-hidden"><img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" /></div>
+              <div class="p-6"><h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600">{dd.name}</h3>
+              <p class="text-sm text-navy-600 mt-2">{dd.country} - {dd.overallRating}/5</p></div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

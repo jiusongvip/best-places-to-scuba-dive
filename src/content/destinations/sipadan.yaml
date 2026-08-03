@@ -1,0 +1,71 @@
+name: Sipadan
+slug: sipadan
+country: Malaysia
+countrySlug: malaysia
+ocean: pacific
+continent: asia
+coordinates: { lat: 4.1, lng: 118.6 }
+visibilityMeters: 30
+waterTempCelsius: 28
+waterTempRange: 27-30C
+current: moderate
+difficulty: intermediate
+maxDepthMeters: 40
+bestMonths: [4, 5, 6, 7, 8, 9, 10, 11, 12]
+peakSeason: [7, 8]
+certificationRequired: advanced_open_water
+minDivesRecommended: 15
+budgetLevel: mid_range
+averageDailyCostUsd: 150
+liveaboardAvailable: false
+diveTypes: [boat, drift, wall]
+shoreDive: limited
+marineLife:
+  sharks: 5
+  mantaRays: 2
+  whaleSharks: 2
+  turtles: 5
+  coral: 4
+  macro: 4
+  pelagics: 5
+  dolphins: 2
+beginnerFriendly: 3
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.7
+tagline: Jacques Cousteau's favorite - a limestone pinnacle rising 600 meters from the ocean floor
+description: Sipadan is Malaysia's only oceanic island, a limestone pinnacle rising from deep waters in the Celebes Sea. Just 12 hectares on the surface, its underwater walls plunge 600 meters, attracting massive schools of barracuda, green and hawksbill turtles by the hundreds, and patrolling reef sharks. Strict daily permit limits keep the diving pristine.
+whyDive:
+  - Barracuda tornado - massive swirling schools of chevron barracuda
+  - Turtle capital of the world - dozens of turtles on every dive
+  - Dramatic wall diving with 600m drop-offs
+  - Strict conservation with daily visitor limits
+  - Jack fish tornados and white tip reef shark gatherings
+bestDiveSpots:
+  - name: Barracuda Point
+    description: The iconic site where thousands of chevron barracuda form tornado-like formations over the reef edge.
+    depthRange: 10-35m
+    difficulty: Intermediate
+    highlights: Barracuda tornado, jacks, grey reef sharks
+  - name: Turtle Tomb
+    description: A limestone cave network at around 20m where turtle skeletons rest in the labyrinth, accessible only to technical divers.
+    depthRange: 17-25m
+    difficulty: Technical
+    highlights: Underwater cave system, turtle skeletons
+  - name: South Point
+    description: A wall dive with frequent hammerhead shark sightings during the right season and massive schools of fish.
+    depthRange: 10-40m
+    difficulty: Advanced
+    highlights: Hammerhead sharks, schooling jacks, eagle rays
+pros:
+  - World-famous barracuda tornado phenomenon
+  - Incredible turtle density
+  - Strict conservation keeps dive sites pristine
+cons:
+  - Limited daily permits can make access competitive
+  - No accommodation on the island itself
+  - Only day-trip diving available
+nearestAirport: Tawau (TWU)
+timezoneOffset: UTC+8
+imageLocal: /images/sipadan.webp
+imageCredit: AI generated

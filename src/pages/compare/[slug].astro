@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allDests = await getCollection('destinations');
+
+
+
+export async function getStaticPaths() {
+  return [['raja-ampat','maldives'],['komodo','sipadan'],['great-barrier-reef','galapagos'],['cozumel','bonaire'],['red-sea','similan-islands'],['bali','malapascua'],['raja-ampat','komodo'],['palau','raja-ampat'],['galapagos','cocos-island'],['tubbataha','raja-ampat']].map(([a, b]) => ({ params: { slug: a + '-vs-' + b } }));
+}
+
+const { slug } = Astro.params;
+const parts = slug?.split('-vs-');
+if (!parts || parts.length !== 2) return Astro.redirect('/compare');
+const [slugA, slugB] = parts;
+const destA = allDests.find((d: any) => d.data.slug === slugA);
+const destB = allDests.find((d: any) => d.data.slug === slugB);
+if (!destA || !destB) return Astro.redirect('/compare');
+const da = destA.data, db = destB.data;
+const title = da.name + ' vs ' + db.name + ' Scuba Diving';
+const description = 'Compare ' + da.name + ' vs ' + db.name + ' scuba diving: visibility (' + da.visibilityMeters + 'm vs ' + db.visibilityMeters + 'm), daily cost ($' + da.averageDailyCostUsd + ' vs $' + db.averageDailyCostUsd + '), rating (' + da.overallRating + ' vs ' + db.overallRating + ').';
+const diffLabel: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
+const budgetLabel: Record<string, string> = { budget: 'Budget', mid_range: 'Mid-Range', premium: 'Premium', luxury: 'Luxury' };
+const currentLabel: Record<string, string> = { mild: 'Mild', moderate: 'Moderate', moderate_to_strong: 'Moderate to Strong', strong: 'Strong' };
+const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function starStr(r: number) { return '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r)); }
+function w(crit: string) {
+  const m: Record<string, (x:any)=>number> = {
+    visibility: (d:any)=>d.visibilityMeters, beginner: (d:any)=>d.beginnerFriendly,
+    coral: (d:any)=>d.marineLife.coral, sharks: (d:any)=>d.marineLife.sharks,
+    manta: (d:any)=>d.marineLife.mantaRays, macro: (d:any)=>d.marineLife.macro,
+    budget: (d:any)=>-d.averageDailyCostUsd, photo: (d:any)=>d.photographyScore
+  };
+  const fn = m[crit] || ((d:any)=>d.overallRating);
+  const va = fn(da), vb = fn(db);
+  return va > vb ? da.name : vb > va ? db.name : 'Tie';
+}
+const schema = { '@context':'https://schema.org','@type':'FAQPage', mainEntity: [
+  {'@type':'Question','name':'Which is better: ' + da.name + ' or ' + db.name + '?','acceptedAnswer':{'@type':'Answer','text':'For biodiversity: ' + w('coral') + '. For beginners: ' + w('beginner') + '. For budget: ' + w('budget') + '.'}},
+  {'@type':'Question','name':'Is ' + da.name + ' more expensive than ' + db.name + '?','acceptedAnswer':{'@type':'Answer','text': da.averageDailyCostUsd > db.averageDailyCostUsd ? da.name + ' ($' + da.averageDailyCostUsd + '/day) is more expensive than ' + db.name + ' ($' + db.averageDailyCostUsd + '/day).' : db.name + ' ($' + db.averageDailyCostUsd + '/day) is more expensive than ' + da.name + ' ($' + da.averageDailyCostUsd + '/day).'}}
+]};
+---
+
+<BaseLayout title={title} description={description} schema={schema} breadcrumbs={[{ name: "Home", url: "/" }, { name: "Compare", url: "/compare" }, { name: destA.data.name + " vs " + destB.data.name }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500"><a href="/" class="hover:text-coral-500 transition-colors">Home</a><span class="mx-2">/</span><a href="/compare" class="hover:text-coral-500 transition-colors">Compare</a><span class="mx-2">/</span><span class="text-navy-700">{da.name} vs {db.name}</span></div>
+    </div>
+  </nav>
+
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <p class="text-coral-400 text-sm tracking-wider mb-3 font-medium">HEAD-TO-HEAD COMPARISON</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight mb-4">{da.name} vs {db.name} Scuba Diving</h1>
+      <p class="text-lg text-sand-200/80 max-w-2xl leading-relaxed">Side-by-side comparison of visibility, marine life, difficulty, budget, and best season.</p>
+    </div>
+  </section>
+
+  <section class="py-8 -mt-8">
+    <div class="container-page">
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <a href={'/destinations/' + da.slug} class="group block rounded-xl overflow-hidden relative aspect-[16/9] bg-navy-800">
+          <img src={da.imageLocal} alt={da.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="lazy" />
+          <span class="absolute bottom-2 left-3 bg-navy-950/60 text-white text-sm font-medium px-3 py-1 rounded-lg">{da.name}</span>
+        </a>
+        <a href={'/destinations/' + db.slug} class="group block rounded-xl overflow-hidden relative aspect-[16/9] bg-navy-800">
+          <img src={db.imageLocal} alt={db.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="lazy" />
+          <span class="absolute bottom-2 left-3 bg-navy-950/60 text-white text-sm font-medium px-3 py-1 rounded-lg">{db.name}</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[{label:'Rating',av:da.overallRating,bv:db.overallRating},{label:'Visibility',av:da.visibilityMeters+'m',bv:db.visibilityMeters+'m'},{label:'Water Temp',av:da.waterTempCelsius+'\u00b0C',bv:db.waterTempCelsius+'\u00b0C'},{label:'Daily Cost',av:'$'+da.averageDailyCostUsd,bv:'$'+db.averageDailyCostUsd}].map(s=>(<div class="bg-white border border-sand-200 rounded-xl p-4 text-center"><p class="text-xs text-navy-500 tracking-wider mb-1">{s.label}</p><p class="font-semibold text-navy-900">{s.av} vs {s.bv}</p></div>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-8">Detailed Comparison</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="border-b-2 border-navy-200"><th class="text-left py-3 px-4 text-navy-500 font-medium">Dimension</th><th class="text-left py-3 px-4 font-semibold text-navy-900">{da.name}</th><th class="text-left py-3 px-4 font-semibold text-navy-900">{db.name}</th><th class="text-left py-3 px-4 text-navy-500 font-medium">Winner</th></tr></thead>
+          <tbody>
+            {[{dim:'Ocean',a:da.ocean.replace(/-/g,' '),b:db.ocean.replace(/-/g,' '),win:'—'},{dim:'Visibility',a:da.visibilityMeters+'m',b:db.visibilityMeters+'m',win:w('visibility')},{dim:'Water Temp',a:da.waterTempRange,b:db.waterTempRange,win:'—'},{dim:'Current',a:currentLabel[da.current],b:currentLabel[db.current],win:'—'},{dim:'Difficulty',a:diffLabel[da.difficulty],b:diffLabel[db.difficulty],win:w('beginner')+' (easier)'},{dim:'Best Season',a:da.bestMonths.map((m:number)=>monthNames[m]).join(', '),b:db.bestMonths.map((m:number)=>monthNames[m]).join(', '),win:'—'},{dim:'Certification',a:da.certificationRequired.replace(/_/g,' '),b:db.certificationRequired.replace(/_/g,' '),win:'—'},{dim:'Daily Cost',a:'$'+da.averageDailyCostUsd+' ('+budgetLabel[da.budgetLevel]+')',b:'$'+db.averageDailyCostUsd+' ('+budgetLabel[db.budgetLevel]+')',win:w('budget')+' (cheaper)'},{dim:'Shore Diving',a:da.shoreDive,b:db.shoreDive,win:'—'},{dim:'Liveaboard',a:da.liveaboardAvailable?'Yes':'No',b:db.liveaboardAvailable?'Yes':'No',win:'—'}].map((r,i)=>(<tr class={'border-b border-sand-200 '+(i%2===0?'bg-white':'bg-sand-50')}><td class="py-3 px-4 text-navy-600">{r.dim}</td><td class="py-3 px-4 font-medium text-navy-900 capitalize">{r.a}</td><td class="py-3 px-4 font-medium text-navy-900 capitalize">{r.b}</td><td class="py-3 px-4 font-semibold">{r.win}</td></tr>))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-sand-100/50">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-8">Marine Life</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {[{l:'Sharks',a:da.marineLife.sharks,b:db.marineLife.sharks},{l:'Manta Rays',a:da.marineLife.mantaRays,b:db.marineLife.mantaRays},{l:'Whale Sharks',a:da.marineLife.whaleSharks,b:db.marineLife.whaleSharks},{l:'Turtles',a:da.marineLife.turtles,b:db.marineLife.turtles},{l:'Coral Reefs',a:da.marineLife.coral,b:db.marineLife.coral},{l:'Macro Life',a:da.marineLife.macro,b:db.marineLife.macro},{l:'Pelagics',a:da.marineLife.pelagics,b:db.marineLife.pelagics},{l:'Dolphins',a:da.marineLife.dolphins,b:db.marineLife.dolphins}].map(ml=>(<div class="bg-white border border-sand-200 rounded-xl p-5"><p class="text-sm font-medium text-navy-900 mb-3">{ml.l}</p><div class="flex items-center gap-4"><div class="flex-1"><p class="text-xs text-navy-500 mb-1">{da.name}</p><div class="flex gap-0.5"><span class="text-amber-500 text-sm">{starStr(ml.a)}</span></div></div><div class="flex-1"><p class="text-xs text-navy-500 mb-1">{db.name}</p><div class="flex gap-0.5"><span class="text-amber-500 text-sm">{starStr(ml.b)}</span></div></div></div></div>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-8 text-center">Which Is Better For...</h2>
+      <div class="space-y-4">
+        {[{l:'Marine Biodiversity',winner:w('coral'),detail:da.name+': '+starStr(da.marineLife.coral)+' coral | '+db.name+': '+starStr(db.marineLife.coral)+' coral'},{l:'Shark Encounters',winner:w('sharks'),detail:da.name+': '+starStr(da.marineLife.sharks)+' | '+db.name+': '+starStr(db.marineLife.sharks)},{l:'Manta Rays',winner:w('manta'),detail:da.name+': '+starStr(da.marineLife.mantaRays)+' | '+db.name+': '+starStr(db.marineLife.mantaRays)},{l:'Macro Critters',winner:w('macro'),detail:da.name+': '+starStr(da.marineLife.macro)+' | '+db.name+': '+starStr(db.marineLife.macro)},{l:'Beginner-Friendly',winner:w('beginner'),detail:da.name+': '+da.beginnerFriendly+'/5 | '+db.name+': '+db.beginnerFriendly+'/5'},{l:'Budget-Friendly',winner:w('budget'),detail:'$'+da.averageDailyCostUsd+'/day vs $'+db.averageDailyCostUsd+'/day'},{l:'Photography',winner:w('photo'),detail:da.name+': '+da.photographyScore+'/5 | '+db.name+': '+db.photographyScore+'/5'},{l:'Visibility',winner:w('visibility'),detail:da.visibilityMeters+'m vs '+db.visibilityMeters+'m'}].map(r=>(<div class={'bg-white border rounded-xl p-5 '+(r.winner==='Tie'?'border-sand-200':r.winner===da.name?'border-ocean-200 bg-ocean-50/30':'border-coral-200 bg-coral-50/30')}><div class="flex items-center justify-between mb-2"><h3 class="font-semibold text-navy-900">{r.l}</h3><span class={'text-sm font-medium px-2.5 py-1 rounded-full '+(r.winner==='Tie'?'bg-sand-100 text-navy-600':r.winner===da.name?'bg-ocean-100 text-ocean-700':'bg-coral-100 text-coral-700')}>{r.winner==='Tie'?'Tie':r.winner}</span></div><p class="text-sm text-navy-600">{r.detail}</p></div>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-sand-100/50">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-8 text-center">Explore Each Destination</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        {[destA,destB].map(d=>(<a href={'/destinations/'+d.data.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl p-6 transition-all"><h3 class="text-xl font-semibold text-navy-900 group-hover:text-coral-600 mb-1">{d.data.name}</h3><p class="text-sm text-navy-500 mb-3">{d.data.country} — {diffLabel[d.data.difficulty]} — {d.data.overallRating}/5</p><p class="text-sm text-navy-600 leading-relaxed line-clamp-3 mb-4">{d.data.description}</p><span class="text-coral-500 text-sm font-medium group-hover:underline">View full guide →</span></a>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl font-semibold text-navy-950 mb-8 text-center">FAQ</h2>
+      <div class="space-y-3">
+        {[{q:'Which is better: '+da.name+' or '+db.name+'?',a:'For biodiversity: '+w('coral')+'. Beginners: '+w('beginner')+'. Budget: '+w('budget')+'. Sharks: '+w('sharks')+'.'},{q:'Is '+da.name+' more expensive?',a:da.averageDailyCostUsd>db.averageDailyCostUsd?'Yes — $'+da.averageDailyCostUsd+'/day vs $'+db.averageDailyCostUsd+'/day.':'No — $'+da.averageDailyCostUsd+'/day vs $'+db.averageDailyCostUsd+'/day.'},{q:'Can beginners dive here?',a:da.name+': '+(da.beginnerFriendly>=4?'Great for beginners.':da.beginnerFriendly>=3?'Some beginner sites.':'Intermediate+.')+' '+db.name+': '+(db.beginnerFriendly>=4?'Great for beginners.':db.beginnerFriendly>=3?'Some beginner sites.':'Intermediate+.')}].map(faq=>(<details class="group border border-sand-200 rounded-xl bg-white"><summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer font-medium text-navy-900 group-open:text-coral-600 transition-colors text-sm">{faq.q}<svg class="w-4 h-4 transition-transform group-open:rotate-180 text-navy-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary><p class="px-5 pb-4 text-sm text-navy-600 leading-relaxed">{faq.a}</p></details>))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+

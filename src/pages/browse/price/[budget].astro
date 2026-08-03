@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return ['budget','mid-range','premium','luxury'].map((b: string) => ({ params: { budget: b } }));
+}
+
+const { budget } = Astro.params;
+const allDests = await getCollection('destinations');
+const labelMap: Record<string, string> = { budget: 'Budget', 'mid-range': 'Mid-Range', premium: 'Premium', luxury: 'Luxury' };
+const priceMap: Record<string, string> = { budget: 'Under $100/day', 'mid-range': '$100-200/day', premium: '$200-400/day', luxury: '$400+/day' };
+const label = labelMap[budget || 'budget'];
+const priceLabel = priceMap[budget || 'budget'];
+const dests = allDests.filter((d: any) => d.data.budgetLevel === budget).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
+const title = `Best ${label} Scuba Diving Destinations`;
+const budgetDescriptions: Record<string, string> = {
+  budget: 'Budget diving does not mean compromising on quality. These destinations offer world-class marine encounters at under $100/day. From shore diving in Anilao to muck diving in Lembeh Strait, you can experience the Coral Triangle, thresher sharks, and pristine reefs without spending a fortune.',
+  'mid-range': 'Mid-range destinations ($100–200/day) offer the sweet spot of value and comfort. Expect well-equipped dive centers, comfortable accommodation, and access to iconic sites. This tier includes many of the world\'s most celebrated destinations like Sipadan, Fiji, and the Great Barrier Reef.',
+  premium: 'Premium destinations ($200–400/day) deliver exceptional dive operations, boutique accommodation, and exclusive access to remote sites. Liveaboards in this tier typically feature en-suite cabins, gourmet dining, and expert guides who know every pinnacle and cleaning station.',
+  luxury: 'Luxury diving ($400+/day) represents the pinnacle of the dive travel experience. Private guides, five-star resorts, chartered liveaboards, and exclusive access to the world\'s most remote and pristine dive sites. These are once-in-a-lifetime trips to Galapagos, Cocos Island, and Raja Ampat.',
+};
+const budgetDesc = budgetDescriptions[budget || 'budget'];
+const avgRating = dests.length > 0 ? (dests.reduce((s,d) => s + d.data.overallRating, 0) / dests.length).toFixed(1) : 0;
+const avgCost = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.averageDailyCostUsd, 0) / dests.length) : 0;
+---
+
+<BaseLayout title={title} description={'Compare ' + dests.length + ' ' + (budget || '') + ' scuba diving destinations by daily costs, visibility, and marine life. Find world-class diving that fits your travel budget with DiveAtlas.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: label }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a><span class="mx-2">/</span>
+        <span class="text-navy-700">{label}</span>
+      </div>
+    </div>
+  </nav>
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">{title}</h1>
+      <p class="text-ocean-300 text-sm">{priceLabel}</p>
+      <p class="text-lg text-sand-200/80">{dests.length} {budget || ''} destinations</p>
+    </div>
+  </section>
+  <section class="py-16">
+    <div class="container-page max-w-3xl">
+      {budgetDesc && <p class="text-navy-700 leading-relaxed mb-8">{budgetDesc}</p>}
+      {dests.length > 0 && (
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+            <p class="text-2xl font-semibold text-emerald-600">{dests.length}</p>
+            <p class="text-xs text-emerald-700 mt-1">Destinations</p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+            <p class="text-2xl font-semibold text-emerald-600">${avgCost}</p>
+            <p class="text-xs text-emerald-700 mt-1">Avg Daily Cost</p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+            <p class="text-2xl font-semibold text-emerald-600">{avgRating}</p>
+            <p class="text-xs text-emerald-700 mt-1">Avg Rating</p>
+          </div>
+        </div>
+      )}
+      {dests.length === 0 ? (
+        <div class="bg-sand-100/50 rounded-xl p-10 text-center">
+          <p class="text-navy-500 text-lg mb-2">No destinations yet in the {label} tier.</p>
+          <p class="text-navy-400 text-sm">We are adding new destinations regularly. In the meantime, browse other budget tiers or use our Destination Finder.</p>
+        </div>
+      ) : (
+        <div>
+          <h2 class="text-xl font-semibold text-navy-950 mb-6">{label} Dive Destinations</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {dests.map((d: any) => {
+            const dd = d.data;
+            return (
+              <a href={'/destinations/' + dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
+                <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
+                  <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" />
+                </div>
+                <div class="p-6">
+                <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600">{dd.name}</h3>
+                <p class="text-sm text-navy-600 mt-2">{dd.country} - ${dd.averageDailyCostUsd}/day</p>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  return destinations.map((d: any) => ({ params: { slug: d.data.slug } }));
+}
+
+const { slug } = Astro.params;
+const destinations = await getCollection('destinations');
+const dest = destinations.find((d: any) => d.data.slug === slug);
+if (!dest) return Astro.redirect('/404');
+const dd = dest.data;
+const title = dd.name + ' Scuba Diving Guide' + ((dd.name + ' Scuba Diving Guide').length < 30 ? ' - ' + dd.country : '');
+const nearby = destinations.filter((d: any) => d.data.slug !== slug && (d.data.country === dd.country || d.data.ocean === dd.ocean)).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating).slice(0, 4);
+const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const diffLabel: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
+const description = dd.name + ' scuba diving guide: $' + dd.averageDailyCostUsd + '/day, ' + dd.visibilityMeters + 'm vis, ' + dd.waterTempCelsius + '\u00b0C, ' + (diffLabel[dd.difficulty] || dd.difficulty) + '. Best: ' + dd.bestMonths.slice(0, 3).map((m: number) => monthNames[m]).join('-') + '. ' + dd.tagline;
+const budgetLabel: Record<string, string> = { budget: '$ Budget', mid_range: '$$ Mid-Range', premium: '$$$ Premium', luxury: '$$$$ Luxury' };
+const currentLabel: Record<string, string> = { mild: 'Mild', moderate: 'Moderate', moderate_to_strong: 'Moderate to Strong', strong: 'Strong' };
+function starStr(r: number) { return '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r)); }
+const schema = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'TouristDestination', name: dd.name, description: dd.description, containedInPlace: { '@type': 'Country', name: dd.country } },
+  { '@type': 'FAQPage', mainEntity: [
+    { '@type': 'Question', name: 'When is the best time to dive ' + dd.name + '?', acceptedAnswer: { '@type': 'Answer', text: 'Best months: ' + dd.bestMonths.map((m: number) => monthNames[m]).join(', ') + '. Peak: ' + dd.peakSeason.map((m: number) => monthNames[m]).join('-') + '. Water: ' + dd.waterTempRange + '.' } },
+    { '@type': 'Question', name: 'What certification do I need for ' + dd.name + '?', acceptedAnswer: { '@type': 'Answer', text: dd.certificationRequired.replace(/_/g, ' ') + ' certification recommended. Minimum ' + dd.minDivesRecommended + '+ dives.' } },
+    { '@type': 'Question', name: 'How much does scuba diving in ' + dd.name + ' cost?', acceptedAnswer: { '@type': 'Answer', text: '$' + dd.averageDailyCostUsd + '/day average. ' + dd.budgetLevel + ' tier. Liveaboard: ' + (dd.liveaboardAvailable ? 'available' : 'not available') + '.' } }
+  ] }
+] };
+---
+
+<BaseLayout title={title} description={description} image={dd.imageLocal} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Destinations', url: '/destinations' }, { name: dd.name }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/destinations" class="hover:text-coral-500 transition-colors">Destinations</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-700">{dd.name}</span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <p class="text-coral-400 text-sm tracking-wider mb-3 font-medium">DESTINATION / {dd.country.toUpperCase()}</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight mb-4">{dd.name} Scuba Diving</h1>
+      <p class="text-lg text-sand-200/80 max-w-2xl leading-relaxed mb-6">{dd.tagline}</p>
+      <div class="flex flex-wrap gap-3">
+        <span class="px-3 py-1.5 rounded-full bg-navy-800 text-ocean-300 text-sm font-medium capitalize">{dd.ocean === 'red-sea' ? 'Red Sea' : dd.ocean.replace('-', ' ')} Ocean</span>
+        <span class="px-3 py-1.5 rounded-full bg-navy-800 text-coral-300 text-sm font-medium">{diffLabel[dd.difficulty]}</span>
+        <span class="px-3 py-1.5 rounded-full bg-navy-800 text-amber-300 text-sm font-medium">{dd.overallRating} / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Destination hero image -->
+  <div class="container-page -mt-8">
+    <div class="aspect-[21/9] rounded-xl overflow-hidden relative">
+      <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="eager" />
+      <p class="absolute bottom-3 right-4 text-xs text-white/70 bg-navy-950/50 px-2 py-1 rounded-md">Image: {dd.imageCredit}</p>
+    </div>
+  </div>
+
+  <section class="py-12 -mt-8">
+    <div class="container-page">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[{ label: 'Visibility', value: dd.visibilityMeters + 'm' }, { label: 'Water Temp', value: dd.waterTempCelsius + 'C' }, { label: 'Max Depth', value: dd.maxDepthMeters + 'm' }, { label: 'Current', value: currentLabel[dd.current] }, { label: 'Difficulty', value: diffLabel[dd.difficulty] }, { label: 'Best Season', value: dd.bestMonths.map((m: number) => monthNames[m]).join('-') }, { label: 'Certification', value: dd.certificationRequired.replace(/_/g, ' ') }, { label: 'Budget', value: budgetLabel[dd.budgetLevel] }].map((s: any) => (
+          <div class="bg-white border border-sand-200 rounded-xl p-4 text-center">
+            <p class="text-xs text-navy-500 tracking-wider mb-1">{s.label}</p>
+            <p class="font-semibold text-navy-900 text-sm capitalize">{s.value}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container-page grid grid-cols-1 lg:grid-cols-3 gap-12 pb-20">
+    <div class="lg:col-span-2 space-y-16">
+      <section>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-6">Why Dive Here</h2>
+        <ul class="space-y-4">
+          {dd.whyDive.map((reason: string) => (
+            <li class="flex gap-3">
+              <span class="text-coral-500 mt-1 flex-shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
+              <span class="text-navy-700 leading-relaxed">{reason}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-6">Marine Life</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {Object.entries(dd.marineLife).map(([key, val]: [string, any]) => {
+            const name = key.replace(/([A-Z])/g, ' $1').trim();
+            const label = name.charAt(0).toUpperCase() + name.slice(1);
+            return (
+              <div class="bg-sand-100/70 rounded-xl p-4">
+                <p class="text-xs text-navy-500 tracking-wider mb-2">{label}</p>
+                <div class="flex items-center gap-1"><span class="text-amber-500 text-sm font-medium">{starStr(val)}</span><span class="text-xs text-navy-400">{val}/5</span></div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-6">Best Dive Sites</h2>
+        <div class="space-y-5">
+          {dd.bestDiveSpots.map((spot: any) => (
+            <div class="bg-white border border-sand-200 rounded-xl p-5">
+              <div class="flex items-start gap-3 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-ocean-100 text-ocean-600 flex items-center justify-center text-sm font-semibold flex-shrink-0">S</div>
+                <div>
+                  <h3 class="font-semibold text-navy-900">{spot.name}</h3>
+                  <p class="text-xs text-navy-500 mt-1">Depth: {spot.depthRange} | {spot.difficulty}</p>
+                </div>
+              </div>
+              <p class="text-sm text-navy-600 leading-relaxed ml-11">{spot.description}</p>
+              <p class="text-xs text-coral-500 mt-2 ml-11 font-medium">{spot.highlights}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-6">Pros and Cons</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5">
+            <h3 class="font-semibold text-emerald-800 mb-3 text-sm">Pros</h3>
+            <ul class="space-y-2">{dd.pros.map((p: string) => (<li class="flex gap-2 text-sm text-emerald-700"><span class="text-emerald-500 mt-0.5 flex-shrink-0">+</span>{p}</li>))}</ul>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 rounded-xl p-5">
+            <h3 class="font-semibold text-rose-800 mb-3 text-sm">Cons</h3>
+            <ul class="space-y-2">{dd.cons.map((c: string) => (<li class="flex gap-2 text-sm text-rose-700"><span class="text-rose-500 mt-0.5 flex-shrink-0">-</span>{c}</li>))}</ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold text-navy-950 mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-3">
+          {[{ q: 'When is the best time to dive ' + dd.name + '?', a: 'Best months: ' + dd.bestMonths.map((m: number) => monthNames[m]).join(', ') + '. Peak: ' + dd.peakSeason.map((m: number) => monthNames[m]).join('-') + '. Water: ' + dd.waterTempRange + '.' }, { q: 'What certification do I need?', a: dd.certificationRequired.replace(/_/g, ' ') + ' certification recommended. Minimum ' + dd.minDivesRecommended + '+ dives.' }, { q: 'How much does it cost?', a: '$' + dd.averageDailyCostUsd + '/day average. ' + dd.budgetLevel + ' tier. Liveaboard: ' + (dd.liveaboardAvailable ? 'available' : 'not available') + '.' }].map((faq: any) => (
+            <details class="group border border-sand-200 rounded-xl bg-white">
+              <summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer font-medium text-navy-900 group-open:text-coral-600 transition-colors text-sm">{faq.q}<svg class="w-4 h-4 transition-transform group-open:rotate-180 text-navy-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary>
+              <p class="px-5 pb-4 text-sm text-navy-600 leading-relaxed">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <aside class="space-y-8">
+      <div class="bg-white border border-sand-200 rounded-xl p-6">
+        <h4 class="font-semibold text-navy-900 mb-4">Trip Planning</h4>
+        <dl class="space-y-3 text-sm">
+          <div class="flex justify-between"><dt class="text-navy-500">Nearest Airport</dt><dd class="text-navy-900 font-medium">{dd.nearestAirport}</dd></div>
+          <div class="flex justify-between"><dt class="text-navy-500">Timezone</dt><dd class="text-navy-900 font-medium">{dd.timezoneOffset}</dd></div>
+          <div class="flex justify-between"><dt class="text-navy-500">Avg Daily Cost</dt><dd class="text-navy-900 font-medium">${dd.averageDailyCostUsd}</dd></div>
+          <div class="flex justify-between"><dt class="text-navy-500">Liveaboard</dt><dd class="text-navy-900 font-medium">{dd.liveaboardAvailable ? 'Yes' : 'No'}</dd></div>
+          <div class="flex justify-between"><dt class="text-navy-500">Shore Diving</dt><dd class="text-navy-900 font-medium capitalize">{dd.shoreDive}</dd></div>
+          <div class="flex justify-between"><dt class="text-navy-500">Beginners</dt><dd class="text-navy-900 font-medium">{dd.beginnerFriendly}/5</dd></div>
+        </dl>
+      </div>
+
+      <div class="bg-white border border-sand-200 rounded-xl p-6">
+        <h4 class="font-semibold text-navy-900 mb-3">Dive Types</h4>
+        <div class="flex flex-wrap gap-2">
+          {dd.diveTypes.map((t: string) => (<span class="px-2.5 py-1 bg-ocean-100 text-ocean-700 rounded-lg text-xs font-medium capitalize">{t}</span>))}
+        </div>
+      </div>
+
+      {nearby.length > 0 && (
+        <div class="bg-white border border-sand-200 rounded-xl p-6">
+          <h4 class="font-semibold text-navy-900 mb-3">Nearby</h4>
+          <div class="space-y-2">
+            {nearby.map((n: any) => (
+              <a href={'/destinations/' + n.data.slug} class="block p-3 rounded-lg hover:bg-sand-100 transition-colors">
+                <p class="font-medium text-navy-900 text-sm">{n.data.name}</p>
+                <p class="text-xs text-navy-500">{n.data.country} - {n.data.overallRating}/5</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </aside>
+  </div>
+</BaseLayout>

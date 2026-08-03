@@ -1,0 +1,61 @@
+name: Kimbe Bay
+slug: kimbe-bay
+country: Papua New Guinea
+countrySlug: papua-new-guinea
+ocean: pacific
+continent: oceania
+coordinates: { lat: -5.25, lng: 150.0 }
+visibilityMeters: 25
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 35
+bestMonths: [4, 5, 6, 7, 8, 9, 10, 11, 12]
+peakSeason: [7, 8, 9]
+certificationRequired: open_water
+minDivesRecommended: 5
+budgetLevel: premium
+averageDailyCostUsd: 180
+liveaboardAvailable: true
+diveTypes: [boat, liveaboard, night, wall]
+shoreDive: limited
+marineLife:
+  sharks: 4
+  mantaRays: 3
+  whaleSharks: 2
+  turtles: 4
+  coral: 5
+  macro: 4
+  pelagics: 4
+  dolphins: 5
+beginnerFriendly: 3
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.6
+tagline: The coral crucible - 60% of all Indo-Pacific coral species in a single bay
+description: Kimbe Bay is a biodiversity hotspot within the Coral Triangle, harboring over 60% of all Indo-Pacific coral species in a relatively compact bay. Its seamounts attract massive schools of fish, dolphins, and sharks, while its reefs remain some of the healthiest in the region. The spinner dolphin pods that frequent the bay are a bonus highlight.
+whyDive:
+  - 60% of all Indo-Pacific coral species in one bay
+  - Spinner dolphin pods that interact with divers
+  - Healthy seamounts with schooling pelagics
+  - Excellent macro life alongside big animals
+  - Remote and uncrowded
+bestDiveSpots:
+  - name: Inglis Shoal
+    description: A submerged seamount where huge schools of barracuda and jacks swirl, dolphins play, and grey reef sharks patrol the blue.
+    depthRange: 10-35m
+    difficulty: Intermediate
+    highlights: Spinner dolphins, barracuda schools, grey reef sharks
+pros:
+  - Incredible coral biodiversity
+  - Dolphin encounters
+  - Remote and uncrowded
+cons:
+  - Difficult and expensive to reach
+  - Limited infrastructure and resorts
+  - Variable conditions
+nearestAirport: Hoskins (HKN)
+timezoneOffset: UTC+10
+imageLocal: /images/kimbe-bay.webp
+imageCredit: AI generated

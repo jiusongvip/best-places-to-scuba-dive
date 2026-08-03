@@ -1,0 +1,66 @@
+name: Fiji
+slug: fiji
+country: Fiji
+countrySlug: fiji
+ocean: pacific
+continent: oceania
+coordinates: { lat: -17.7, lng: 178.7 }
+visibilityMeters: 30
+waterTempCelsius: 27
+waterTempRange: 25-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 35
+bestMonths: [4, 5, 6, 7, 8, 9, 10]
+peakSeason: [7, 8]
+certificationRequired: open_water
+minDivesRecommended: 0
+budgetLevel: mid_range
+averageDailyCostUsd: 160
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, night, wall, shark]
+shoreDive: good
+marineLife:
+  sharks: 5
+  mantaRays: 3
+  whaleSharks: 1
+  turtles: 4
+  coral: 5
+  macro: 3
+  pelagics: 3
+  dolphins: 2
+beginnerFriendly: 4
+familyFriendly: true
+photographyScore: 4
+overallRating: 4.5
+tagline: The soft coral capital of the world with the famous Beqa Lagoon shark dive
+description: Fiji is known as the soft coral capital of the world, with vibrant reefs in every imaginable color. Beyond the beautiful coral, the Beqa Lagoon shark dive offers one of the most intense shark encounters anywhere, with up to eight species including bull sharks and tiger sharks on a single dive. The blend of easy diving, fantastic coral, and big-animal encounters makes Fiji a complete destination.
+whyDive:
+  - World's most vibrant soft corals
+  - Beqa Lagoon shark dive with 8+ shark species
+  - Great for beginners with gentle conditions
+  - The Great Astrolabe Reef and the famous Rainbow Reef
+  - Warm Fijian culture and island hospitality
+bestDiveSpots:
+  - name: Beqa Lagoon
+    description: World-famous baited shark dive where divers kneel behind a coral wall as bull sharks, tiger sharks, and grey reef sharks swarm around feeders.
+    depthRange: 18-30m
+    difficulty: Intermediate
+    highlights: Bull sharks, tiger sharks, grey reefs, silvertips
+  - name: The Great White Wall
+    description: A vertical wall completely covered in white soft coral that glows like snow in the light, one of the most photogenic soft coral sites anywhere.
+    depthRange: 10-40m
+    difficulty: Intermediate
+    highlights: Stunning white soft coral, anthias, macro life
+pros:
+  - Gorgeous soft coral in every color
+  - World-class shark diving at Beqa Lagoon
+  - Beginner-friendly conditions
+cons:
+  - Shark dives are baited which some divers dislike
+  - Long flights from most major hubs
+  - Some sites require specific tidal conditions
+nearestAirport: Nadi (NAN)
+timezoneOffset: UTC+12
+imageLocal: /images/fiji.webp
+imageCredit: AI generated

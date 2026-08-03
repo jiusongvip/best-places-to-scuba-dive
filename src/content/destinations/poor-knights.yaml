@@ -1,0 +1,66 @@
+name: Poor Knights Islands
+slug: poor-knights
+country: New Zealand
+countrySlug: new-zealand
+ocean: pacific
+continent: oceania
+coordinates: { lat: -35.47, lng: 174.73 }
+visibilityMeters: 25
+waterTempCelsius: 18
+waterTempRange: 15-22C
+current: moderate
+difficulty: intermediate
+maxDepthMeters: 40
+bestMonths: [1, 2, 3, 4, 5]
+peakSeason: [2, 3]
+certificationRequired: advanced_open_water
+minDivesRecommended: 15
+budgetLevel: mid_range
+averageDailyCostUsd: 150
+liveaboardAvailable: false
+diveTypes: [boat, wall, cave, night, drift]
+shoreDive: none
+marineLife:
+  sharks: 3
+  mantaRays: 1
+  whaleSharks: 0
+  turtles: 3
+  coral: 3
+  macro: 4
+  pelagics: 4
+  dolphins: 3
+beginnerFriendly: 2
+familyFriendly: false
+photographyScore: 4
+overallRating: 4.4
+tagline: Jacques Cousteau's top 10 dive site - arches, caves, and subtropical currents
+description: The Poor Knights Islands are the remains of ancient volcanoes off New Zealand's North Island, eroded into dramatic arches, caves, and tunnels. Warm subtropical currents from the Coral Sea bring tropical species to these temperate waters, creating a unique mix of tropical and temperate marine life. Jacques Cousteau ranked them among the top 10 dive sites on Earth.
+whyDive:
+  - Dramatic volcanic topography with arches and sea caves
+  - Unique mix of tropical and temperate species
+  - Rated among Cousteau's top 10 dive sites
+  - Seasonal stingray aggregations in the hundreds
+  - Pristine marine reserve since 1981
+bestDiveSpots:
+  - name: Rikoriko Cave
+    description: One of the world's largest sea caves, where light filters through holes in the ceiling as vast schools of blue maomao sweep through.
+    depthRange: 5-25m
+    difficulty: Intermediate
+    highlights: Massive sea cave, blue maomao, light effects, moray eels
+  - name: Northern Arch
+    description: A dramatic underwater arch formation where short-tail stingrays gather seasonally and bronze whaler sharks patrol the deeper waters.
+    depthRange: 15-35m
+    difficulty: Advanced
+    highlights: Stingray gatherings, bronze whalers, dramatic topography
+pros:
+  - Unique underwater topography
+  - Mix of tropical and temperate species
+  - Pristine marine reserve
+cons:
+  - Cold water requiring 7mm wetsuits
+  - Weather-dependent - trips frequently cancelled
+  - Remote location with limited infrastructure
+nearestAirport: Whangarei (WRE)
+timezoneOffset: UTC+12
+imageLocal: /images/poor-knights.webp
+imageCredit: AI generated

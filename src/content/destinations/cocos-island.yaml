@@ -1,0 +1,66 @@
+name: Cocos Island
+slug: cocos-island
+country: Costa Rica
+countrySlug: costa-rica
+ocean: pacific
+continent: north-america
+coordinates: { lat: 5.5, lng: -87.0 }
+visibilityMeters: 25
+waterTempCelsius: 25
+waterTempRange: 23-28C
+current: strong
+difficulty: advanced
+maxDepthMeters: 35
+bestMonths: [6, 7, 8, 9, 10, 11]
+peakSeason: [7, 8, 9]
+certificationRequired: advanced_open_water
+minDivesRecommended: 50
+budgetLevel: luxury
+averageDailyCostUsd: 450
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard]
+shoreDive: none
+marineLife:
+  sharks: 5
+  mantaRays: 5
+  whaleSharks: 3
+  turtles: 4
+  coral: 2
+  macro: 1
+  pelagics: 5
+  dolphins: 5
+beginnerFriendly: 1
+familyFriendly: false
+photographyScore: 4
+overallRating: 4.8
+tagline: The Island of Sharks - hammerhead schools so dense they block out the sun
+description: "Cocos Island is a remote pinnacle 550km off Costa Rica's Pacific coast, accessible only by 36-hour liveaboard journey. The payoff is shark diving of legendary proportions: hammerhead schools in the hundreds, tiger sharks, whale sharks, Galapagos sharks, and silky sharks in staggering numbers. Made famous in classic dive films, it remains one of diving's holy grails."
+whyDive:
+  - Massive hammerhead shark schools in the hundreds
+  - High probability of tiger shark encounters
+  - Giant manta rays circling cleaning stations
+  - Pods of bottlenose dolphins swimming with divers
+  - The inspiration for Jurassic Park's Isla Nublar
+bestDiveSpots:
+  - name: Bajo Alcyone
+    description: A seamount where massive schools of hammerhead sharks gather, often so dense they darken the water column above divers.
+    depthRange: 18-35m
+    difficulty: Advanced
+    highlights: Hammerhead schools, Galapagos sharks, silkies
+  - name: Dirty Rock
+    description: A pinnacle with cleaning stations for manta rays and hammerheads, plus marble rays resting on the sandy bottom.
+    depthRange: 15-30m
+    difficulty: Advanced
+    highlights: Marble rays, schooling hammerheads, mantas
+pros:
+  - One of the world's best shark destinations
+  - Extremely remote and pristine
+  - Diverse shark species including tigers
+cons:
+  - Only accessible by expensive, long liveaboard trips
+  - Challenging conditions with strong currents
+  - Limited to experienced divers only
+nearestAirport: San Jose (SJO)
+timezoneOffset: UTC-6
+imageLocal: /images/cocos-island.webp
+imageCredit: AI generated

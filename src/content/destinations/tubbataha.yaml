@@ -1,0 +1,66 @@
+name: Tubbataha Reefs
+slug: tubbataha
+country: Philippines
+countrySlug: philippines
+ocean: pacific
+continent: asia
+coordinates: { lat: 8.9, lng: 119.9 }
+visibilityMeters: 35
+waterTempCelsius: 28
+waterTempRange: 26-30C
+current: moderate_to_strong
+difficulty: intermediate
+maxDepthMeters: 40
+bestMonths: [3, 4, 5, 6]
+peakSeason: [4, 5]
+certificationRequired: advanced_open_water
+minDivesRecommended: 20
+budgetLevel: premium
+averageDailyCostUsd: 220
+liveaboardAvailable: true
+diveTypes: [boat, drift, liveaboard, wall]
+shoreDive: none
+marineLife:
+  sharks: 5
+  mantaRays: 4
+  whaleSharks: 3
+  turtles: 5
+  coral: 5
+  macro: 3
+  pelagics: 5
+  dolphins: 4
+beginnerFriendly: 2
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.8
+tagline: The crown jewel of the Philippines - only accessible by liveaboard, and worth every mile
+description: Tubbataha Reefs Natural Park is a UNESCO World Heritage site in the middle of the Sulu Sea, accessible only by liveaboard during a short season from March to June. Its isolation has protected it from fishing and development, resulting in some of the healthiest coral reefs on the planet, with walls plunging into the abyss, abundant sharks, and an overwhelming density of marine life.
+whyDive:
+  - Among the healthiest coral reefs left on Earth
+  - Short season keeps sites pristine and uncrowded
+  - Excellent shark action with multiple species
+  - Whale shark and manta ray encounters
+  - UNESCO World Heritage site with strict protection
+bestDiveSpots:
+  - name: Amos Rock
+    description: A submerged seamount with incredible fish density, frequent marble ray sightings, and drop-offs patrolled by grey reef sharks.
+    depthRange: 10-35m
+    difficulty: Intermediate
+    highlights: Marble rays, grey reef sharks, schooling fish
+  - name: Wall Street
+    description: A dramatic wall dive with sheer drop-offs, passing sharks, turtles, and eagle rays against a backdrop of pristine soft corals.
+    depthRange: 10-40m
+    difficulty: Intermediate
+    highlights: Dramatic walls, sharks, turtle encounters
+pros:
+  - Pristine reefs with incredible coral health
+  - Rich shark and pelagic life
+  - Strict protection ensures quality
+cons:
+  - Only accessible by liveaboard
+  - Very short season of just 3 months
+  - Limited itinerary variety on trips
+nearestAirport: Puerto Princesa (PPS)
+timezoneOffset: UTC+8
+imageLocal: /images/tubbataha.webp
+imageCredit: AI generated

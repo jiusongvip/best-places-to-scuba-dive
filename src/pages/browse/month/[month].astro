@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return [1,2,3,4,5,6,7,8,9,10,11,12].map(m => ({ params: { month: String(m) } }));
+}
+
+const { month } = Astro.params;
+const m = parseInt(month);
+const allDests = await getCollection('destinations');
+
+const best = allDests.filter((d: any) => d.data.bestMonths.includes(m)).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
+const avoid = allDests.filter((d: any) => !d.data.bestMonths.includes(m)).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
+
+const monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
+const title = 'Best Places to Scuba Dive in ' + monthNames[m];
+
+const diffLabel: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
+const budgetLabel: Record<string, string> = { budget: 'Budget', mid_range: 'Mid-Range', premium: 'Premium', luxury: 'Luxury' };
+
+const top3 = best.slice(0, 3);
+
+// Marine life calendar data by month (hard-coded seasonal patterns)
+const monthLife: Record<number, string[]> = {
+  1: ['Hammerhead sharks','Manta rays','Whale sharks'],
+  2: ['Hammerhead sharks','Manta rays','Humpback whales'],
+  3: ['Manta rays','Whale sharks','Spawning corals'],
+  4: ['Whale sharks','Spawning corals','Turtles nesting'],
+  5: ['Whale sharks','Turtles','Dolphins'],
+  6: ['Whale sharks','Mola mola','Turtles'],
+  7: ['Whale sharks','Mola mola','Dolphins'],
+  8: ['Mola mola','Turtles hatching','Dolphins'],
+  9: ['Mola mola','Turtles hatching','Manta rays'],
+  10: ['Manta rays','Sharks','Spawning corals'],
+  11: ['Manta rays','Hammerhead sharks','Whale sharks'],
+  12: ['Hammerhead sharks','Manta rays','Whale sharks'],
+};
+
+const monthTip: Record<number, string> = {
+  1: 'Peak season in the Maldives and Raja Ampat. Book liveaboards 6+ months ahead.',
+  2: 'Excellent diving across Asia-Pacific. Humpback whales in Tonga and the Dominican Republic.',
+  3: 'Coral spawning season in the Caribbean. Sipadan and Tubbataha at their prime.',
+  4: 'The Coral Triangle is in full bloom. Last chance for Maldives before monsoon shift.',
+  5: 'Shoulder season in Asia — fewer crowds, still great conditions. Komodo and Cocos shine.',
+  6: 'Mola mola (oceanic sunfish) season in Bali. Galapagos whale sharks arrive.',
+  7: 'Peak mola mola in Bali and Komodo. Galapagos in full swing. Red Sea at its warmest.',
+  8: 'Bali and Komodo mola mola continue. Mediterranean diving peaks. Turtle hatchings begin.',
+  9: 'Maldives manta season begins. Great Barrier Reef spring bloom. Europe&#39;s last warm dives.',
+  10: 'Raja Ampat season opens. Maldives pre-peak. Cocos Island hammerhead schools build.',
+  11: 'Prime time across Indo-Pacific. Raja Ampat, Maldives, Palau all at their best.',
+  12: 'Holiday season — book early. Caribbean and Maldives peak. Raja Ampat in full glory.',
+};
+
+function groupByContinent(dests: any[]) {
+  const groups: Record<string, any[]> = {};
+  for (const d of dests) {
+    const c = d.data.continent;
+    if (!groups[c]) groups[c] = [];
+    groups[c].push(d);
+  }
+  return groups;
+}
+
+const cLabels: Record<string, string> = {
+  asia: 'Asia-Pacific', africa: 'Africa & Middle East', europe: 'Europe',
+  'north-america': 'North America & Caribbean', 'south-america': 'South America', oceania: 'Oceania',
+};
+
+const grouped = groupByContinent(best);
+const groupedAvoid = groupByContinent(avoid);
+
+const schema = {
+  '@context':'https://schema.org','@type':'FAQPage',
+  mainEntity: [
+    {'@type':'Question','name':'Where is the best scuba diving in ' + monthNames[m] + '?','acceptedAnswer':{'@type':'Answer','text': top3.length > 0 ? 'Top picks for ' + monthNames[m] + ': ' + top3.map((d: any) => d.data.name + ' (' + d.data.country + ')').join(', ') + '.' : 'Check our destination database for ' + monthNames[m] + ' recommendations.'}},
+    {'@type':'Question','name':'What marine life can I see in ' + monthNames[m] + '?','acceptedAnswer':{'@type':'Answer','text': 'In ' + monthNames[m] + ', you can commonly encounter: ' + (monthLife[m] || ['Various marine species']).join(', ') + '.'}},
+  ]
+};
+---
+
+<BaseLayout title={title} description={'Discover the best scuba diving destinations for ' + monthNames[m] + '. Compare visibility, water temperature, marine life encounters, and difficulty by region.'} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Month' }, { name: monthNames[m] }]}>
+  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a><span class="mx-2">/</span>
+        <span class="text-navy-700">Month / {monthNames[m]}</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <p class="text-coral-400 text-sm tracking-wider mb-3 font-medium">MONTHLY DIVE GUIDE</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight mb-4">{title}</h1>
+      <p class="text-lg text-sand-200/80 max-w-2xl leading-relaxed mb-4">{monthTip[m]}</p>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <span class="px-3 py-1.5 rounded-full bg-navy-800 text-ocean-300 text-sm font-medium">{best.length} destinations at peak</span>
+        <span class="px-3 py-1.5 rounded-full bg-navy-800 text-coral-300 text-sm font-medium">{avoid.length} to avoid</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Picks -->
+  {top3.length > 0 && (
+    <section class="py-16 md:py-20">
+      <div class="container-page">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Top Picks for {monthNames[m]}</h2>
+        <p class="text-navy-600 mb-10">The highest-rated dive destinations at their peak this month</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {top3.map((d: any) => {
+            const dd = d.data;
+            return (
+              <a href={'/destinations/' + dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all">
+                <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
+                  <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" />
+                </div>
+                <div class="p-6">
+                <div class="flex items-start justify-between mb-2">
+                  <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600 transition-colors">{dd.name}</h3>
+                  <span class="text-amber-400 text-sm font-semibold">{dd.overallRating}/5</span>
+                </div>
+                <p class="text-xs text-navy-500 mb-3">{dd.country} — {diffLabel[dd.difficulty]} — {budgetLabel[dd.budgetLevel]}</p>
+                <p class="text-sm text-navy-600 leading-relaxed line-clamp-2 mb-4">{dd.tagline}</p>
+                <div class="grid grid-cols-3 gap-2 text-xs">
+                  <div class="bg-sand-100 rounded-lg p-2 text-center"><span class="text-navy-500 block">Vis</span><span class="font-semibold text-navy-800">{dd.visibilityMeters}m</span></div>
+                  <div class="bg-sand-100 rounded-lg p-2 text-center"><span class="text-navy-500 block">Temp</span><span class="font-semibold text-navy-800">{dd.waterTempCelsius}&deg;C</span></div>
+                  <div class="bg-sand-100 rounded-lg p-2 text-center"><span class="text-navy-500 block">Cost</span><span class="font-semibold text-navy-800"></span></div>
+                </div>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Marine Life This Month -->
+  {monthLife[m] && (
+    <section class="py-16 md:py-20 bg-sand-100/50">
+      <div class="container-page">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Marine Life in {monthNames[m]}</h2>
+        <p class="text-navy-600 mb-10">What you&#39;re most likely to encounter this month worldwide</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {monthLife[m].map((life: string) => (
+            <div class="bg-white border border-sand-200 rounded-xl p-6 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-ocean-100 text-ocean-600 flex items-center justify-center font-bold text-lg flex-shrink-0">{life.charAt(0)}</div>
+              <div><h4 class="font-semibold text-navy-900">{life}</h4><p class="text-xs text-navy-500">Peak encounter season</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Best Destinations by Region -->
+  <section class="py-16 md:py-20">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Best Destinations by Region</h2>
+      <p class="text-navy-600 mb-10">Where to go in {monthNames[m]}, organized by continent</p>
+      {Object.keys(cLabels).filter(k => grouped[k] && grouped[k].length > 0).map(continent => {
+        const spots = grouped[continent];
+        if (!spots || spots.length === 0) return null;
+        return (
+          <div class="mb-10">
+            <h3 class="text-lg font-semibold text-navy-800 mb-4 border-b border-sand-200 pb-2">{cLabels[continent]} <span class="text-navy-500 font-normal text-sm">({spots.length} destinations)</span></h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {spots.map((d: any) => {
+                const dd = d.data;
+                return (
+                  <a href={'/destinations/' + dd.slug} class="group flex items-center gap-3 p-3 rounded-lg bg-white border border-sand-200 hover:border-ocean-300 transition-all">
+                    <span class="text-amber-400 text-sm font-semibold flex-shrink-0 w-8 text-center">{dd.overallRating}</span>
+                    <div class="min-w-0">
+                      <p class="font-medium text-navy-900 text-sm truncate group-hover:text-coral-600">{dd.name}</p>
+                      <p class="text-xs text-navy-500">{dd.country} — Vis {dd.visibilityMeters}m — {diffLabel[dd.difficulty]}</p>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Best vs Avoid This Month -->
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">{monthNames[m]} at a Glance</h2>
+      <p class="text-navy-600 mb-10">Best destinations this month vs destinations to avoid</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="font-semibold text-emerald-700 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Best This Month ({best.length})
+          </h3>
+          <div class="space-y-2 max-h-96 overflow-y-auto">
+            {best.slice(0, 15).map((d: any) => (
+              <a href={'/destinations/' + d.data.slug} class="block p-3 rounded-lg bg-white border border-emerald-200 hover:border-emerald-400 transition-all">
+                <span class="font-medium text-navy-900 text-sm">{d.data.name}</span>
+                <span class="text-xs text-navy-500 ml-2">{d.data.country} — &starf;{d.data.overallRating}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold text-rose-700 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            Avoid This Month ({avoid.length})
+          </h3>
+          <div class="space-y-2 max-h-96 overflow-y-auto">
+            {avoid.slice(0, 15).map((d: any) => (
+              <a href={'/destinations/' + d.data.slug} class="block p-3 rounded-lg bg-white border border-rose-200 hover:border-rose-400 transition-all">
+                <span class="font-medium text-navy-900 text-sm">{d.data.name}</span>
+                <span class="text-xs text-navy-500 ml-2">{d.data.country} — &starf;{d.data.overallRating}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl font-semibold text-navy-950 mb-8 text-center">Frequently Asked Questions</h2>
+      <div class="space-y-3">
+        {[
+          { q: 'Where is the best scuba diving in ' + monthNames[m] + '?', a: monthTip[m] },
+          { q: 'What marine life can I see in ' + monthNames[m] + '?', a: 'In ' + monthNames[m] + ', divers can commonly encounter: ' + (monthLife[m] || ['various species']).join(', ') + '. Specific encounters depend on the destination and local conditions.' },
+          { q: 'Should I avoid any dive destinations in ' + monthNames[m] + '?', a: avoid.length > 0 ? 'Yes — ' + avoid.length + ' destinations in our database are outside their best season in ' + monthNames[m] + '. These include ' + avoid.slice(0, 5).map((d: any) => d.data.name).join(', ') + '. Visibility and conditions may be below peak, but many sites remain diveable year-round.' : 'Most destinations have at least some viable diving in ' + monthNames[m] + '.' },
+        ].map((faq: any) => (
+          <details class="group border border-sand-200 rounded-xl bg-white">
+            <summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer font-medium text-navy-900 group-open:text-coral-600 transition-colors text-sm">{faq.q}<svg class="w-4 h-4 transition-transform group-open:rotate-180 text-navy-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary>
+            <p class="px-5 pb-4 text-sm text-navy-600 leading-relaxed">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Month Navigation -->
+  <section class="py-12 border-t border-sand-200">
+    <div class="container-page">
+      <div class="flex items-center justify-between">
+        {m > 1 ? <a href={'/browse/month/' + (m - 1)} class="text-navy-700 hover:text-coral-500 font-medium text-sm">&larr; {monthNames[m - 1]}</a> : <span></span>}
+        <span class="text-navy-400 text-sm">{monthNames[m]}</span>
+        {m < 12 ? <a href={'/browse/month/' + (m + 1)} class="text-navy-700 hover:text-coral-500 font-medium text-sm">{monthNames[m + 1]} &rarr;</a> : <span></span>}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

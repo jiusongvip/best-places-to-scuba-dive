@@ -1,0 +1,66 @@
+name: Lembeh Strait
+slug: lembeh-strait
+country: Indonesia
+countrySlug: indonesia
+ocean: pacific
+continent: asia
+coordinates: { lat: 1.4, lng: 125.2 }
+visibilityMeters: 10
+waterTempCelsius: 28
+waterTempRange: 27-29C
+current: mild
+difficulty: beginner
+maxDepthMeters: 25
+bestMonths: [4, 5, 6, 7, 8, 9, 10, 11]
+peakSeason: [7, 8, 9]
+certificationRequired: open_water
+minDivesRecommended: 5
+budgetLevel: mid_range
+averageDailyCostUsd: 120
+liveaboardAvailable: false
+diveTypes: [boat, night, muck, shore]
+shoreDive: good
+marineLife:
+  sharks: 1
+  mantaRays: 0
+  whaleSharks: 0
+  turtles: 2
+  coral: 1
+  macro: 5
+  pelagics: 0
+  dolphins: 0
+beginnerFriendly: 4
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.6
+tagline: The muck diving capital of the world - where every dive reveals a new alien creature
+description: "Lembeh Strait is the undisputed world capital of muck diving. Its black volcanic sand seafloor is home to the highest concentration of rare and bizarre critters anywhere: mimic octopus, blue-ringed octopus, flamboyant cuttlefish, hairy frogfish, and rhinopias. Visibility is poor, the sand is black, and the macro life is absolutely world-class."
+whyDive:
+  - Highest density of rare critters anywhere on Earth
+  - Mimic octopus and wonderpus encounters
+  - Flamboyant cuttlefish in shallow water
+  - Dozens of frogfish species including hairy frogfish
+  - Excellent dive guides with eagle eyes for rare critters
+bestDiveSpots:
+  - name: Nudi Falls
+    description: A gentle muck slope famous for its incredible diversity of nudibranchs, seahorses, and a resident hairy frogfish.
+    depthRange: 5-20m
+    difficulty: Beginner
+    highlights: Hairy frogfish, ornate ghost pipefish, dozens of nudibranchs
+  - name: Aer Perang
+    description: A shallow muck site that has delivered more mimic octopus sightings than perhaps any other site, along with blue-ringed octopus and flamboyant cuttlefish.
+    depthRange: 5-15m
+    difficulty: Beginner
+    highlights: Mimic octopus, blue-ringed octopus, flamboyant cuttlefish
+pros:
+  - World's best macro and muck diving
+  - Perfect for underwater photography
+  - Easy, shallow diving conditions
+cons:
+  - Terrible visibility by design
+  - No reefs, no big animals, no pelagics
+  - Not interesting for non-photographers
+nearestAirport: Manado (MDC)
+timezoneOffset: UTC+8
+imageLocal: /images/lembeh-strait.webp
+imageCredit: AI generated

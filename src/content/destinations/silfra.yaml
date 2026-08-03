@@ -1,0 +1,61 @@
+name: Silfra Fissure
+slug: silfra
+country: Iceland
+countrySlug: iceland
+ocean: atlantic
+continent: europe
+coordinates: { lat: 64.25, lng: -21.1 }
+visibilityMeters: 100
+waterTempCelsius: 3
+waterTempRange: 2-4C
+current: mild
+difficulty: intermediate
+maxDepthMeters: 18
+bestMonths: [5, 6, 7, 8, 9]
+peakSeason: [6, 7, 8]
+certificationRequired: open_water
+minDivesRecommended: 10
+budgetLevel: premium
+averageDailyCostUsd: 200
+liveaboardAvailable: false
+diveTypes: [shore]
+shoreDive: excellent
+marineLife:
+  sharks: 0
+  mantaRays: 0
+  whaleSharks: 0
+  turtles: 0
+  coral: 0
+  macro: 0
+  pelagics: 0
+  dolphins: 0
+beginnerFriendly: 3
+familyFriendly: false
+photographyScore: 5
+overallRating: 4.2
+tagline: Dive between two continents in the clearest water on Earth
+description: Silfra is a fissure in Thingvellir National Park, Iceland, where the North American and Eurasian tectonic plates are pulling apart. The water is glacial melt filtered through volcanic rock for decades, creating visibility exceeding 100 meters - essentially infinite. There is no marine life, but the experience of floating between continents in water so clear it feels like flying is surreal and unforgettable.
+whyDive:
+  - Dive between the North American and Eurasian tectonic plates
+  - 100m+ visibility - the clearest water on Earth
+  - Drink the purest glacial water while diving
+  - Surreal experience of floating in crystal-clear space
+  - Incredible underwater photography in pristine conditions
+bestDiveSpots:
+  - name: Silfra Cathedral
+    description: The widest and most dramatic section of the fissure with towering volcanic rock walls and light streaming through the 100m+ visibility water.
+    depthRange: 5-18m
+    difficulty: Intermediate
+    highlights: Infinite visibility, tectonic walls, surreal light
+pros:
+  - Truly unique diving experience
+  - The clearest water on Earth
+  - Dive between two continents
+cons:
+  - Freezing water at 2-4C requiring drysuit certification
+  - No marine life whatsoever
+  - Very expensive destination overall
+nearestAirport: Reykjavik (KEF)
+timezoneOffset: UTC+0
+imageLocal: /images/silfra.webp
+imageCredit: AI generated
