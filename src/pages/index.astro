@@ -306,15 +306,33 @@ const dd = x.data;            return (
   
 </section>
 </BaseLayout>
-<script type="application/json" id="dest-data" is:inline>{dJson}</script>
+<div id="dest-data" style="display:none" set:html={dJson}></div>
 
-<script is:inline>  (function(){    
-var el=document.getElementById("dest-data");    if(!el) return;    
-var destMap=JSON.parse(el.textContent||"[]");    if(!destMap.length) return;    
-var s=document.getElementById("hero-search"), su=document.getElementById("search-suggestions");    if(!s||!su) return;    s.addEventListener("input",function(){      
-var q=s.value.toLowerCase().trim();      if(q.length<2){su.classList.add("hidden");return}      
-var m=destMap.filter(function(d){return d.name.toLowerCase().indexOf(q)!==-1||d.country.toLowerCase().indexOf(q)!==-1}).slice(0,8);      if(!m.length){su.classList.add("hidden");return}      su.innerHTML=m.map(function(d){return '
-<a href="/destinations/'+d.slug+'" class="block px-5 py-3 hover:bg-navy-700 transition-colors border-b border-navy-700 last:border-0"><span class="text-white font-medium">'+d.name+'</span><span class="text-navy-400 text-sm ml-2">'+d.country+'</span></a>'}).join("");      su.classList.remove("hidden")    });    document.addEventListener("click",function(e){if(!s.contains(e.target)&&!su.contains(e.target))su.classList.add("hidden")})  })();</script>
+<script is:inline>  (function(){
+    setTimeout(function(){
+      var el = document.getElementById("dest-data");
+      if(!el) return;
+      var destMap = JSON.parse(el.textContent||"[]");
+      if(!destMap.length) return;
+      var input = document.getElementById("hero-search");
+      var su = document.getElementById("search-suggestions");
+      if(!input||!su) return;
+      su.style.display = "none";
+      input.addEventListener("keyup", function(e){
+        if(e.key === "Enter" && su.style.display === "block"){
+          var first = su.querySelector("a");
+          if(first) { window.location.href = first.getAttribute("href"); return }
+        }
+        var q = this.value.toLowerCase().trim();
+        if(q.length<2){ su.style.display = "none"; return }
+        var m = destMap.filter(function(d){return d.name.toLowerCase().indexOf(q)!==-1||d.country.toLowerCase().indexOf(q)!==-1}).slice(0,8);
+        if(!m.length){ su.style.display = "none"; return }
+        su.innerHTML = m.map(function(d){return '<a href="/destinations/'+d.slug+'" class="block px-5 py-3 hover:bg-navy-700 transition-colors border-b border-navy-700 last:border-0"><span class="text-white font-medium">'+d.name+'</span><span class="text-navy-400 text-sm ml-2">'+d.country+'</span></a>'}).join("");
+        su.style.display = "block"
+      });
+      document.addEventListener("click",function(e){if(!input.contains(e.target)&&!su.contains(e.target)) su.style.display = "none"})
+    }, 100);
+  })();</script>
 
 <script is:inline>  (function(){    
 var mapSection = document.getElementById("map-section");    if(!mapSection) return;    
