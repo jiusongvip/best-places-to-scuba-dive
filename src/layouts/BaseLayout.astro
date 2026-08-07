@@ -35,11 +35,10 @@ const breadcrumbSchema = breadcrumbs ? {
   <title>{title} | DiveAtlas</title>
   <link rel="canonical" href={canonical} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <style>
-    @font-face { font-family: 'Geist'; src: local('Segoe UI'), local('Inter'), local('-apple-system'); font-weight: 400; font-display: swap; }
-    @font-face { font-family: 'Geist'; src: local('Segoe UI Semibold'), local('Inter SemiBold'), local('-apple-system'); font-weight: 600; font-display: swap; }
-    @font-face { font-family: 'Geist Mono'; src: local('Consolas'), local('Cascadia Code'), local('monospace'); font-weight: 400; font-display: swap; }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
@@ -57,7 +56,12 @@ const breadcrumbSchema = breadcrumbs ? {
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>}
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>}
 </head>
-<body class="min-h-screen bg-sand-50 text-navy-950 antialiased">
+<body class="min-h-screen bg-surface text-navy-950 antialiased">
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="organic-blob organic-blob-1" style="width:600px;height:600px;top:-200px;right:-150px;"></div>
+    <div class="organic-blob organic-blob-2" style="width:400px;height:400px;bottom:10%;left:-100px;"></div>
+    <div class="organic-blob organic-blob-3" style="width:500px;height:500px;bottom:-150px;right:-200px;"></div>
+  </div>
   <slot />
   <footer class="mt-auto bg-navy-950 text-sand-300">
     <div class="container-page py-14">
@@ -111,5 +115,15 @@ const breadcrumbSchema = breadcrumbs ? {
       </div>
     </div>
   </footer>
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    });
+  </script>
 </body>
 </html>
