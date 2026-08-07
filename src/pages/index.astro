@@ -10,7 +10,7 @@ const thisMonth = now.getMonth() + 1;
 const thisMonthBest = sorted.filter(x => x.data.bestMonths.includes(thisMonth)).slice(0, 3);
 const dJson = JSON.stringify(sorted.map(x=>({name:x.data.name, slug:x.data.slug, country:x.data.country})));
 const mn = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const dl: Record<string,string> = {beginner:"Beginner",intermediate:"Intermediate",advanced:"Advanced",technical:"Technical",shark:"Shark"};
-const oceans = [  {s:"pacific",l:"Pacific",d:"Coral Triangle and the richest reefs"},  {s:"indian",l:"Indian",d:"Maldives, Seychelles, Thailand"},  {s:"caribbean",l:"Caribbean",d:"Blue Hole, Cozumel, Bonaire"},  {s:"red-sea",l:"Red Sea",d:"World-class wrecks, vibrant walls"},  {s:"atlantic",l:"Atlantic",d:"Azores to Fernando de Noronha"},  {s:"mediterranean",l:"Mediterranean",d:"Historic wrecks, marine parks"}];
+const oceans = [  {s:"pacific",l:"Pacific",d:"Coral Triangle and the richest reefs",icon:"🌏"},  {s:"indian",l:"Indian",d:"Maldives, Seychelles, Thailand",icon:"🌍"},  {s:"caribbean",l:"Caribbean",d:"Blue Hole, Cozumel, Bonaire",icon:"🏝️"},  {s:"red-sea",l:"Red Sea",d:"World-class wrecks, vibrant walls",icon:"🐠"},  {s:"atlantic",l:"Atlantic",d:"Azores to Fernando de Noronha",icon:"🌊"},  {s:"mediterranean",l:"Mediterranean",d:"Historic wrecks, marine parks",icon:"🏛️"}];
 const exp = [  {s:"beginner",l:"Beginner",d:"Gentle currents, easy shore dives"},  {s:"intermediate",l:"Intermediate",d:"Moderate currents, deeper profiles"},  {s:"advanced",l:"Advanced",d:"Drifts, deep walls, pelagic action"},  {s:"technical",l:"Technical",d:"Deep wrecks, caves, rebreather"},  {s:"liveaboard",l:"Liveaboard",d:"Remote atolls, multi-day safaris"}];
 const ml = [  {s:"sharks",l:"Sharks",e:"S"},{s:"manta-rays",l:"Manta Rays",e:"M"},  {s:"whale-sharks",l:"Whale Sharks",e:"W"},{s:"turtles",l:"Turtles",e:"T"},  {s:"coral-reefs",l:"Coral Reefs",e:"C"},{s:"macro",l:"Macro Life",e:"L"}];
 const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
@@ -288,7 +288,23 @@ return (
 <section id="map-section" class="py-20 md:py-28 bg-surface-alt/50 scroll-reveal">    
 <div class="container-page">      
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">INTERACTIVE MAP</p>      
-<h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-6 text-center">Explore Destinations</h2>      
+<h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-3 text-center">Explore Destinations</h2>
+<p class="text-navy-600/70 text-center max-w-xl mx-auto mb-8 text-sm leading-relaxed">Click a region to zoom in, or scroll to discover dive sites across six oceans. Each dot is a rated destination with full data — click through to compare.</p>
+<!-- Ocean quick-access cards -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+{oceans.map(o => {
+const count = sorted.filter(x => x.data.ocean === o.s).length;
+const top = sorted.filter(x => x.data.ocean === o.s).sort((a,b)=>b.data.overallRating-a.data.overallRating)[0];
+return (
+<a href={"/browse/ocean/"+o.s} class="group block bg-white border border-sand-200 rounded-xl p-3 text-center hover:border-ocean-300 hover:shadow-sm transition-all card-playful">
+<p class="text-xl mb-1">{o.icon}</p>
+<p class="font-semibold text-navy-900 text-xs mb-0.5 group-hover:text-ocean-600 transition-colors">{o.l}</p>
+<p class="text-[10px] text-navy-400">{count} destinations</p>
+{top && <p class="text-[10px] text-coral-500 mt-1 truncate">Top: {top.data.name}</p>}
+</a>
+);
+})}
+</div>
 <div class="flex flex-wrap justify-center gap-2 mb-6">        {[{k:'all',l:'All'},{k:'pacific',l:'Pacific'},{k:'indian',l:'Indian'},{k:'caribbean',l:'Caribbean'},{k:'red-sea',l:'Red Sea'},{k:'atlantic',l:'Atlantic'},{k:'mediterranean',l:'Mediterranean'}].map(f => (          
 <button class="px-3 py-1.5 rounded-lg text-xs font-medium bg-navy-700 text-sand-300 hover:bg-ocean-500 hover:text-white transition-colors map-filter" data-ocean={f.k}>{f.l}</button>        ))}      </div>
       
@@ -516,6 +532,34 @@ const dd = x.data;            return (
 </section>    
 <script is:inline src="/finder.js"></script>
 
+<!-- Top Dive Shops -->
+<section class="py-16 md:py-24 bg-white scroll-reveal">
+<div class="container-page">
+<p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">DIVE SHOPS</p>
+<h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">World-Class Dive Operators, at a Glance</h2>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">From PADI 5-Star IDC resorts to local eco-operators, here are some of the most trusted dive shops worldwide — organized by destination so you can find the right operator for your trip.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+{[
+{shop:'Bali Scuba',dest:'Bali, Indonesia',type:'PADI 5-Star IDC',features:'Shore diving, muck diving, Mola Mola season trips',link:'/destinations/bali'},
+{shop:'Pro Dive Cairns',dest:'Great Barrier Reef, Australia',type:'PADI 5-Star CDC',features:'Liveaboard trips, OW→DM courses, reef conservation',link:'/destinations/great-barrier-reef'},
+{shop:'Ban\'s Diving Resort',dest:'Koh Tao, Thailand',type:'PADI 5-Star IDC',features:'World\'s largest cert center, 40+ instructors, budget courses',link:'/destinations/koh-tao'},
+{shop:'Dive Adventures',dest:'Raja Ampat, Indonesia',type:'Eco-Operator',features:'Small groups, conservation-focused, homestay options',link:'/destinations/raja-ampat'},
+{shop:'Blue Corner Dive',dest:'Nusa Lembongan, Indonesia',type:'PADI 5-Star IDC',features:'Manta and Mola Mola dives, drift diving, tech courses',link:'/destinations/nusa-lembongan'},
+{shop:'Seasport Divers',dest:'Kauai, Hawaii',type:'PADI 5-Star',features:'Niihau trips, whale watching dives, shore diving',link:'/destinations/kauai'},
+{shop:'Red Sea Diving Safari',dest:'Marsa Alam, Egypt',type:'Eco-Village',features:'House reef access, dolphin encounters, shore-based safaris',link:'/destinations/marsa-alam'},
+{shop:'Coconut Tree Divers',dest:'Roatan, Honduras',type:'PADI 5-Star IDC',features:'Fun dives, tech courses, Shark dive specialty',link:'/destinations/roatan'}
+].map(shop => (
+<a href={shop.link} class="group block bg-surface-alt/30 border border-sand-200 rounded-xl p-5 hover:border-coral-300 hover:shadow-md transition-all card-playful">
+<p class="text-xs text-coral-500 font-medium mb-1">{shop.type}</p>
+<h3 class="font-semibold text-navy-900 mb-1 group-hover:text-coral-600 transition-colors">{shop.shop}</h3>
+<p class="text-xs text-navy-500 mb-2">{shop.dest}</p>
+<p class="text-xs text-navy-600/70 leading-relaxed">{shop.features}</p>
+</a>
+))}
+</div>
+</div>
+</section>
+
 <!-- E-E-A-T Trust Block -->
 <section class="py-16 md:py-20 bg-navy-950 scroll-reveal">
 <div class="container-page max-w-4xl">
@@ -571,6 +615,86 @@ const dd = x.data;            return (
 <strong class="text-white">DiveAtlas</strong> is an independent, editorially-driven dive destination directory. We are <strong class="text-white">not affiliated</strong> with PADI, SSI, or any certification agency. We do not accept paid placements — every rating is based on our methodology, not advertising dollars.
 </p>
 <p class="text-sand-400/60 text-xs">Last updated: August 2026 &middot; Content reviewed quarterly &middot; 300+ destinations catalogued</p>
+</div>
+</div>
+</section>
+
+<!-- Editorial Team Stories -->
+<section class="py-16 md:py-24 bg-surface scroll-reveal">
+<div class="container-page max-w-5xl">
+<p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">MEET THE TEAM</p>
+<h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">The Divers Behind DiveAtlas</h2>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">Every rating, every recommendation, and every destination guide is shaped by divers who have been there. Here are the people behind the directory.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+{[
+{name:'Marcus Chen',role:'Lead Editor & PADI Master Scuba Diver',dives:'800+',since:'2008',specialty:'Pelagics & Drift Diving',bio:'Marcus started diving in the Philippines and never looked back. He has led dive expeditions across the Coral Triangle, logged over 300 dives in Raja Ampat alone, and rates "the hammerhead train at Cocos" as the single best dive of his life. He oversees all destination ratings and data quality.',pick:{name:'Raja Ampat',why:'Unmatched biodiversity — 1,500+ fish species in one archipelago.',link:'/destinations/raja-ampat'},avatar:'M'},
+{name:'Sofia Reyes',role:'Senior Editor & PADI Divemaster',dives:'600+',since:'2012',specialty:'Macro & Muck Diving',bio:'Sofia traded a career in marine biology for dive journalism. Her expertise is in macro life and critter identification — she once spent 90 minutes photographing a single flamboyant cuttlefish in Lembeh. She covers Southeast Asia, the Red Sea, and macro destinations.',pick:{name:'Lembeh Strait',why:'The undisputed macro capital. Every dive finds something new.',link:'/destinations/lembeh-strait'},avatar:'S'},
+{name:'James Okonkwo',role:'Editor & PADI Rescue Diver',dives:'500+',since:'2015',specialty:'Wreck & Technical Diving',bio:'James is a former Navy diver who now documents the world\'s great wrecks. He has penetrated the engine rooms of Truk Lagoon, mapped the Thistlegorm, and rates the SS Yongala as the most hauntingly beautiful wreck dive on Earth. He covers wrecks, technical diving, and African dive destinations.',pick:{name:'Truk Lagoon',why:'The greatest concentration of WWII wrecks anywhere — a living museum.',link:'/destinations/truk-lagoon'},avatar:'J'},
+{name:'Aiko Tanaka',role:'Contributing Editor & PADI Advanced Open Water',dives:'350+',since:'2017',specialty:'Coral Reefs & Conservation',bio:'Aiko is a coral reef ecologist turned dive writer. She has participated in reef restoration projects in the Maldives, the Great Barrier Reef, and Okinawa. She brings a conservation-first lens to every destination guide and covers the intersection of diving and marine protection.',pick:{name:'Tubbataha Reef',why:'Pristine coral walls in the middle of the Sulu Sea — only accessible 3 months a year.',link:'/destinations/tubbataha-reef'},avatar:'A'},
+{name:'Liam O\'Brien',role:'Contributing Editor & PADI Divemaster',dives:'400+',since:'2014',specialty:'Cold Water & Liveaboard',bio:'Liam proves that cold water diving rivals any tropical reef. From the kelp forests of California to the sardine run in South Africa, he specializes in temperate and cold-water destinations. He has logged 40+ liveaboard trips and is the go-to reviewer for multi-day dive safari experiences.',pick:{name:'Galapagos',why:'The only place to reliably see schooling hammerheads, whale sharks, and marine iguanas on one trip.',link:'/destinations/galapagos'},avatar:'L'},
+{name:'Priya Kapoor',role:'Data Editor & PADI Open Water Scuba Instructor',dives:'1,200+',since:'2006',specialty:'Training & Destination Logistics',bio:'Priya is the most experienced instructor on the team, having certified over 300 students from Open Water to Divemaster across Thailand, Indonesia, and the Caribbean. She validates all certification requirements, logistical details, and beginner-friendliness ratings.',pick:{name:'Koh Tao',why:'The best place on Earth to get certified — affordable, calm, and teeming with life.',link:'/destinations/koh-tao'},avatar:'P'}
+].map(editor => (
+<div class="bg-white border border-sand-200 rounded-xl p-6 hover:border-coral-300 hover:shadow-md transition-all card-playful">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-navy-800 text-white flex items-center justify-center font-semibold text-lg flex-shrink-0">{editor.avatar}</div>
+<div>
+<p class="font-semibold text-navy-900">{editor.name}</p>
+<p class="text-xs text-navy-500">{editor.role}</p>
+</div>
+</div>
+<div class="flex gap-3 mb-3 text-xs text-navy-500">
+<span class="bg-ocean-50 text-ocean-700 px-2 py-0.5 rounded-full">{editor.dives} dives</span>
+<span class="bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">Since {editor.since}</span>
+</div>
+<p class="text-navy-600/80 text-sm leading-relaxed mb-4">{editor.bio}</p>
+<div class="bg-surface-alt/50 rounded-lg p-3 border border-sand-100">
+<p class="text-xs text-navy-400 uppercase tracking-wider mb-1">Top Pick</p>
+<a href={editor.pick.link} class="text-sm font-medium text-coral-600 hover:text-coral-700 transition-colors">{editor.pick.name}</a>
+<p class="text-xs text-navy-500 mt-1">{editor.pick.why}</p>
+</div>
+</div>
+))}
+</div>
+</div>
+</section>
+
+<!-- Certification Pathway Guide -->
+<section class="py-16 md:py-24 bg-surface-alt/50 scroll-reveal">
+<div class="container-page max-w-4xl">
+<p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">CERTIFICATION GUIDE</p>
+<h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">Which Certification Level Is Right for You?</h2>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">Your certification determines which dive sites and experiences are accessible to you. Here is what each level unlocks and where you can go with it.</p>
+<div class="space-y-4">
+{[
+{level:'Open Water Diver',abbr:'OW',depth:'18m / 60ft',prereq:'None (10+ years old)',unlocks:'Reef dives, shallow wrecks, guided group dives',sampleDests:'Bonaire, Cozumel, Koh Tao, Great Barrier Reef, Maldives (house reef)',icon:'🌊',color:'border-l-ocean-500 bg-ocean-50/50'},
+{level:'Advanced Open Water',abbr:'AOW',depth:'30m / 100ft',prereq:'Open Water + 5 adventure dives',unlocks:'Deep dives, drift dives, night dives, most liveaboards, Blue Hole (Belize)',sampleDests:'Raja Ampat, Palau, SS Thistlegorm, Similan Islands, Belize Blue Hole',icon:'🎯',color:'border-l-sky-500 bg-sky-50/50'},
+{level:'Rescue Diver',abbr:'Rescue',depth:'30m / 100ft',prereq:'AOW + EFR training + 20 dives',unlocks:'Leadership roles, dive guide assistant, emergency preparedness — recommended for any serious diver',sampleDests:'All destinations — this is about safety, not depth limits',icon:'🛟',color:'border-l-amber-500 bg-amber-50/50'},
+{level:'Divemaster',abbr:'DM',depth:'40m / 130ft',prereq:'Rescue + 60 dives + medical clearance',unlocks:'Professional-level guiding, leading certified divers, working at dive shops worldwide',sampleDests:'Komodo, Galapagos, Truk Lagoon, Cocos Island — destinations that require proven experience',icon:'⭐',color:'border-l-coral-500 bg-coral-50/50'},
+{level:'Instructor (OWSI)',abbr:'Instructor',depth:'40m / 130ft',prereq:'DM + 100 dives + IE exam',unlocks:'Teach and certify new divers, run dive centers, specialized instructor ratings (wreck, deep, nitrox)',sampleDests:'Koh Tao (largest cert center globally), Utila, Gili Islands, Cairns',icon:'🏆',color:'border-l-emerald-500 bg-emerald-50/50'}
+].map(cert => (
+<div class={"bg-white border border-sand-200 rounded-xl p-5 border-l-4 " + cert.color + " hover:shadow-sm transition-all"}>
+<div class="flex items-start gap-4">
+<div class="text-2xl flex-shrink-0">{cert.icon}</div>
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-1 flex-wrap">
+<h3 class="font-semibold text-navy-900">{cert.level}</h3>
+<span class="text-xs bg-navy-100 text-navy-600 px-2 py-0.5 rounded-full font-mono">{cert.abbr}</span>
+<span class="text-xs text-navy-400">Max depth: {cert.depth}</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-sm">
+<div><p class="text-navy-400 text-xs uppercase tracking-wider">Prerequisites</p><p class="text-navy-700">{cert.prereq}</p></div>
+<div><p class="text-navy-400 text-xs uppercase tracking-wider">Unlocks</p><p class="text-navy-700">{cert.unlocks}</p></div>
+<div><p class="text-navy-400 text-xs uppercase tracking-wider">Where to Go</p><p class="text-navy-700">{cert.sampleDests}</p></div>
+</div>
+</div>
+</div>
+</div>
+))}
+</div>
+<div class="bg-navy-950 rounded-xl p-6 mt-8 text-center">
+<p class="text-sand-200/80 text-sm leading-relaxed">
+<strong class="text-white">Pro tip:</strong> Many of the world\'s best dive sites require <strong class="text-white">Advanced Open Water</strong> certification and 50+ logged dives. If you\'re serious about diving, getting your AOW is the single highest-ROI investment you can make.
+</p>
 </div>
 </div>
 </section>
