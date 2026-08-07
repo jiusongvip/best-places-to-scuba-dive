@@ -30,7 +30,7 @@ const avgRating = dests.length > 0 ? (dests.reduce((s,d) => s + d.data.overallRa
 ---
 
 <BaseLayout title={title} description={'Compare ' + dests.length + ' top-rated ' + (label || '').toLowerCase() + ' scuba diving destinations by visibility, water temp, marine life, and daily costs. Find your ideal dive trip with DiveAtlas.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: label }]}>
-  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+  <nav class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border">
     <div class="container-page flex items-center justify-between h-16">
       <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
       <div class="text-xs text-navy-500">

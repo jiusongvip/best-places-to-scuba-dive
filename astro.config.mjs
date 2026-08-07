@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://best-places-to-scuba-dive.com',
   trailingSlash: 'never',
-  integrations: [sitemap()],
+  integrations: [sitemap({ lastmod: new Date() })],
   vite: {
     plugins: [tailwindcss()],
   },

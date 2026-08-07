@@ -43,7 +43,7 @@ const schema = { '@context':'https://schema.org','@type':'FAQPage', mainEntity: 
 ---
 
 <BaseLayout title={title} description={description} schema={schema} breadcrumbs={[{ name: "Home", url: "/" }, { name: "Compare", url: "/compare" }, { name: destA.data.name + " vs " + destB.data.name }]}>
-  <nav class="sticky top-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
+  <nav class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border">
     <div class="container-page flex items-center justify-between h-16">
       <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
       <div class="text-xs text-navy-500"><a href="/" class="hover:text-coral-500 transition-colors">Home</a><span class="mx-2">/</span><a href="/compare" class="hover:text-coral-500 transition-colors">Compare</a><span class="mx-2">/</span><span class="text-navy-700">{da.name} vs {db.name}</span></div>
