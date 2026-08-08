@@ -141,6 +141,18 @@ const schema = { '@context': 'https://schema.org', '@graph': [
         </div>
       </section>
 
+      {dd.editorTake && dd.editorName && (
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 mb-6">Diver's Take</h2>
+          <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-6">
+            <p class="text-sm font-semibold text-ocean-700 mb-3">{dd.editorName}'s Take</p>
+            <blockquote class="text-navy-700 leading-relaxed italic border-l-3 border-ocean-300 pl-4">
+              {dd.editorTake}
+            </blockquote>
+          </div>
+        </section>
+      )}
+
       <section>
         <h2 class="text-2xl font-semibold text-navy-950 mb-6">Frequently Asked Questions</h2>
         <div class="space-y-3">
