@@ -1,0 +1,311 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('destinations');
+const sorted = all.sort((a, b) => b.data.overallRating - a.data.overallRating);
+
+const title = 'All Scuba Diving Destinations — Compare 27 Top Dive Sites Worldwide';
+const description = 'Browse all 27 scuba diving destinations in our directory. Compare by visibility, marine life, budget, season, difficulty, and ocean. Find your perfect dive trip.';
+const mn = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const diffLabels: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
+const budgetLabels: Record<string, string> = { budget: 'Budget', mid_range: 'Mid-Range', premium: 'Premium', luxury: 'Luxury' };
+const oceanLabels: Record<string, string> = { pacific: 'Pacific', indian: 'Indian', caribbean: 'Caribbean', 'red-sea': 'Red Sea', atlantic: 'Atlantic', mediterranean: 'Mediterranean' };
+const oceanIcons: Record<string, string> = { pacific: '🌏', indian: '🌍', caribbean: '🏝️', 'red-sea': '🐠', atlantic: '🌊', mediterranean: '🏛️' };
+
+// Stats
+const avgRating = (all.reduce((s, d) => s + d.data.overallRating, 0) / all.length).toFixed(1);
+const avgVis = Math.round(all.reduce((s, d) => s + d.data.visibilityMeters, 0) / all.length);
+const avgTemp = Math.round(all.reduce((s, d) => s + d.data.waterTempCelsius, 0) / all.length);
+const minCost = Math.min(...all.map(d => d.data.averageDailyCostUsd));
+const maxCost = Math.max(...all.map(d => d.data.averageDailyCostUsd));
+
+// Ocean counts
+const oceanCounts = Object.entries(oceanLabels).map(([key, label]) => ({
+  key, label, icon: oceanIcons[key] || '',
+  count: all.filter(d => d.data.ocean === key).length,
+})).filter(o => o.count > 0).sort((a, b) => b.count - a.count);
+
+// Difficulty counts
+const difficultyCounts = Object.entries(diffLabels).map(([key, label]) => ({
+  key, label,
+  count: all.filter(d => d.data.difficulty === key).length,
+})).filter(d => d.count > 0);
+
+// Budget counts
+const budgetCounts = Object.entries(budgetLabels).map(([key, label]) => ({
+  key, label,
+  count: all.filter(d => d.data.budgetLevel === key).length,
+  symbol: key === 'budget' ? '$' : key === 'mid_range' ? '$$' : key === 'premium' ? '$$$' : '$$$$',
+})).filter(b => b.count > 0);
+
+// For client-side filtering: serialize destination data
+const destsJson = JSON.stringify(all.map(d => ({
+  name: d.data.name,
+  slug: d.data.slug,
+  country: d.data.country,
+  ocean: d.data.ocean,
+  oceanLabel: oceanLabels[d.data.ocean] || d.data.ocean,
+  difficulty: d.data.difficulty,
+  difficultyLabel: diffLabels[d.data.difficulty] || d.data.difficulty,
+  budgetLevel: d.data.budgetLevel,
+  budgetLabel: budgetLabels[d.data.budgetLevel] || d.data.budgetLevel,
+  overallRating: d.data.overallRating,
+  visibilityMeters: d.data.visibilityMeters,
+  waterTempCelsius: d.data.waterTempCelsius,
+  averageDailyCostUsd: d.data.averageDailyCostUsd,
+  bestMonths: d.data.bestMonths,
+  tagline: d.data.tagline,
+  imageLocal: d.data.imageLocal,
+  beginnerFriendly: d.data.beginnerFriendly,
+})));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description: description,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: all.length,
+    itemListElement: sorted.map((d, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'TouristDestination',
+        name: d.data.name,
+        description: d.data.tagline,
+        containedInPlace: { '@type': 'Country', name: d.data.country },
+      },
+    })),
+  },
+};
+---
+
+<BaseLayout title={title} description={description} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Destinations' }]}>
+  <nav class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-coral-400 inline-block"></span>DiveAtlas</a>
+      <div class="hidden md:flex items-center gap-6 text-sm text-navy-700">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <a href="/destinations" class="text-coral-500 font-medium">Destinations</a>
+        <a href="/compare" class="hover:text-coral-500 transition-colors">Compare</a>
+        <a href="/finder" class="hover:text-coral-500 transition-colors">Finder</a>
+        <a href="/map" class="hover:text-coral-500 transition-colors">Map</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <p class="text-coral-400 text-sm tracking-wider mb-3 font-medium">ALL DESTINATIONS</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight mb-4">Every Dive Destination,<br />One Place</h1>
+      <p class="text-lg text-sand-200/80 max-w-xl leading-relaxed mb-8">Browse all {all.length} scuba diving destinations in our directory. Filter by ocean, difficulty, budget, or marine life — and find your next dive trip.</p>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div class="bg-navy-800/60 rounded-xl p-4 text-center border border-navy-700">
+          <p class="text-ocean-400 text-2xl font-bold">{all.length}</p>
+          <p class="text-sand-300/60 text-xs mt-1">Destinations</p>
+        </div>
+        <div class="bg-navy-800/60 rounded-xl p-4 text-center border border-navy-700">
+          <p class="text-ocean-400 text-2xl font-bold">{avgRating}</p>
+          <p class="text-sand-300/60 text-xs mt-1">Avg Rating</p>
+        </div>
+        <div class="bg-navy-800/60 rounded-xl p-4 text-center border border-navy-700">
+          <p class="text-ocean-400 text-2xl font-bold">{avgVis}m</p>
+          <p class="text-sand-300/60 text-xs mt-1">Avg Visibility</p>
+        </div>
+        <div class="bg-navy-800/60 rounded-xl p-4 text-center border border-navy-700">
+          <p class="text-ocean-400 text-2xl font-bold">{avgTemp}&deg;C</p>
+          <p class="text-sand-300/60 text-xs mt-1">Avg Water Temp</p>
+        </div>
+        <div class="bg-navy-800/60 rounded-xl p-4 text-center border border-navy-700">
+          <p class="text-ocean-400 text-2xl font-bold">${minCost}–${maxCost}</p>
+          <p class="text-sand-300/60 text-xs mt-1">Daily Cost Range</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="py-4 bg-white border-b border-sand-200 sticky top-16 z-40">
+    <div class="container-page">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="text-xs font-semibold text-navy-500 uppercase tracking-wider mr-1">Filter:</span>
+        <!-- Ocean filter -->
+        <div class="relative">
+          <select id="filter-ocean" class="appearance-none bg-sand-50 border border-sand-200 rounded-lg px-3 py-1.5 text-sm text-navy-700 pr-8 cursor-pointer hover:border-ocean-300 focus:outline-none focus:border-coral-400 transition-colors">
+            <option value="all">All Oceans</option>
+            {oceanCounts.map(o => <option value={o.key}>{o.icon} {o.label} ({o.count})</option>)}
+          </select>
+        </div>
+        <!-- Difficulty filter -->
+        <div class="relative">
+          <select id="filter-difficulty" class="appearance-none bg-sand-50 border border-sand-200 rounded-lg px-3 py-1.5 text-sm text-navy-700 pr-8 cursor-pointer hover:border-ocean-300 focus:outline-none focus:border-coral-400 transition-colors">
+            <option value="all">All Levels</option>
+            {difficultyCounts.map(d => <option value={d.key}>{d.label} ({d.count})</option>)}
+          </select>
+        </div>
+        <!-- Budget filter -->
+        <div class="relative">
+          <select id="filter-budget" class="appearance-none bg-sand-50 border border-sand-200 rounded-lg px-3 py-1.5 text-sm text-navy-700 pr-8 cursor-pointer hover:border-ocean-300 focus:outline-none focus:border-coral-400 transition-colors">
+            <option value="all">All Budgets</option>
+            {budgetCounts.map(b => <option value={b.key}>{b.symbol} {b.label} ({b.count})</option>)}
+          </select>
+        </div>
+        <!-- Sort -->
+        <div class="relative ml-auto">
+          <select id="sort-by" class="appearance-none bg-sand-50 border border-sand-200 rounded-lg px-3 py-1.5 text-sm text-navy-700 pr-8 cursor-pointer hover:border-ocean-300 focus:outline-none focus:border-coral-400 transition-colors">
+            <option value="rating">Sort: Highest Rated</option>
+            <option value="vis">Sort: Best Visibility</option>
+            <option value="temp">Sort: Warmest Water</option>
+            <option value="cost-low">Sort: Lowest Cost</option>
+            <option value="cost-high">Sort: Highest Cost</option>
+            <option value="beginner">Sort: Best for Beginners</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Grid -->
+  <section class="py-12 md:py-16">
+    <div class="container-page">
+      <div id="results-count" class="text-sm text-navy-500 mb-6">{all.length} destinations</div>
+      <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sorted.map(d => {
+          const dd = d.data;
+          return (
+            <a href={`/destinations/${dd.slug}`} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all card-playful" data-ocean={dd.ocean} data-difficulty={dd.difficulty} data-budget={dd.budgetLevel} data-rating={dd.overallRating} data-vis={dd.visibilityMeters} data-temp={dd.waterTempCelsius} data-cost={dd.averageDailyCostUsd} data-beginner={dd.beginnerFriendly}>
+              <div class="aspect-[3/2] bg-sand-200 overflow-hidden relative">
+                <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
+                <div class="absolute top-3 left-3 flex gap-1.5">
+                  <span class="px-2 py-0.5 rounded-md bg-navy-950/70 text-white text-[10px] font-medium">{oceanIcons[dd.ocean] || ''} {oceanLabels[dd.ocean] || dd.ocean}</span>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex items-start justify-between mb-1">
+                  <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600 transition-colors">{dd.name}</h3>
+                  <span class="text-amber-400 text-sm font-semibold ml-2 flex-shrink-0">{dd.overallRating}</span>
+                </div>
+                <p class="text-xs text-navy-500 mb-3">{dd.country}</p>
+                <p class="text-sm text-navy-600 leading-relaxed mb-4 line-clamp-2">{dd.tagline}</p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                  {dd.bestMonths.slice(0, 3).map((m: number) => <span class="px-2 py-0.5 rounded-md bg-ocean-50 text-ocean-700 text-xs font-medium">{mn[m]}</span>)}
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs pt-3 border-t border-sand-200">
+                  <div class="text-navy-500">Vis <span class="text-navy-800 font-medium block">{dd.visibilityMeters}m</span></div>
+                  <div class="text-navy-500">Temp <span class="text-navy-800 font-medium block">{dd.waterTempCelsius}&deg;C</span></div>
+                  <div class="text-navy-500">Level <span class="text-navy-800 font-medium block">{diffLabels[dd.difficulty] || dd.difficulty}</span></div>
+                  <div class="text-navy-500">Cost <span class="text-navy-800 font-medium block">${dd.averageDailyCostUsd}/d</span></div>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+      <div id="no-results" class="hidden bg-sand-50 rounded-xl p-10 text-center mt-8">
+        <p class="text-navy-500 text-lg mb-2">No destinations match your filters.</p>
+        <p class="text-navy-400 text-sm">Try adjusting your ocean, difficulty, or budget selection.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="py-16 md:py-20 bg-surface-alt/50">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-10 text-center">Browse by Category</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="font-semibold text-navy-900 mb-3 text-sm uppercase tracking-wider">By Ocean</h3>
+          <ul class="space-y-2">
+            {oceanCounts.map(o => (
+              <li><a href={`/browse/ocean/${o.key}`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center gap-2">{o.icon} {o.label} <span class="text-navy-400 text-xs">({o.count})</span></a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold text-navy-900 mb-3 text-sm uppercase tracking-wider">By Difficulty</h3>
+          <ul class="space-y-2">
+            {difficultyCounts.map(d => (
+              <li><a href={`/browse/experience/${d.key}`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center justify-between">{d.label} <span class="text-navy-400 text-xs">({d.count})</span></a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold text-navy-900 mb-3 text-sm uppercase tracking-wider">By Budget</h3>
+          <ul class="space-y-2">
+            {budgetCounts.map(b => (
+              <li><a href={`/browse/price/${b.key}`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center justify-between">{b.symbol} {b.label} <span class="text-navy-400 text-xs">({b.count})</span></a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (function() {
+    const oceanFilter = document.getElementById('filter-ocean');
+    const diffFilter = document.getElementById('filter-difficulty');
+    const budgetFilter = document.getElementById('filter-budget');
+    const sortBy = document.getElementById('sort-by');
+    const grid = document.getElementById('results-grid');
+    const countEl = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
+
+    if (!grid || !oceanFilter) return;
+
+    function applyFilters() {
+      const ocean = oceanFilter.value;
+      const diff = diffFilter.value;
+      const budget = budgetFilter.value;
+      const sort = sortBy.value;
+
+      const cards = grid.querySelectorAll('a[data-ocean]');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cOcean = card.getAttribute('data-ocean');
+        const cDiff = card.getAttribute('data-difficulty');
+        const cBudget = card.getAttribute('data-budget');
+
+        const matchOcean = ocean === 'all' || cOcean === ocean;
+        const matchDiff = diff === 'all' || cDiff === diff;
+        const matchBudget = budget === 'all' || cBudget === budget;
+
+        if (matchOcean && matchDiff && matchBudget) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Sort visible cards
+      const visibleCards = Array.from(cards).filter(c => c.style.display !== 'none');
+      const getSortValue = (card) => {
+        switch (sort) {
+          case 'vis': return -parseFloat(card.getAttribute('data-vis') || '0');
+          case 'temp': return -parseFloat(card.getAttribute('data-temp') || '0');
+          case 'cost-low': return parseFloat(card.getAttribute('data-cost') || '0');
+          case 'cost-high': return -parseFloat(card.getAttribute('data-cost') || '0');
+          case 'beginner': return -parseFloat(card.getAttribute('data-beginner') || '0');
+          default: return -parseFloat(card.getAttribute('data-rating') || '0');
+        }
+      };
+
+      visibleCards.sort((a, b) => getSortValue(a) - getSortValue(b));
+      visibleCards.forEach(card => grid.appendChild(card));
+
+      countEl.textContent = visible + ' destination' + (visible !== 1 ? 's' : '');
+      if (noResults) noResults.classList.toggle('hidden', visible > 0);
+    }
+
+    oceanFilter.addEventListener('change', applyFilters);
+    diffFilter.addEventListener('change', applyFilters);
+    budgetFilter.addEventListener('change', applyFilters);
+    sortBy.addEventListener('change', applyFilters);
+  })();
+</script>
