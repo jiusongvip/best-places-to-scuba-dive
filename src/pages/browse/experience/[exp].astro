@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  return ['beginner','intermediate','advanced','technical','liveaboard'].map((e: string) => ({ params: { exp: e } }));
+  return ['beginner','intermediate','advanced','liveaboard'].map((e: string) => ({ params: { exp: e } }));
 }
 
 const { exp } = Astro.params;
@@ -27,6 +27,45 @@ const expDescriptions: Record<string, string> = {
 const expDesc = expDescriptions[exp || 'beginner'];
 const avgVis = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.visibilityMeters, 0) / dests.length) : 0;
 const avgRating = dests.length > 0 ? (dests.reduce((s,d) => s + d.data.overallRating, 0) / dests.length).toFixed(1) : 0;
+const avgTemp = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.waterTempCelsius, 0) / dests.length) : 0;
+const avgCost = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.averageDailyCostUsd, 0) / dests.length) : 0;
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const faqs: Record<string, { q: string; a: string }[]> = {
+  beginner: [
+    { q: 'What certification do I need for beginner dive destinations?', a: 'Every beginner destination on DiveAtlas can be dived with a standard Open Water certification. Sites keep depths under 18 meters, currents are gentle, and dive centers offer guided dives plus skills refreshers. If you have not dived in over six months, we recommend a refresh course or a Discover Scuba session before your trip to rebuild your comfort underwater.' },
+    { q: 'What is the best time of year to visit?', a: `Beginner destinations in this collection average ${avgVis}m visibility and ${avgTemp}°C water, but the best months vary by region - see the best-month column in the table above. Many sites enjoy calm conditions for 8-10 months of the year, with the main exceptions being monsoon or cyclone windows. January to April generally delivers the flattest seas across the tropics.` },
+    { q: 'How much does a day of diving cost?', a: 'Expect to pay roughly $50-150 for a guided two-tank dive day in most beginner destinations. The exact price depends on the operator, whether equipment rental is included, and whether you dive from shore or a boat. Liveaboard trips run about $150-250 per day, all-inclusive, and are the most convenient way to sample multiple reefs.' },
+    { q: 'Are these destinations suitable for families and non-divers?', a: 'Most beginner destinations on our list are family-friendly. Resorts offer snorkeling, glass-bottom boat trips, and kids\' introduction programs, while non-divers can enjoy beaches, island excursions, and spa facilities while certified family members dive. Check the familyFriendly flag on each destination page for details.' },
+  ],
+  intermediate: [
+    { q: 'What certification do I need for intermediate dive destinations?', a: 'A standard Open Water certification covers most intermediate sites, but we recommend Advanced Open Water for deeper walls, drift dives, and night dives - all common at these destinations. Many listed locations offer the full Advanced course in two days, adding deep, drift, and navigation specialties that make these trips far more enjoyable.' },
+    { q: 'Are the currents dangerous?', a: 'Intermediate destinations feature moderate currents that are part of the appeal - they deliver the big marine life. Dive operators always brief conditions before each dive and use drift techniques with SMB deployment. With 20-50 logged dives and a reputable operator, these sites are both safe and exhilarating.' },
+    { q: 'When is the best season for intermediate diving?', a: `Peak visibility generally coincides with the dry season, which for most of these destinations falls between November and April. The best-month column in the table above shows each destination's prime window. Water temperatures average ${avgTemp}°C, so a 3mm wetsuit suffices in the tropics while temperate sites need 5mm.` },
+    { q: 'How much should I budget for an intermediate dive trip?', a: `Daily diving at these destinations averages around $${avgCost} including two guided dives. Accommodation, meals, and park fees add $100-250 per day depending on the country. Budget travelers can cut costs with shore diving where available, while liveaboards bundle everything for roughly $200-300 per day.` },
+  ],
+  advanced: [
+    { q: 'Do I need Advanced Open Water for these destinations?', a: 'Yes - we recommend Advanced Open Water certification for every advanced destination in this collection, and several operators require 50+ logged dives before booking. Expect negative entries, strong currents, and depths of 25-40 meters. If you are not fully comfortable with drift diving and deep stops, train at home before travelling.' },
+    { q: 'What makes advanced diving worth the extra effort?', a: 'The payoff is marine life that simply does not appear on easier sites: hammerhead schools, oceanic mantas, grey reef sharks on patrol, and pelagic action at cleaning stations. Current-swept passes and deep walls act as highways for big animals, so every dive has genuine big-fish potential.' },
+    { q: 'When is the best time to visit?', a: 'Advanced destinations often have narrower seasonal windows - some, like the Galapagos, are effectively split into distinct seasons for hammerheads versus whale sharks. Check the best months in the table above and plan your trip around the specific species you most want to see. Dry-season visibility routinely exceeds 25 meters.' },
+    { q: 'Is a liveaboard the best way to dive these sites?', a: 'For most advanced destinations, yes. Remote pinnacles and offshore passes are only reachable by liveaboard, and multiple-dive days let you match the animals\' active windows at dawn and dusk. Expect 3-5 dives per day with expert guides who know exactly where the action moves.' },
+  ],
+  liveaboard: [
+    { q: 'What does a liveaboard trip include?', a: 'A typical liveaboard safari runs 7-10 nights with 3-4 dives per day, all meals, tanks, weights, and professional guides included. Cabins range from shared dorms on budget boats to en-suite suites on luxury vessels. Nitrox, equipment rental, and park fees are usually charged separately.' },
+    { q: 'Do I need experience to join a liveaboard?', a: 'Most itineraries require Open Water certification plus 20-50 logged dives, depending on the route. Advanced routes in current-swept regions like Komodo or the Galapagos typically demand Advanced Open Water and 50+ dives. Liveaboard operators state requirements clearly on each itinerary, so choose a route matching your experience.' },
+    { q: 'When is the liveaboard season?', a: `The best months for liveaboard trips are shown per destination in the table above - many of these locations run boats only during the dry season, roughly November to April. Booking 6-9 months ahead is common for peak-season departures, especially for the most famous routes.` },
+    { q: 'How much does a liveaboard cost?', a: 'Expect $200-450 per day depending on the vessel class and route. Budget boats start around $150/day with shared cabins; premium liveaboards with en-suite cabins, gourmet dining, and expert guides run $350-500/day. The all-inclusive pricing usually works out cheaper than resort diving when you factor in meals and unlimited dives.' },
+  ],
+};
+const faqList = faqs[exp || 'beginner'] || [];
+const topDests = dests.slice(0, 10);
+const otherLinks: Record<string, { href: string; label: string }[]> = {
+  beginner: [{ href: '/browse/price/budget', label: 'Budget-friendly diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }, { href: '/browse/experience/intermediate', label: 'Intermediate destinations' }, { href: '/collections/best-beginner', label: 'Best beginner collection' }, { href: '/compare', label: 'Compare destinations' }],
+  intermediate: [{ href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/browse/marine-life/sharks', label: 'Shark diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/compare', label: 'Compare destinations' }],
+  advanced: [{ href: '/browse/experience/intermediate', label: 'Intermediate destinations' }, { href: '/browse/marine-life/sharks', label: 'Shark diving' }, { href: '/browse/marine-life/whale-sharks', label: 'Whale shark diving' }, { href: '/collections/best-shark-diving', label: 'Best shark diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
+  liveaboard: [{ href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/collections/best-shark-diving', label: 'Best shark diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
+};
+const links = otherLinks[exp || 'beginner'] || [];
 ---
 
 <BaseLayout title={title} description={'Compare ' + dests.length + ' top-rated ' + (label || '').toLowerCase() + ' scuba diving destinations by visibility, water temp, marine life, and daily costs. Find your ideal dive trip with DiveAtlas.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: label }]}>
@@ -77,6 +116,87 @@ const avgRating = dests.length > 0 ? (dests.reduce((s,d) => s + d.data.overallRa
             </a>
           );
         })}
+      </div>
+
+      {topDests.length > 0 && (
+        <div class="mt-16">
+          <h2 class="text-2xl font-semibold text-navy-950 mb-2">What to Expect at the Top {label} Destinations</h2>
+          <p class="text-navy-600 mb-8">A closer look at the standout dive experiences in this collection, based on community ratings and our editorial research.</p>
+          <div class="space-y-6 mb-12">
+            {topDests.map((d: any) => {
+              const dd = d.data;
+              const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
+              const highlights = (dd.bestDiveSpots || []).slice(0, 1).map((s: any) => s.highlights).join('');
+              return (
+                <div class="bg-white border border-sand-200 rounded-xl p-6">
+                  <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
+                  <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
+                  <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 by the dive community, {dd.name} offers {dd.visibilityMeters}m visibility in {dd.waterTempCelsius}&deg;C water, with best months from {fmtMonths(dd.bestMonths)} and an average daily cost of ${dd.averageDailyCostUsd}. Must-dive sites include {topSpots}{highlights ? ` - expect ${highlights.toLowerCase()}.` : '.'} Its {dd.budgetLevel} pricing tier and {dd.difficulty} difficulty profile make it a strong fit for divers planning this exact style of trip.</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {topDests.length > 0 && (
+        <div class="mt-12 mb-12">
+          <h2 class="text-2xl font-semibold text-navy-950 mb-2">Key Stats: {label} Destinations Compared</h2>
+          <p class="text-navy-600 mb-6">Compare visibility, water temperature, daily cost, and best season across this collection at a glance.</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left border-collapse">
+              <thead>
+                <tr class="bg-navy-950 text-white">
+                  <th class="px-4 py-3 font-medium">Destination</th>
+                  <th class="px-4 py-3 font-medium">Rating</th>
+                  <th class="px-4 py-3 font-medium">Visibility</th>
+                  <th class="px-4 py-3 font-medium">Temp</th>
+                  <th class="px-4 py-3 font-medium">Cost/day</th>
+                  <th class="px-4 py-3 font-medium">Best months</th>
+                  <th class="px-4 py-3 font-medium">Difficulty</th>
+                </tr>
+              </thead>
+              <tbody>
+                {topDests.map((d: any, i: number) => {
+                  const dd = d.data;
+                  return (
+                    <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                      <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                      <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                      <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
+                      <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      <div class="mt-12 mb-12">
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          {faqList.map((f: any) => (
+            <div class="bg-sand-100/50 border border-sand-200 rounded-xl p-6">
+              <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+              <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">Explore More Dive Styles</h2>
+        <p class="text-navy-600 mb-6">Browse related collections and destination guides to plan your next underwater adventure.</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {links.map((l: any) => (
+            <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+          ))}
+        </div>
       </div>
       </div>
     </div>

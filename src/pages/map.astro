@@ -14,6 +14,44 @@ const mapData = allDests.map(d => ({
   difficulty: d.data.difficulty,
 }));
 const jsonData = JSON.stringify(mapData);
+const oceanLabel: Record<string, string> = { pacific: 'Pacific Ocean', indian: 'Indian Ocean', caribbean: 'Caribbean Sea', 'red-sea': 'Red Sea', atlantic: 'Atlantic Ocean' };
+const oceanKeys = [...new Set(allDests.map(d => d.data.ocean))].filter(Boolean) as string[];
+const oceanStats = oceanKeys.map(o => {
+  const ds = allDests.filter(d => d.data.ocean === o);
+  return {
+    key: o,
+    label: oceanLabel[o] || o,
+    count: ds.length,
+    avgRating: (ds.reduce((s, d) => s + d.data.overallRating, 0) / ds.length).toFixed(1),
+    avgVis: Math.round(ds.reduce((s, d) => s + d.data.visibilityMeters, 0) / ds.length),
+    avgTemp: Math.round(ds.reduce((s, d) => s + d.data.waterTempCelsius, 0) / ds.length),
+  };
+});
+const topRated = [...allDests].sort((a, b) => b.data.overallRating - a.data.overallRating).slice(0, 8);
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const regionNotes: Record<string, string> = {
+  pacific: 'The Pacific hosts the Coral Triangle, the most biodiverse marine region on Earth. Raja Ampat, Komodo, and Palau anchor our coverage, with manta rays, reef sharks, pygmy seahorses, and world-class muck diving in Indonesia.',
+  indian: 'The Indian Ocean delivers luxury atolls and megafauna hotspots. The Maldives house reefs, manta cleaning stations at Hanifaru Bay, and reliable whale shark encounters define this region relaxed, high-visibility diving.',
+  caribbean: 'The Caribbean is the most accessible dive region in the world: warm water year-round, shore diving at Bonaire, and the Mesoamerican Barrier Reef at Cozumel. A natural first choice for beginners and underwater photographers.',
+  'red-sea': 'The Red Sea is the wreck capital of the world, with over 250 identified wrecks including the SS Thistlegorm. Coral walls, visibility past 30 meters, and year-round warmth make it a top-value destination.',
+  atlantic: 'The Atlantic spans temperate pelagic action at the Azores, with blue sharks and mobula rays, to tropical reef systems. It offers genuinely different diving from the classic tropical circuits.',
+};
+const mapFaqs = [
+  { q: 'How do I filter the map by ocean?', a: `Click any ocean button above the map — Pacific, Indian, Caribbean, Red Sea, or Atlantic. The markers and the destination list below update instantly to show only that region. Click "All" to return to the full map.` },
+  { q: 'What do the marker colours and sizes mean?', a: `Each marker is colour-coded by ocean and sized by rating: bigger markers score higher. The top-rated destinations on this map are ${topRated.slice(0, 3).map(d => d.data.name).join(', ')} — all rated ${topRated[0].data.overallRating}/5 or above.` },
+  { q: 'Which destinations rank highest overall?', a: `Our database of ${allDests.length} destinations is rated on marine life, visibility, value, and ease of diving. The current top performers are ${topRated.slice(0, 5).map(d => d.data.name + ' (' + d.data.overallRating + '/5)').join(', ')}. Click any marker for a link to the full guide.` },
+  { q: 'Is the map data the same as the destination guides?', a: 'Yes. The map is generated from the same destination database that powers every guide on this site, so ratings, ocean tags, and coordinates always match the detail pages. New destinations appear here automatically when published.' },
+  { q: 'Can I use the map to plan a trip?', a: `Absolutely. Start with the map to shortlist regions, then open each destination card below to see best months, visibility, water temperature, and daily costs. Use the compare tool to weigh up two shortlisted destinations side by side, and the finder to narrow choices by month and experience level.` },
+];
+const mapLinks = [
+  { href: '/compare', label: 'Compare destinations' },
+  { href: '/browse/experience/beginner', label: 'Beginner destinations' },
+  { href: '/collections/best-shark-diving', label: 'Shark diving trips' },
+  { href: '/collections/best-liveaboard', label: 'Liveaboard trips' },
+  { href: '/finder', label: 'Use the dive finder' },
+  { href: '/browse/price/budget', label: 'Budget-friendly diving' },
+];
 ---
 
 <BaseLayout title="Interactive Scuba Diving World Map" description="Explore 27 scuba diving destinations on an interactive world map. Filter by ocean, difficulty, and rating to find your next dive adventure." breadcrumbs={[{ name: "Home", url: "/" }, { name: "Map" }]}>
@@ -36,7 +74,7 @@ const jsonData = JSON.stringify(mapData);
       <h1 class="text-3xl md:text-5xl font-semibold text-white tracking-tight mb-3">World Dive Map</h1>
       <p class="text-lg text-sand-200/80 max-w-xl">Explore {allDests.length} dive destinations across the globe.</p>
       <div class="flex flex-wrap gap-2 mt-6">
-        {[{k:'all',l:'All'},{k:'pacific',l:'Pacific'},{k:'indian',l:'Indian'},{k:'caribbean',l:'Caribbean'},{k:'red-sea',l:'Red Sea'},{k:'atlantic',l:'Atlantic'},{k:'mediterranean',l:'Mediterranean'}].map(f => (
+        {[{k:'all',l:'All'},...oceanStats.map(s => ({ k: s.key, l: s.label.split(' ')[0] }))].map(f => (
           <button class="px-3 py-1.5 rounded-lg text-xs font-medium bg-navy-700 text-sand-300 hover:bg-ocean-500 hover:text-white transition-colors map-filter" data-ocean={f.k}>{f.l}</button>
         ))}
       </div>
@@ -55,6 +93,100 @@ const jsonData = JSON.stringify(mapData);
             <span class="text-navy-500 ml-1">{d.country}</span>
             <span class="text-amber-500 ml-1 text-xs">{d.rating}</span>
           </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Dive Regions at a Glance</h2>
+      <p class="text-navy-600 mb-8">How the {allDests.length} destinations on this map compare across the five oceans we cover.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr class="bg-navy-950 text-white">
+              <th class="px-4 py-3 font-medium">Region</th>
+              <th class="px-4 py-3 font-medium">Destinations</th>
+              <th class="px-4 py-3 font-medium">Avg Rating</th>
+              <th class="px-4 py-3 font-medium">Avg Visibility</th>
+              <th class="px-4 py-3 font-medium">Avg Water Temp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {oceanStats.map((s, i) => (
+              <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                <td class="px-4 py-3 font-medium text-navy-900">{s.label}</td>
+                <td class="px-4 py-3 text-navy-600">{s.count}</td>
+                <td class="px-4 py-3 text-navy-600">{s.avgRating}/5</td>
+                <td class="px-4 py-3 text-navy-600">{s.avgVis}m</td>
+                <td class="px-4 py-3 text-navy-600">{s.avgTemp}&deg;C</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">How to Use the DiveAtlas Map</h2>
+      <p class="text-navy-600 mb-8">The map is the fastest way to shortlist where to dive next. Here is how to get the most out of it.</p>
+      <div class="space-y-6">
+        <div class="bg-white border border-sand-200 rounded-xl p-6">
+          <h3 class="font-semibold text-navy-900 mb-2">1. Start with a region</h3>
+          <p class="text-sm text-navy-600 leading-relaxed">Use the filter buttons above the map to isolate an ocean. Each region has a distinct character: the Pacific delivers the richest biodiversity, the Red Sea the best wrecks, the Caribbean the easiest shore diving. The stats table below the map summarises what each region offers on average.</p>
+        </div>
+        <div class="bg-white border border-sand-200 rounded-xl p-6">
+          <h3 class="font-semibold text-navy-900 mb-2">2. Read the markers</h3>
+          <p class="text-sm text-navy-600 leading-relaxed">Marker colour identifies the ocean; marker size reflects the overall rating, so a quick glance shows which spots are worth the journey. Click a marker to see the destination name, country, rating, and a direct link to its full guide with visibility, temperatures, and best months.</p>
+        </div>
+        <div class="bg-white border border-sand-200 rounded-xl p-6">
+          <h3 class="font-semibold text-navy-900 mb-2">3. Deep-dive on your shortlist</h3>
+          <p class="text-sm text-navy-600 leading-relaxed">Once two or three destinations catch your eye, open their guides and use the compare tool to weigh them side by side. The dive finder is the natural next step if you still have flexibility on timing or experience level.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">What You Will Find on the Map</h2>
+      <p class="text-navy-600 mb-8">A quick tour of the five regions and the diving they are known for.</p>
+      <div class="space-y-6">
+        {oceanStats.map(s => (
+          <div class="bg-white border border-sand-200 rounded-xl p-6">
+            <h3 class="font-semibold text-navy-900 mb-2">{s.label} — {s.count} destination{s.count > 1 ? 's' : ''}</h3>
+            <p class="text-sm text-navy-600 leading-relaxed mb-3">{regionNotes[s.key]}</p>
+            <p class="text-sm text-navy-500">Average rating {s.avgRating}/5, visibility {s.avgVis}m, water {s.avgTemp}&deg;C.</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">World Dive Map: FAQ</h2>
+      <div class="space-y-6 mt-8">
+        {mapFaqs.map(f => (
+          <div class="bg-white border border-sand-200 rounded-xl p-6">
+            <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+            <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Plan Your Dive Trip</h2>
+      <p class="text-navy-600 mb-8">Take the next step with our guides, comparisons, and tools.</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {mapLinks.map(l => (
+          <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
         ))}
       </div>
     </div>

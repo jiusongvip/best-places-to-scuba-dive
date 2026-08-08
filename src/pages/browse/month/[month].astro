@@ -52,6 +52,21 @@ const monthTip: Record<number, string> = {
   12: 'Holiday season — book early. Caribbean and Maldives peak. Raja Ampat in full glory.',
 };
 
+const monthDesc: Record<number, string> = {
+  1: 'January brings the peak of the dry season across most of the tropical diving world. The Maldives and Raja Ampat are at their absolute prime with flat seas and 25-30 meter visibility, while the Red Sea offers comfortable 22-24°C water. In the Caribbean, water temperatures hover around 26-27°C. Expect calm mornings, afternoon trade winds, and excellent big-fish action across the Indo-Pacific. Airfare and accommodation peak with the holiday season, so book liveaboards six months or more ahead.',
+  2: 'February continues the peak-season pattern in Southeast Asia and the Indian Ocean, with the Maldives and Raja Ampat still at their best. This is one of the best months for hammerhead encounters in the Galapagos and humpback whale sightings in Tonga. The Caribbean remains warm and stable at 26-27°C with good visibility. Water temperatures across the Indo-Pacific range 27-29°C, making light wetsuits or skins sufficient. Northern-hemisphere divers escape winter to the tropics, so expect busy liveaboards and premium prices.',
+  3: 'March marks coral spawning season in the Caribbean and the final peak months for Sipadan and Tubbataha before their seasons close. The Red Sea warms toward 23-25°C with superb visibility. Raja Ampat remains excellent, though the season begins to taper in late March. This is a shoulder month in much of Asia — fewer crowds with conditions still close to peak. Whale shark season is building in the Philippines and the Maldives, while hammerhead action continues in the Galapagos.',
+  4: 'April is a transition month. The Coral Triangle is in full bloom with excellent conditions across Raja Ampat, Komodo, and the Philippines. The Maldives sees its last great weeks before the southwest monsoon shifts in May. In the Atlantic, the Azores begin their pelagic season, and the Red Sea is superb with 24-26°C water. Tubbataha reaches the end of its open season. Caribbean water warms toward 27-28°C. This is a smart month for budget-conscious divers — many destinations drop from peak pricing.',
+  5: 'May brings shoulder season across much of Asia, meaning fewer divers and still-great conditions. Komodo and the Similans are at their prime before monsoon clouds gather. Cocos Island enters its big-animal season with hammerheads schooling. The Red Sea delivers some of the year\'s best visibility. In the Caribbean, water warms to 28°C and conditions are calm. The Maldives transitions to its wetter season — still diveable but with shorter windows. Liveaboard pricing softens, making May one of the best value months of the year.',
+  6: 'June is mola mola (oceanic sunfish) season in Bali and the start of the Galapagos whale shark season. The Similans close for monsoon, while the Red Sea hits 26-28°C with outstanding visibility. Mediterranean diving comes alive with warm water and calm seas. The Great Barrier Reef offers dry-season conditions. Raja Ampat tapers through early June. Hammerhead action peaks at Cocos Island. This is a great month for Europe-based divers — the Azores deliver their best pelagic encounters now.',
+  7: 'July is peak summer in the Northern Hemisphere. The Red Sea is at its warmest (27-29°C) with glassy conditions, and the Mediterranean is in full swing. Bali and Komodo continue strong mola mola season. The Galapagos are at peak with whale sharks arriving at Darwin and Wolf. In the Caribbean, water hits 29°C — warm enough for a 3mm suit — though late-season hurricane risk begins to build in August. The Similans and Tubbataha remain closed for monsoon. Book European dive trips early.',
+  8: 'August continues Northern Hemisphere high season. Bali and Komodo offer the year\'s best mola mola encounters, and the Red Sea remains superb. The Great Barrier Reef is in spring bloom with dry-season visibility. Caribbean hurricane risk peaks this month, though southern sites like Bonaire and Roatan remain viable with careful planning. Turtle hatchings begin across the tropics. The Mediterranean is at its warmest and busiest. This is a good month to target Indonesia and the Pacific for reliable conditions.',
+  9: 'September marks the start of the Maldives manta season as the southwest monsoon eases. The Great Barrier Reef enjoys spring conditions with migrating humpback whales in the distance. In Europe, it is the last warm month for Mediterranean diving, and the Azores deliver strong pelagic action. The Red Sea holds excellent visibility at 26-28°C. Caribbean water stays warm through late September, though hurricane risk persists. Raja Ampat and Indonesia prepare to reopen as the season turns.',
+  10: 'October opens Raja Ampat season — one of the world\'s great dive windows — and the Maldives enters its pre-peak. Cocos Island hammerhead schools build toward their November peak. The Similans reopen in mid-October after the monsoon. In the Caribbean, hurricane season winds down and conditions stabilise. The Red Sea remains excellent. Water temperatures across the Indo-Pacific sit at 27-29°C. This is a strong month for liveaboard itineraries in Indonesia and the Philippines before peak pricing arrives.',
+  11: 'November is prime time across the Indo-Pacific. Raja Ampat, the Maldives, and Palau are all at their best with flat seas and 25-30 meter visibility. The Galapagos deliver their strongest hammerhead season. The Red Sea offers superb wreck and reef diving at 24-26°C. Caribbean conditions settle into the dry season with calm seas and 28°C water. Sipadan reopens for the season. This is also the start of whale shark season in the Philippines. Expect peak prices and book well ahead.',
+  12: 'December is the holiday peak across the tropical diving world. The Maldives and Caribbean are at their absolute best, and Raja Ampat is in full glory. Water temperatures are bath-warm at 27-29°C across the Indo-Pacific. Liveaboards sell out months in advance and prices hit their annual high. The Red Sea stays excellent at 23-25°C. For divers who book early, this is the classic bucket-list month — but flexibility on dates and early planning are essential for prime routes.',
+};
+
 function groupByContinent(dests: any[]) {
   const groups: Record<string, any[]> = {};
   for (const d of dests) {
@@ -137,6 +152,17 @@ const schema = {
       </div>
     </section>
   )}
+
+  <!-- Diving Conditions -->
+  <section class="py-16 md:py-20">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Diving Conditions in {monthNames[m]}</h2>
+      <p class="text-navy-600 leading-relaxed max-w-3xl mb-10">What to expect underwater this month, from water temperature and visibility to marine life activity and seasonal patterns.</p>
+      <div class="bg-white border border-sand-200 rounded-xl p-6 md:p-8">
+        <p class="text-navy-700 leading-relaxed">{monthDesc[m]}</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Marine Life This Month -->
   {monthLife[m] && (

@@ -12,7 +12,7 @@ const labelMap: Record<string, string> = { budget: 'Budget', 'mid-range': 'Mid-R
 const priceMap: Record<string, string> = { budget: 'Under $100/day', 'mid-range': '$100-200/day', premium: '$200-400/day', luxury: '$400+/day' };
 const label = labelMap[budget || 'budget'];
 const priceLabel = priceMap[budget || 'budget'];
-const dests = allDests.filter((d: any) => d.data.budgetLevel === budget).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
+const dests = allDests.filter((d: any) => d.data.budgetLevel === budget || d.data.budgetLevel === budget.replace('-', '_')).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
 const title = `Best ${label} Scuba Diving Destinations`;
 const budgetDescriptions: Record<string, string> = {
   budget: 'Budget diving does not mean compromising on quality. These destinations offer world-class marine encounters at under $100/day. From shore diving in Anilao to muck diving in Lembeh Strait, you can experience the Coral Triangle, thresher sharks, and pristine reefs without spending a fortune.',
@@ -23,6 +23,46 @@ const budgetDescriptions: Record<string, string> = {
 const budgetDesc = budgetDescriptions[budget || 'budget'];
 const avgRating = dests.length > 0 ? (dests.reduce((s,d) => s + d.data.overallRating, 0) / dests.length).toFixed(1) : 0;
 const avgCost = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.averageDailyCostUsd, 0) / dests.length) : 0;
+const avgVis = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.visibilityMeters, 0) / dests.length) : 0;
+const avgTemp = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.waterTempCelsius, 0) / dests.length) : 0;
+const minCost = dests.length > 0 ? Math.min(...dests.map(d => d.data.averageDailyCostUsd)) : 0;
+const maxCost = dests.length > 0 ? Math.max(...dests.map(d => d.data.averageDailyCostUsd)) : 0;
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const faqs: Record<string, { q: string; a: string }[]> = {
+  budget: [
+    { q: 'Can I really dive world-class sites on a budget?', a: `Yes - our budget collection proves it. Destinations like Anilao, Lembeh Strait, and Malapascua combine 4+ ratings with daily costs under $100. You save by choosing shore diving over boats, staying in local guesthouses, and eating where locals eat - the underwater experience is identical to what premium resorts sell.` },
+    { q: 'What are the hidden costs of budget diving?', a: `Beyond the $${avgCost} average daily dive cost, budget for equipment rental ($10-25/day), marine park fees, and transport between dive sites. Many budget destinations have limited liveaboard options, so add $20-40 per day for boat transfers. Total budget travel costs usually land at $70-120 per day all-in.` },
+    { q: 'Which budget destination offers the best value?', a: `All our budget picks score 4+ for value, but the standouts combine dirt-cheap diving with exceptional marine life. The cheapest options run about $${minCost} per day while still delivering visibility near ${avgVis}m and water at ${avgTemp}°C - comparable conditions to destinations costing three times as much.` },
+    { q: 'Is budget diving safe?', a: `Safety depends on the operator, not the price. We only list destinations where reputable dive centers operate, and budget trips in places like the Philippines and Indonesia are run by experienced, well-maintained shops. Read recent reviews, check equipment condition, and verify insurance coverage before booking any operator.` },
+  ],
+  'mid-range': [
+    { q: 'What do I get for $100-200 per day?', a: `Mid-range trips typically include a well-equipped dive centre, comfortable air-conditioned accommodation, and access to iconic sites. At an average of $${avgCost} per day, you can afford two guided boat dives plus transfers, with budget left for good meals and the occasional night dive.` },
+    { q: 'Which mid-range destination is the best overall?', a: `The collection averages ${avgRating}/5 across ${dests.length} destinations, so you can rarely go wrong. Sipadan, Fiji, and the Great Barrier Reef lead the ratings, while Komodo delivers the best big-fish action per dollar. Match the destination's marine life to your wish list rather than picking on price alone.` },
+    { q: 'Is a liveaboard worth it at this price point?', a: `Yes - mid-range liveaboards run $200-300 per day all-inclusive and are the best value in diving. You get 3-4 dives daily, meals, and access to remote sites. For destinations like Komodo or Tubbataha, the liveaboard is the only realistic option and beats land-based diving on cost per dive.` },
+    { q: 'When should I book to get the best rates?', a: `Booking 4-6 months ahead secures the best prices in peak season (November to April for most of these destinations). Shoulder months - May, October - offer 20-30% discounts with only slightly reduced visibility. The best-month column in the table below shows each destination's prime window.` },
+  ],
+  premium: [
+    { q: 'What does premium diving include?', a: `Premium trips ($200-400/day) deliver boutique resorts, private boats or small-group charters, nitrox included, and expert guides. At an average of $${avgCost} per day, you also get premium cuisine, spa facilities, and faster transfers - time saved that translates into more dives.` },
+    { q: 'Are premium destinations better than budget ones?', a: `Not necessarily better underwater - the marine life is the same - but they offer exclusivity, comfort, and access. Premium resorts sit near reefs that budget operators cannot reach, and small groups mean more bottom time and better briefings. You are paying for the experience around the dive as much as the dive itself.` },
+    { q: 'Which premium destination has the best marine life?', a: `Premium picks span the planet's greatest reefs: Raja Ampat for biodiversity, Palau for walls and Jellyfish Lake, Galapagos for schooling hammerheads. Water temperatures average ${avgTemp}°C with ${avgVis}m visibility across the collection, so conditions are consistently world-class.` },
+    { q: 'Do I need specific experience for premium trips?', a: `Most premium destinations accommodate all levels, but remote liveaboard routes in Galapagos and Cocos Island demand Advanced Open Water plus 50+ dives. Check the difficulty column in the table below and confirm requirements with your operator before paying deposits.` },
+  ],
+  luxury: [
+    { q: 'What makes luxury diving different?', a: `Luxury ($400+/day) is about exclusivity: private guides, chartered yachts, five-star service, and access to sites where few others dive. Destinations like the Maldives and Galapagos deliver once-in-a-lifetime encounters with megafauna - manta aggregations, hammerhead schools, whale sharks - in complete comfort.` },
+    { q: 'Is luxury diving worth the premium?', a: `If you value comfort, privacy, and professional service, absolutely. The underwater experience may equal premium trips, but the surface experience is incomparable: private transfers, gourmet dining, spacious cabins, and dive logistics handled entirely for you. For honeymoons and special occasions, it justifies the cost.` },
+    { q: 'Which luxury destination should I choose?', a: `The Maldives leads for beginner-friendly luxury with gentle currents and house reefs; Galapagos is the pinnacle for serious divers chasing pelagics. Costs run from $${minCost} to $${maxCost} per day across the collection, with liveaboard charters offering the most flexible schedules.` },
+    { q: 'When is the best time for a luxury dive trip?', a: `For the Maldives, December to April guarantees the calmest seas; for Galapagos, June to December suits hammerheads while January to May favours whale sharks and mantas. Water temperatures across the collection average ${avgTemp}°C, so pack accordingly and book 6-9 months ahead for peak dates.` },
+  ],
+};
+const faqList = faqs[budget || 'budget'] || [];
+const topDests = dests.slice(0, 10);
+const links: { href: string; label: string }[] = {
+  budget: [{ href: '/browse/price/mid-range', label: 'Mid-range diving' }, { href: '/collections/best-budget', label: 'Best budget collection' }, { href: '/browse/marine-life/macro', label: 'Macro diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
+  'mid-range': [{ href: '/browse/price/premium', label: 'Premium diving' }, { href: '/browse/price/budget', label: 'Budget diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
+  premium: [{ href: '/browse/price/luxury', label: 'Luxury diving' }, { href: '/browse/price/mid-range', label: 'Mid-range diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
+  luxury: [{ href: '/browse/price/premium', label: 'Premium diving' }, { href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
+}[budget || 'budget'] || [];
 ---
 
 <BaseLayout title={title} description={'Compare ' + dests.length + ' ' + (budget || '') + ' scuba diving destinations by daily costs, visibility, and marine life. Find world-class diving that fits your travel budget with DiveAtlas.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: label }]}>
@@ -87,6 +127,86 @@ const avgCost = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.a
         </div>
         </div>
       )}
+
+      {topDests.length > 0 && (
+        <div class="mt-16">
+          <h2 class="text-2xl font-semibold text-navy-950 mb-2">What You Get at This Price: Top {label} Picks</h2>
+          <p class="text-navy-600 mb-8">A closer look at how the {label} tier delivers value, based on community ratings and our editorial research.</p>
+          <div class="space-y-6 mb-12">
+            {topDests.map((d: any) => {
+              const dd = d.data;
+              const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
+              return (
+                <div class="bg-white border border-sand-200 rounded-xl p-6">
+                  <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
+                  <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
+                  <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 with ${dd.averageDailyCostUsd} average daily cost, {dd.name} offers {dd.visibilityMeters}m visibility in {dd.waterTempCelsius}&deg;C water and is best dived from {fmtMonths(dd.bestMonths)}. Signature sites include {topSpots}. Its {dd.difficulty} difficulty profile suits divers who know what they want from this price tier.</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {topDests.length > 0 && (
+        <div class="mt-12 mb-12">
+          <h2 class="text-2xl font-semibold text-navy-950 mb-2">Key Stats: {label} Destinations Compared</h2>
+          <p class="text-navy-600 mb-6">Compare daily cost, rating, visibility, temperature, and best season across the {label} tier.</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left border-collapse">
+              <thead>
+                <tr class="bg-navy-950 text-white">
+                  <th class="px-4 py-3 font-medium">Destination</th>
+                  <th class="px-4 py-3 font-medium">Rating</th>
+                  <th class="px-4 py-3 font-medium">Cost/day</th>
+                  <th class="px-4 py-3 font-medium">Visibility</th>
+                  <th class="px-4 py-3 font-medium">Temp</th>
+                  <th class="px-4 py-3 font-medium">Best months</th>
+                  <th class="px-4 py-3 font-medium">Difficulty</th>
+                </tr>
+              </thead>
+              <tbody>
+                {topDests.map((d: any, i: number) => {
+                  const dd = d.data;
+                  return (
+                    <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                      <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                      <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                      <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                      <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      <div class="mt-12 mb-12">
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          {faqList.map((f: any) => (
+            <div class="bg-sand-100/50 border border-sand-200 rounded-xl p-6">
+              <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+              <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">Explore More Budget Tiers</h2>
+        <p class="text-navy-600 mb-6">Compare other price tiers and related collections to find the perfect fit for your trip.</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {links.map((l: any) => (
+            <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

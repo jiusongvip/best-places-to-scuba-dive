@@ -34,6 +34,30 @@ let bestML = topMarine
   .map(k => mlLabels[k] || k)
   .slice(0, 4);
 if (bestML.length === 0) bestML = ['diverse marine life'];
+const avgCost = Math.round(dests.reduce((sum: number, d: any) => sum + d.data.averageDailyCostUsd, 0) / dests.length);
+const avgTemp = Math.round(dests.reduce((sum: number, d: any) => sum + d.data.waterTempCelsius, 0) / dests.length);
+const minCost = Math.min(...dests.map((d: any) => d.data.averageDailyCostUsd));
+const maxCost = Math.max(...dests.map((d: any) => d.data.averageDailyCostUsd));
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const topDests = dests.slice(0, 10);
+const allBeginner = difficulties.every((x: string) => x === 'beginner');
+const hasAdvanced = difficulties.includes('advanced');
+const hasLiveaboard = dests.some((d: any) => d.data.liveaboardAvailable);
+const faqs = [
+  { q: `When is the best time to dive in ${countryName}?`, a: `Most destinations in ${countryName} dive best between November and April, when seas are calmest and visibility peaks at around ${avgVis}m. Exact windows vary by region - see the best-month column in the table below for each destination. Water temperatures average ${avgTemp}°C, so pack a 3mm wetsuit for the tropics or 5mm for temperate sites.` },
+  { q: `What certification do I need to dive in ${countryName}?`, a: allBeginner ? `All ${dests.length} destinations in ${countryName} are rated beginner-friendly, so a standard Open Water certification is sufficient for most sites. Operators offer guided dives, and several run Discover Scuba experiences for uncertified travelers. If you have not dived in a while, a refresher course is cheap insurance.` : hasAdvanced ? `Dive conditions in ${countryName} range from ${difficulties[0]} to ${difficulties[difficulties.length - 1]} difficulty. Open Water covers the gentler sites, but we recommend Advanced Open Water for ${dests.filter((d: any) => d.data.difficulty !== 'beginner').length} of the ${dests.length} destinations listed here, and some operators require 30-50 logged dives for the more exposed sites.` : `Diving in ${countryName} spans ${difficulties.join(' and ')} difficulty levels, so most divers with Open Water or Advanced Open Water certification will find suitable sites. Check the difficulty column on each destination card and confirm with operators before booking.` },
+  { q: `How much does diving cost in ${countryName}?`, a: `Daily costs range from $${minCost} to $${maxCost}, averaging $${avgCost} across ${dests.length} destinations. Budget travelers can dive ${countryName} for $70-120 per day with shore diving and guesthouses; mid-range trips run $120-200; premium liveaboards and resorts start at $250.${hasLiveaboard ? ' Liveaboard safaris are available and offer the best cost-per-dive value.' : ''}` },
+  { q: `What marine life will I see in ${countryName}?`, a: `${countryName} is known for ${bestML.join(', ').toLowerCase()}. Across ${totalSpots}+ named dive sites, divers can expect ${dests.map((d: any) => d.data.marineLife).length > 0 ? 'healthy reef systems, abundant pelagics, and year-round resident species' : 'healthy reef systems and abundant marine life'}. Night dives add a different dimension - many operators run them on request for photographers and adventure-seekers.` },
+];
+const links = [
+  { href: '/compare', label: 'Compare destinations' },
+  { href: '/map', label: 'Explore the dive map' },
+  { href: '/browse/experience/beginner', label: 'Beginner destinations' },
+  { href: '/browse/ocean/' + (oceans[0] || 'pacific'), label: (oceanLabels[oceans[0]] || 'Ocean') + ' diving' },
+  { href: '/collections/best-liveaboard', label: 'Liveaboard trips' },
+  { href: '/browse/price/budget', label: 'Budget-friendly diving' },
+];
 ---
 
 <BaseLayout title={title} description={'Discover the best scuba diving in ' + countryName + '. Compare ' + dests.length + ' dive sites by visibility, marine life, season, difficulty, and daily costs. Rated ' + avgRating + '/5 by the dive community.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: countryName }]}>
@@ -111,6 +135,82 @@ if (bestML.length === 0) bestML = ['diverse marine life'];
             </a>
           );
         })}
+      </div>
+
+      <div class="mt-16">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Top Destinations in {countryName}: In Detail</h2>
+        <p class="text-navy-600 mb-8">What makes each dive destination in {countryName} special, based on community ratings and our editorial research.</p>
+        <div class="space-y-6 mb-12">
+          {topDests.map((d: any) => {
+            const dd = d.data;
+            const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
+            return (
+              <div class="bg-white border border-sand-200 rounded-xl p-6">
+                <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a> - {dd.overallRating}/5</h3>
+                <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
+                <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 by the dive community, {dd.name} offers {dd.visibilityMeters}m visibility in {dd.waterTempCelsius}&deg;C water, with the best diving from {fmtMonths(dd.bestMonths)}. Daily costs average ${dd.averageDailyCostUsd}. Signature dive sites include {topSpots}. Its {dd.difficulty} difficulty profile and {dd.budgetLevel} pricing tier make it a reliable pick for your {countryName} itinerary.</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div class="mt-12 mb-12">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">{countryName} Dive Destinations at a Glance</h2>
+        <p class="text-navy-600 mb-6">Quick comparison of visibility, temperature, cost, and best season across all {dests.length} destinations.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr class="bg-navy-950 text-white">
+                <th class="px-4 py-3 font-medium">Destination</th>
+                <th class="px-4 py-3 font-medium">Rating</th>
+                <th class="px-4 py-3 font-medium">Visibility</th>
+                <th class="px-4 py-3 font-medium">Temp</th>
+                <th class="px-4 py-3 font-medium">Cost/day</th>
+                <th class="px-4 py-3 font-medium">Best months</th>
+                <th class="px-4 py-3 font-medium">Difficulty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {topDests.map((d: any, i: number) => {
+                const dd = d.data;
+                return (
+                  <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                    <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                    <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                    <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                    <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                    <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
+                    <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                    <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-12 mb-12">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Frequently Asked Questions</h2>
+        <div class="space-y-6 mt-8">
+          {faqs.map(f => (
+            <div class="bg-white border border-sand-200 rounded-xl p-6">
+              <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+              <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Plan Your {countryName} Dive Trip</h2>
+        <p class="text-navy-600 mb-6">Explore related guides and tools to complete your travel planning.</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {links.map(l => (
+            <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+          ))}
+        </div>
       </div>
     </div>
   </section>

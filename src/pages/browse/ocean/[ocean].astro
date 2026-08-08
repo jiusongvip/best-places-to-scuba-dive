@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  return ['pacific','indian','caribbean','red-sea','atlantic','mediterranean'].map(o => ({ params: { ocean: o } }));
+  return ['pacific','indian','caribbean','red-sea','atlantic'].map(o => ({ params: { ocean: o } }));
 }
 
 const { ocean } = Astro.params;
@@ -24,11 +24,55 @@ const oceanDescriptions: Record<string, string> = {
   pacific: 'The Pacific Ocean hosts the Coral Triangle, the most biodiverse marine ecosystem on Earth. Over 1,500 fish species and 75% of the world\'s coral species thrive here, from Raja Ampat\'s kaleidoscopic reefs to Komodo\'s current-swept pinnacles. Divers encounter everything from pygmy seahorses to whale sharks in the richest waters on the planet.',
   indian: 'The Indian Ocean offers some of the world\'s most accessible luxury diving. Crystal-clear atolls, manta ray cleaning stations, and seasonal whale shark aggregations define this region. The Maldives alone has over 1,000 coral islands, each surrounded by thriving house reefs with gentle currents ideal for beginners and photographers.',
   caribbean: 'The Caribbean Sea is the world\'s most accessible dive region, with year-round warm water averaging 27°C, exceptional visibility, and abundant marine life at shallow depths. Shore diving meccas like Bonaire offer 80+ named sites you can walk into from the beach. The Mesoamerican Barrier Reef stretches over 1,000 km from Mexico to Honduras.',
-  'red-sea': 'The Red Sea is the wreck diving capital of the world, home to the legendary SS Thistlegorm and over 250 identified shipwrecks. Beyond wrecks, vibrant coral walls plunge to abyssal depths, and Ras Mohammed National Park offers some of the most dramatic drop-offs on Earth. Visibility routinely exceeds 30 meters.',
+  'red-sea': 'The Red Sea is the wreck diving capital of the world, home to the legendary SS Thistlegorm and over 250 identified shipwrecks. Beyond wrecks, vibrant coral walls plunge to abyssal depths, and Ras Mohammed National Park offers some of the most dramatic drop-offs on Earth. Visibility routinely exceeds 30 meters. Night dives reveal glassfish, crocodilefish, and hunting octopus, while dolphin and turtle encounters are common on the reefs around Marsa Alam. Because the reef shelf drops steeply, liveaboard routes between Hurghada and Sharm el-Sheikh reach sites day boats cannot, making this the region to choose for serious wreck and reef enthusiasts alike.',
   atlantic: 'Atlantic diving spans an extraordinary range — from the Azores\' blue shark encounters to Fernando de Noronha\'s spinner dolphin bays. This ocean connects temperate pelagic action with tropical reef systems, offering some of the most diverse diving experiences on the planet.',
   mediterranean: 'The Mediterranean may be less famous than tropical destinations, but its ancient shipwrecks, marine protected areas, and crystal visibility rank among Europe\'s most rewarding dive experiences. Over 150 marine reserves protect Posidonia seagrass meadows that are up to 100,000 years old.',
 };
 const oceanDesc = oceanDescriptions[ocean || ''] || '';
+const avgCost = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.averageDailyCostUsd, 0) / dests.length) : 0;
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const faqs: Record<string, { q: string; a: string }[]> = {
+  pacific: [
+    { q: 'Which Pacific destinations are best for first-time divers?', a: `Beginner-friendly choices like Fiji and Palau offer gentle currents and shallow reefs, and several Pacific sites carry a maximum beginnerFriendly score of 5. Average visibility runs ${avgVis}m with ${avgTemp}°C water, and guided two-tank dives cost roughly $100-150.` },
+    { q: 'When is the best time to dive the Pacific?', a: `The Pacific's prime diving window is November to April, when seas are calmest and visibility peaks. Some destinations like Raja Ampat enjoy year-round conditions, while Komodo has a distinct high season from April to October. Check each destination's best months in the table below before booking.` },
+    { q: 'What marine life will I see in the Pacific?', a: `The Pacific hosts the Coral Triangle, the most biodiverse marine region on Earth. Expect manta rays, reef sharks, whale sharks, pygmy seahorses, and over 1,500 species of reef fish. Macro photographers will find world-class muck diving in Indonesia's Lembeh Strait and Anilao.` },
+    { q: 'How much does Pacific diving cost?', a: `Daily costs across our Pacific destinations average $${avgCost}, ranging from about $${minCost} in budget-friendly Indonesia to $${maxCost} at premium resorts and liveaboards. Liveaboard safaris run $200-400 per day all-inclusive and are the best way to reach remote atolls.` },
+  ],
+  indian: [
+    { q: 'Is the Indian Ocean good for beginner divers?', a: `The Maldives is arguably the world's most beginner-friendly luxury destination, with gentle currents, house reefs, and a beginnerFriendly score of 5. Water temperatures hover around ${avgTemp}°C year-round with visibility frequently exceeding 30 meters, making conditions ideal for newly certified divers.` },
+    { q: 'When is the best time to dive the Indian Ocean?', a: `November to April is the prime season across most Indian Ocean destinations, when the northeast monsoon brings calm seas and 30m+ visibility. The Maldives peaks from December to March, while manta season at Hanifaru Bay runs from June to November in the southwest monsoon.` },
+    { q: 'What marine life is iconic in the Indian Ocean?', a: `Manta rays and whale sharks dominate - Hanifaru Bay hosts seasonal aggregations of over 100 mantas. Reef sharks, eagle rays, turtles, and dolphins are common at most sites. Coral diversity is lower than the Coral Triangle, but megafauna encounters are more reliable.` },
+    { q: 'How much should I budget?', a: `Indian Ocean diving averages $${avgCost} per day. Budget trips start around $${minCost} on local liveaboards or guesthouses, while luxury resorts run $${maxCost}+ per day. Liveaboard safaris offer the best value for serious divers at $200-350 per day.` },
+  ],
+  caribbean: [
+    { q: 'Why is the Caribbean recommended for beginners?', a: `With year-round water at 27°C, gentle currents, and shore diving available at destinations like Bonaire and Cozumel, the Caribbean is the most accessible dive region on Earth. Many resorts offer resort courses for first-timers, and most sites sit within recreational depths under 30 meters.` },
+    { q: 'When is the best time to visit the Caribbean?', a: `December to April offers the calmest seas and highest visibility, avoiding hurricane season (June-November). Water temperature stays comfortable at ${avgTemp}°C all year, so a 3mm wetsuit works in winter and a skin suit in summer. Visibility averages ${avgVis}m.` },
+    { q: 'What marine life can I expect?', a: `Caribbean reefs deliver turtles, eagle rays, nurse sharks, and colourful reef fish rather than big pelagics. The Mesoamerican Barrier Reef is the world's second-largest reef system, and Bonaire's protected marine park harbours 80+ named dive sites with abundant macro life.` },
+    { q: 'How much does Caribbean diving cost?', a: `Daily two-tank dives run $${minCost}-$${maxCost} depending on the destination, averaging $${avgCost}. All-inclusive resort packages often bundle diving for $250-400 per night. Liveaboard trips through the Bahamas or Turks & Caicos cost $250-450 per day.` },
+  ],
+  'red-sea': [
+    { q: 'Why is the Red Sea famous for wreck diving?', a: `The Red Sea is the wreck capital of the world, with over 250 identified wrecks including the legendary SS Thistlegorm. Wrecks like the Thistlegorm, Giannis D, and Salem Express sit at recreational depths, making world-class wreck penetration accessible to Advanced divers.` },
+    { q: 'When is the best time to dive the Red Sea?', a: `The Red Sea is a year-round destination, but March to June and September to November offer the best balance of calm seas, warm water at ${avgTemp}°C, and 30m+ visibility. Summer brings heat but also the calmest water; winter is cooler but still pleasant.` },
+    { q: 'Is the Red Sea suitable for beginners?', a: `Yes - Sharm el-Sheikh and Hurghada offer sheltered reefs, sandy shallows, and plenty of beginner courses. Drift diving is a local speciality and guides make it easy. However, some of the best sites require liveaboard access and Intermediate or Advanced experience.` },
+    { q: 'How much does Red Sea diving cost?', a: `The Red Sea is among the best-value dive regions: day boats run $${minCost}-$${maxCost}, and 7-night liveaboard safaris cost $1,000-1,800. Daily costs average $${avgCost}, well below equivalent trips in the Pacific or Maldives.` },
+  ],
+  atlantic: [
+    { q: 'What makes Atlantic diving different from tropical regions?', a: `The Atlantic spans temperate and tropical systems: the Azores deliver blue sharks and mantas in cooler 18-22°C water, while Fernando de Noronha offers spinner dolphins and reef action in the tropics. Expect more seasonal variation and wildlife-driven diving rather than year-round reefs.` },
+    { q: 'When is the best time to dive the Atlantic?', a: `Seasonality varies widely. The Azores' shark season peaks July to October, while Fernando de Noronha is best August to January. Water temperatures across our Atlantic destinations average ${avgTemp}°C, so a 5mm wetsuit is needed in temperate spots and 3mm in the tropics.` },
+    { q: 'What marine life is special in the Atlantic?', a: `The Azores are famous for blue sharks and mobula rays at oceanic drop-offs, while Fernando de Noronha offers spinner dolphins that play with divers and turtles at cleaning stations. The Caribbean-side Atlantic hosts sperm whales and pilot whales in Dominica's waters.` },
+    { q: 'Is Atlantic diving worth the travel?', a: `If you have already dived the tropics, the Atlantic delivers genuinely different experiences. Costs average $${avgCost} per day, and because demand is lower than the Pacific or Red Sea, sites feel uncrowded and operators offer flexible, personalised diving.` },
+  ],
+};
+const faqList = faqs[ocean || ''] || [];
+const topDests = dests.slice(0, 10);
+const links: { href: string; label: string }[] = {
+  pacific: [{ href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/collections/best-shark-diving', label: 'Best shark diving' }, { href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
+  indian: [{ href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
+  caribbean: [{ href: '/browse/ocean/atlantic', label: 'Atlantic diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/browse/price/budget', label: 'Budget-friendly diving' }, { href: '/browse/marine-life/turtles', label: 'Turtle diving' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
+  'red-sea': [{ href: '/browse/experience/intermediate', label: 'Intermediate destinations' }, { href: '/browse/price/mid-range', label: 'Mid-range diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
+  atlantic: [{ href: '/browse/ocean/caribbean', label: 'Caribbean diving' }, { href: '/browse/marine-life/sharks', label: 'Shark diving' }, { href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
+}[ocean || ''] || [];
 ---
 
 <BaseLayout title={title} description={description} breadcrumbs={[{ name: "Home", url: "/" }, { name: "Oceans" }, { name: label }]}>
@@ -108,6 +152,94 @@ const oceanDesc = oceanDescriptions[ocean || ''] || '';
         </div>
         </div>
       )}
+    </div>
+  </section>
+
+  {topDests.length > 0 && (
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">What to Expect Diving the {label} Ocean</h2>
+      <p class="text-navy-600 mb-8">Detailed profiles of the top destinations in this region, combining community ratings with our editorial research.</p>
+      <div class="space-y-6 mb-12">
+        {topDests.map(d => {
+          const dd = d.data;
+          const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
+          return (
+            <div class="bg-white border border-sand-200 rounded-xl p-6">
+              <h3 class="font-semibold text-navy-900 mb-2"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
+              <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
+              <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 with {dd.visibilityMeters}m visibility and {dd.waterTempCelsius}&deg;C water, {dd.name} is best dived from {fmtMonths(dd.bestMonths)}. Daily costs average ${dd.averageDailyCostUsd}, and the signature sites include {topSpots}. Its {dd.difficulty} difficulty profile and {dd.budgetLevel} pricing tier make it a clear choice for divers targeting this region.</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+  )}
+
+  {topDests.length > 0 && (
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Region Stats at a Glance</h2>
+      <p class="text-navy-600 mb-8">Side-by-side comparison of every {label} destination we cover - visibility, temperature, cost, and season.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr class="bg-navy-950 text-white">
+              <th class="px-4 py-3 font-medium">Destination</th>
+              <th class="px-4 py-3 font-medium">Rating</th>
+              <th class="px-4 py-3 font-medium">Visibility</th>
+              <th class="px-4 py-3 font-medium">Temp</th>
+              <th class="px-4 py-3 font-medium">Cost/day</th>
+              <th class="px-4 py-3 font-medium">Best months</th>
+              <th class="px-4 py-3 font-medium">Difficulty</th>
+            </tr>
+          </thead>
+          <tbody>
+            {topDests.map((d, i) => {
+              const dd = d.data;
+              return (
+                <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                  <td class="px-4 py-3 font-medium text-navy-900"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a></td>
+                  <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                  <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
+                  <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  )}
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Diving the {label} Ocean: FAQ</h2>
+      <div class="space-y-6 mt-8">
+        {faqList.map(f => (
+          <div class="bg-white border border-sand-200 rounded-xl p-6">
+            <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+            <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Explore More Dive Regions</h2>
+      <p class="text-navy-600 mb-8">Compare diving across other oceans and browse related collections.</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {links.map(l => (
+          <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>

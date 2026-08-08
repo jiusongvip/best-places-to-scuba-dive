@@ -67,8 +67,7 @@ const destinationCollection = defineCollection({
     timezoneOffset: z.string(),
     imageLocal: z.string(),
     imageCredit: z.string(),
-    // Editor's take (optional first-person narrative)
-    editorName: z.string().optional(),
+    // Why divers rate this destination highly (neutral commentary, optional)
     editorTake: z.string().optional(),
   }),
 });

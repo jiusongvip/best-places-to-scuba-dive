@@ -4,6 +4,23 @@ import { getCollection } from 'astro:content';
 
 const allDests = await getCollection('destinations');
 const destMap = new Map(allDests.map((d: any) => [d.data.slug, d.data]));
+const topDests = allDests.sort((a: any, b: any) => b.data.overallRating - a.data.overallRating).slice(0, 12);
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const faqs = [
+  { q: 'How should I choose between two dive destinations?', a: 'Start with your must-see marine life, then compare the four factors that matter most: visibility, water temperature, season, and daily cost. Our comparison pages show these side by side, plus difficulty and certification requirements. If you are choosing between two world-class sites, let seasonality decide - pick the destination that is in its peak window during your travel dates.' },
+  { q: 'What is the most important factor when comparing destinations?', a: 'For most divers it is seasonality - a brilliant destination in the wrong month can mean 10m visibility and closed sites. Second is marine life match: the Maldives and the Galapagos are both 4.7-rated, but they deliver completely different animals. Use our marine life scores to match the destination to your wish list before comparing price or comfort.' },
+  { q: 'How accurate are the visibility and temperature figures?', a: `Figures on DiveAtlas are drawn from community reports, dive operator data, and published conditions aggregated across ${allDests.length} destinations. Visibility averages ${Math.round(topDests.reduce((s, d: any) => s + d.data.visibilityMeters, 0) / topDests.length)}m across our top-rated sites and should be read as typical dry-season values - expect some day-to-day variation, especially after storms or in plankton season.` },
+  { q: 'Can I compare more than two destinations at once?', a: 'Yes - use the Destinations page to filter and sort all destinations by rating, ocean, difficulty, and budget. The table on this page also ranks our 12 highest-rated destinations side by side. For a detailed two-way breakdown, open any comparison card below.' },
+];
+const links = [
+  { href: '/destinations', label: 'Browse all destinations' },
+  { href: '/map', label: 'Explore the dive map' },
+  { href: '/collections/best-shark-diving', label: 'Best shark diving' },
+  { href: '/collections/best-liveaboard', label: 'Best liveaboards' },
+  { href: '/browse/experience/beginner', label: 'Beginner destinations' },
+  { href: '/finder', label: 'Destination finder' },
+];
 ---
 
 <BaseLayout title="Compare Scuba Diving Destinations" description="Compare scuba diving destinations side by side. Evaluate visibility, marine life, difficulty, budget, and water temperature to choose your perfect dive trip." breadcrumbs={[{ name: "Home", url: "/" }, { name: "Compare" }]}>
@@ -59,6 +76,81 @@ const destMap = new Map(allDests.map((d: any) => [d.data.slug, d.data]));
         })}
       </div>
       <p class="mt-12 text-center text-navy-500 text-sm">More comparisons coming soon. Each comparison includes side-by-side data tables and personalized recommendations.</p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Top-Rated Destinations Compared</h2>
+      <p class="text-navy-600 mb-8">Our 12 highest-rated destinations side by side - use this table to shortlist before opening a detailed comparison.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr class="bg-navy-950 text-white">
+              <th class="px-4 py-3 font-medium">Destination</th>
+              <th class="px-4 py-3 font-medium">Rating</th>
+              <th class="px-4 py-3 font-medium">Visibility</th>
+              <th class="px-4 py-3 font-medium">Temp</th>
+              <th class="px-4 py-3 font-medium">Cost/day</th>
+              <th class="px-4 py-3 font-medium">Best months</th>
+              <th class="px-4 py-3 font-medium">Difficulty</th>
+            </tr>
+          </thead>
+          <tbody>
+            {topDests.map((d: any, i: number) => {
+              const dd = d.data;
+              return (
+                <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                  <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                  <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                  <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
+                  <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">How We Compare Destinations</h2>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-4 mt-6">
+        <p>Every destination on DiveAtlas is rated by the dive community across six dimensions: marine life abundance, visibility, water temperature, current conditions, difficulty, and overall experience. Our comparison pages present these ratings side by side so you can weigh trade-offs objectively - for example, a destination with slightly lower visibility might win on cost, or a premium site might justify its price with year-round megafauna encounters.</p>
+        <p>We pay special attention to seasonality because it is the factor divers most often overlook. A 4.8-rated site visited in the wrong month can disappoint, while the same site in peak season delivers the encounters it is famous for. Every destination page lists best months and peak season, and our comparison tables repeat this data so it is never more than a glance away.</p>
+        <p>Finally, we pair hard data with practical guidance: certification requirements, liveaboard availability, family-friendliness, and photography scores. The goal is a complete picture - not just which destination scores higher, but which one fits your experience level, your budget, and your travel style.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Frequently Asked Questions</h2>
+      <div class="space-y-6 mt-8">
+        {faqs.map(f => (
+          <div class="bg-white border border-sand-200 rounded-xl p-6">
+            <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+            <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Continue Your Research</h2>
+      <p class="text-navy-600 mb-8">Browse destinations, explore the map, and check related collections to complete your shortlist.</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {links.map(l => (
+          <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>

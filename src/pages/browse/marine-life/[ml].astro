@@ -24,6 +24,58 @@ const mlDescriptions: Record<string, string> = {
 };
 const mlDesc = mlDescriptions[ml || 'sharks'];
 const avgRating = dests.length > 0 ? (dests.reduce((s,d) => s + d.data.overallRating, 0) / dests.length).toFixed(1) : 0;
+const avgVis = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.visibilityMeters, 0) / dests.length) : 0;
+const avgTemp = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.waterTempCelsius, 0) / dests.length) : 0;
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const faqs: Record<string, { q: string; a: string }[]> = {
+  sharks: [
+    { q: 'Where can I reliably see sharks while diving?', a: `Our ${dests.length} rated destinations cover the full shark spectrum: schooling hammerheads in the Galapagos and Cocos Island, tiger sharks in the Bahamas, and grey reef sharks on almost every Pacific reef. The most reliable encounters combine deep drop-offs with strong currents - exactly the sites rated 4+ in this collection.` },
+    { q: 'Is shark diving dangerous?', a: 'Shark diving is one of the safest adventure sports when done with professional operators. The species divers encounter - reef sharks, hammerheads, whale sharks - are not man-eaters. Guides brief proper behaviour: stay in your group, avoid surface splashing, and never chase. Millions of shark dives happen annually with extremely rare incidents.' },
+    { q: 'When is the best season for shark encounters?', a: `Shark season varies by species and location. Hammerhead schooling peaks June to December in the Galapagos; tiger sharks are year-round in the Bahamas with a winter peak; reef sharks are reliable all year across the Pacific. Average conditions across this collection: ${avgVis}m visibility, ${avgTemp}°C water.` },
+    { q: 'What certification do I need for shark dives?', a: `Most shark sites require Advanced Open Water, and remote liveaboard routes often demand 50+ logged dives. Some shark encounters - like the Bahamas' tiger shark dives - are open to Open Water divers with a guide. Always confirm requirements with the operator before booking.` },
+  ],
+  'manta-rays': [
+    { q: 'Where are manta rays most reliable?', a: `The Maldives' Hanifaru Bay hosts the world's largest manta aggregation - over 100 individuals during plankton season. Kona in Hawaii and Yap in Micronesia offer year-round cleaning stations, while Raja Ampat delivers mantas on almost every dive at the right current. Our top destinations all score 4+ for manta reliability.` },
+    { q: 'What is a manta cleaning station?', a: 'Cleaning stations are shallow rocky outcrops where cleaner wrasse remove parasites from mantas. Mantas queue up in a choreographed circuit, allowing divers to watch them hover and glide just meters away. The Maldives, Rangiroa, and Palau all offer world-class cleaning station dives.' },
+    { q: 'When is manta season?', a: `Manta encounters peak during plankton blooms: June to November in the Maldives, December to April in Kona, and year-round with seasonal peaks in Raja Ampat. Water averages ${avgTemp}°C and visibility ${avgVis}m across this collection, with manta dives usually scheduled around current and tide tables.` },
+    { q: 'Can beginners dive with mantas?', a: 'Yes - most manta sites are gentle, shallow dives. Hanifaru Bay is a protected site with strict rules: no chasing, no touching, and neutral buoyancy required. A buoyancy refresher before your trip is worth it, since manta encounters are brief and you want to be calm and steady when they arrive.' },
+  ],
+  'whale-sharks': [
+    { q: 'How big do whale sharks get?', a: 'Whale sharks are the largest fish on Earth, reaching 12 meters and 20 tonnes. Despite their size, they are filter feeders that eat only plankton, making them completely safe to swim alongside. Juveniles (5-8 meters) are the most common sighting at most aggregation sites.' },
+    { q: 'Where are whale shark encounters most reliable?', a: `Only ${dests.length} destinations in our database score 4+ for whale sharks, reflecting how seasonal and unpredictable these giants are. The Maldives and Rangiroa are our top-rated sites, with seasonal aggregations that local guides track daily. Mexico's Isla Mujeres and the Philippines' Donsol also offer famous (if less consistent) encounters.` },
+    { q: 'When is whale shark season?', a: `Whale sharks follow plankton blooms, so timing is everything. The Maldives peaks May to December; Rangiroa is best August to October; Donsol runs November to June. Book with operators who refund or reschedule when conditions fail - even in peak season, no operator can guarantee a sighting.` },
+    { q: 'Do I need special skills for whale shark swimming?', a: 'Many whale shark encounters happen while snorkeling, which requires no certification. If you dive, Open Water is sufficient - encounters are usually in 5-15 meters of water. The critical skill is finning technique: strong, slow kicks that let you keep pace without exhausting yourself or stressing the shark.' },
+  ],
+  turtles: [
+    { q: 'Where can I see turtles on every dive?', a: `The Maldives and Sipadan are famous for turtle density - green turtles grazing on reef flats and hawksbills on walls are daily sightings. Our ${dests.length} rated destinations all deliver consistent turtle encounters, with Sipadan's Barracuda Point and the Maldives' house reefs among the most reliable spots on Earth.` },
+    { q: 'Which turtle species will I see?', a: 'Green turtles are the most common, followed by hawksbills with their distinctive overlapping shell plates. Loggerheads appear at temperate sites, and leatherbacks pass through oceanic routes. Hawksbill and green turtle populations have recovered strongly in marine protected areas, which is why these destinations rate 4+.' },
+    { q: 'When is nesting season?', a: `Turtle nesting peaks May to October across the tropics, but dive encounters are year-round - turtles live and feed on reefs all year. Water temperatures average ${avgTemp}°C with ${avgVis}m visibility across this collection, and night dives often reveal sleeping turtles tucked under ledges.` },
+    { q: 'How should I behave around turtles?', a: 'Turtles are protected everywhere in this collection. Keep 3+ meters distance, never block their ascent to the surface, and never touch - the waxy coating on their shells is sensitive. Photography is best from a stationary position: turtles cruise predictable paths and will often pass close to a calm diver.' },
+  ],
+  'coral-reefs': [
+    { q: 'What makes a coral reef rate 4+?', a: `Our coral scores combine hard coral cover, diversity (100+ species), health (minimal bleaching), and fish density. The Coral Triangle destinations - Raja Ampat, Kimbe Bay, Tubbataha - hold 75% of the world's coral species, while Fiji and the Red Sea contribute exceptional reef structure and colour.` },
+    { q: 'Which destination has the best corals?', a: `Raja Ampat is the undisputed leader with 600+ coral species and 1,500+ fish species. Tubbataha Reefs Natural Park offers pristine, protected walls untouched by coastal development, and Kimbe Bay in Papua New Guinea holds the world's highest coral diversity per square meter.` },
+    { q: 'How does climate change affect these reefs?', a: 'Bleaching events are real, but the reefs in this collection sit mostly in current-rich, deep-water zones that recover faster and stay cooler than coastal reefs. Marine protected areas like Tubbataha and Raja Ampat enforce no-take rules that keep ecosystems resilient. Dive operators also support reef restoration at several sites.' },
+    { q: 'When should I visit for the healthiest corals?', a: `Corals are healthiest during and just after the cool season, when bleaching risk is lowest: December to April across the tropics. Visibility averages ${avgVis}m and water temperature ${avgTemp}°C in this collection. Avoid El Niño summers when sea surface temperatures spike.` },
+  ],
+  macro: [
+    { q: 'What is muck diving?', a: `Muck diving explores volcanic sand slopes and artificial structures where bizarre critters gather: flamboyant cuttlefish, mimic octopus, harlequin shrimp, frogfish, and pygmy seahorses. Indonesia's Lembeh Strait and Anilao are the world capitals of muck, with densities unmatched anywhere else.` },
+    { q: 'Do I need special equipment for macro photography?', a: 'A camera with macro mode or a wet/dioptre lens is essential, plus a focus light and patience. Beginners should consider a dive guide who can spot critters - guides in Lembeh and Anilao routinely find 20+ species per dive. A 100mm equivalent lens is the sweet spot for most subjects.' },
+    { q: 'When is the best time for macro diving?', a: `Macro diving is surprisingly seasonal: calm, still water is best for spotting tiny subjects. November to April delivers the calmest conditions across our macro destinations, with ${avgVis}m visibility and ${avgTemp}°C water. Night dives are excellent - many critters only emerge after dark.` },
+    { q: 'Is macro diving suitable for beginners?', a: 'Yes - muck sites are shallow (5-20 meters) with little current, ideal for new divers. The challenge is buoyancy control for photography. We recommend 20+ dives and a buoyancy specialty before a photo-focused trip, since hovering inches above sand without stirring it takes practice.' },
+  ],
+};
+const faqList = faqs[ml || 'sharks'] || [];
+const topDests = dests.slice(0, 10);
+const links: { href: string; label: string }[] = {
+  sharks: [{ href: '/collections/best-shark-diving', label: 'Best shark diving collection' }, { href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/experience/liveaboard', label: 'Liveaboard trips' }],
+  'manta-rays': [{ href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/marine-life/sharks', label: 'Shark diving' }],
+  'whale-sharks': [{ href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }],
+  turtles: [{ href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/browse/ocean/caribbean', label: 'Caribbean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/price/mid-range', label: 'Mid-range diving' }],
+  'coral-reefs': [{ href: '/browse/marine-life/macro', label: 'Macro diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }],
+  macro: [{ href: '/collections/best-macro-diving', label: 'Best macro collection' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/browse/price/budget', label: 'Budget diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }],
+}[ml || 'sharks'] || [];
 ---
 
 <BaseLayout title={title} description={'Compare ' + dests.length + ' top-rated scuba diving destinations for ' + (label || '').toLowerCase() + ' by visibility, season, water temp, and difficulty. Plan your dive trip with DiveAtlas.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Marine Life' }, { name: label }]}>
@@ -62,6 +114,87 @@ const avgRating = dests.length > 0 ? (dests.reduce((s,d) => s + d.data.overallRa
             </a>
           );
         })}
+      </div>
+
+      {topDests.length > 0 && (
+        <div class="mt-16">
+          <h2 class="text-2xl font-semibold text-navy-950 mb-2">The Top {label} Experiences in Detail</h2>
+          <p class="text-navy-600 mb-8">Why these destinations earned a 4+ score for {(label || '').toLowerCase()}, combining community ratings with our editorial research.</p>
+          <div class="space-y-6 mb-12">
+            {topDests.map((d: any) => {
+              const dd = d.data;
+              const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
+              const score = (dd.marineLife as any)[key] || 0;
+              return (
+                <div class="bg-white border border-sand-200 rounded-xl p-6">
+                  <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a>, {dd.country} - {score}/5 {(label || '').toLowerCase()}</h3>
+                  <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
+                  <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 overall with {dd.visibilityMeters}m visibility and {dd.waterTempCelsius}&deg;C water, {dd.name} is best dived from {fmtMonths(dd.bestMonths)}. The signature sites for {(label || '').toLowerCase()} are {topSpots}. Its {dd.difficulty} difficulty profile and {dd.budgetLevel} pricing tier make it accessible to divers at the right experience level.</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {topDests.length > 0 && (
+        <div class="mt-12 mb-12">
+          <h2 class="text-2xl font-semibold text-navy-950 mb-2">Quick Comparison: {label} Destinations</h2>
+          <p class="text-navy-600 mb-6">Side-by-side stats for every destination rated 4+ for {(label || '').toLowerCase()}.</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left border-collapse">
+              <thead>
+                <tr class="bg-navy-950 text-white">
+                  <th class="px-4 py-3 font-medium">Destination</th>
+                  <th class="px-4 py-3 font-medium">{label} score</th>
+                  <th class="px-4 py-3 font-medium">Rating</th>
+                  <th class="px-4 py-3 font-medium">Visibility</th>
+                  <th class="px-4 py-3 font-medium">Temp</th>
+                  <th class="px-4 py-3 font-medium">Best months</th>
+                  <th class="px-4 py-3 font-medium">Difficulty</th>
+                </tr>
+              </thead>
+              <tbody>
+                {topDests.map((d: any, i: number) => {
+                  const dd = d.data;
+                  return (
+                    <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                      <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                      <td class="px-4 py-3 text-navy-600">{((dd.marineLife as any)[key] || 0)}/5</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                      <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                      <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      <div class="mt-12 mb-12">
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          {faqList.map((f: any) => (
+            <div class="bg-sand-100/50 border border-sand-200 rounded-xl p-6">
+              <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+              <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-semibold text-navy-950 mb-2">Explore More Marine Life</h2>
+        <p class="text-navy-600 mb-6">Browse other species and related dive collections to plan your next trip.</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {links.map((l: any) => (
+            <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+          ))}
+        </div>
       </div>
       </div>
     </div>

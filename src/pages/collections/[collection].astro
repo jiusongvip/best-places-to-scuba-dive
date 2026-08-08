@@ -49,6 +49,58 @@ dests = dests.slice(0, 15);
 const title = titles[collection] || collection;
 const desc = descs[collection] || '';
 const intro = intros[collection] || '';
+const avgVis = dests.length > 0 ? Math.round(dests.reduce((s, d: any) => s + d.data.visibilityMeters, 0) / dests.length) : 0;
+const avgTemp = dests.length > 0 ? Math.round(dests.reduce((s, d: any) => s + d.data.waterTempCelsius, 0) / dests.length) : 0;
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const faqs: Record<string, { q: string; a: string }[]> = {
+  'best-shark-diving': [
+    { q: 'Where is the best shark diving in the world?', a: `Our collection of ${dests.length} destinations spans the full shark spectrum: hammerhead schools at Cocos Island and the Galapagos, tiger sharks in the Bahamas, whale sharks at seasonal aggregations, and reef sharks on nearly every Pacific site. The "best" depends on which species you want - use the shark score column in the table below to match species to destination.` },
+    { q: 'Do I need advanced certification for shark dives?', a: 'Most offshore shark sites require Advanced Open Water, and remote liveaboard routes ask for 50+ logged dives. That said, several reef shark sites are diveable with Open Water under close guide supervision. Always confirm requirements with the operator - safety standards vary and the best operators enforce experience minimums strictly.' },
+    { q: 'When is shark season?', a: `Conditions across this collection average ${avgVis}m visibility and ${avgTemp}°C water. Hammerhead season runs June to December in the Galapagos; the Bahamas' tiger sharks are most reliable November to April; reef sharks are year-round. Book around the species you most want to see, not the calendar you prefer.` },
+    { q: 'Is it safe to dive with sharks?', a: 'Shark diving is statistically one of the safest adventure activities - the species divers encounter are not man-eaters, and incidents are extremely rare. Professional operators control the interaction: briefing, group discipline, and correct behaviour keep both divers and sharks safe. Choose operators with strong safety records and strict rules.' },
+  ],
+  'best-wreck-diving': [
+    { q: 'What is the most famous wreck dive?', a: 'The SS Thistlegorm in the Red Sea is the world\'s most famous recreational wreck - a WWII armed merchant ship sunk in 1941, packed with trucks, motorbikes, and locomotives. It sits at 16-33 meters, diveable by Advanced Open Water divers, and is the highlight of most Red Sea itineraries.' },
+    { q: 'What wrecks can beginners dive?', a: 'Shallow wrecks - like the USS Kittiwake in the Cayman Islands and artificial reefs in the Caribbean - sit at 15-25 meters and are open to Open Water divers. Penetration (swimming inside) is strictly for trained wreck divers, but most famous wrecks can be fully enjoyed from the exterior and deck.' },
+    { q: 'How do wrecks become artificial reefs?', a: `Over decades, wrecks develop their own ecosystems: hard corals and sea fans colonise superstructures, while schools of snapper, barracuda, and grouper use them as shelter. Many wrecks are intentionally sunk - cleaned, stripped, and positioned - to create dive sites and relieve pressure on natural reefs.` },
+    { q: 'What training do I need for wreck penetration?', a: 'Penetration requires a dedicated Wreck Diver specialty plus appropriate equipment: reels, primary and backup lights, and stage bottles for deeper wrecks. Most recreational divers enjoy famous wrecks without entering - the exterior, decks, and swim-throughs provide plenty of adventure at much lower risk.' },
+  ],
+  'best-macro-diving': [
+    { q: 'What is muck diving and why is it special?', a: 'Muck diving explores volcanic sand slopes and artificial structures where extraordinary critters gather: flamboyant cuttlefish, mimic octopus, harlequin shrimp, ghost pipefish, and pygmy seahorses. Indonesia\'s Lembeh Strait and Anilao are the world capitals, with densities that produce 20+ species per dive.' },
+    { q: 'What camera gear do I need?', a: 'A compact camera with macro mode is enough to start; serious photographers add a 60-100mm macro lens, focus light, and wet lens attachments. Guides at top macro destinations spot subjects for you - their trained eyes routinely find creatures the size of a grain of rice.' },
+    { q: 'When is the best season for macro diving?', a: `Calm water is critical for spotting small subjects, so the dry season wins: November to April across most of this collection, with ${avgVis}m visibility and ${avgTemp}°C water. Night dives are a macro highlight - many species only emerge after dark and are far easier to photograph.` },
+    { q: 'Is macro diving good for beginners?', a: 'Yes - muck sites are shallow (5-20m) with little current, which suits new divers. The real challenge is buoyancy: hovering centimetres above the sand without stirring it takes practice. We suggest 20+ dives and a buoyancy specialty before a dedicated photography trip.' },
+  ],
+  'best-beginner': [
+    { q: 'How do I choose my first dive destination?', a: `Focus on three things: warm water (26°C+), good visibility (20m+), and gentle conditions. All ${dests.length} destinations in this collection carry a beginnerFriendly score of 4+, meaning multiple operators cater to newly certified divers with guided dives, easy entries, and shallow sites. The Maldives, Fiji, and the Great Barrier Reef are the classic first-trip choices.` },
+    { q: 'Should I do a refresher before my trip?', a: 'If it has been more than six months since your last dive, yes. Most dive centres offer a 30-45 minute refresher covering mask clearing, regulator recovery, and buoyancy - about $50-80. It rebuilds muscle memory and lets you enjoy your first dives instead of feeling anxious.' },
+    { q: 'What should I look for in a dive operator?', a: `Check ratios (max 4 divers per guide is standard for beginners), equipment age and condition, and reviews from divers with similar experience. Good operators brief thoroughly, check your certification and comfort level, and never pressure you into dives beyond your skills.` },
+    { q: 'How many dives should I book on a first trip?', a: 'Two dives per day for 3-5 days is ideal - enough to build confidence without fatigue. Include one shallow reef dive and one drift or wall dive with a guide. Leave one rest day in the middle of the trip; your body and ears will thank you, and you can snorkel or explore topside instead.' },
+  ],
+  'best-liveaboard': [
+    { q: 'How many dives per day does a liveaboard offer?', a: 'Most liveaboards run 3-4 dives daily plus a night dive on most days - roughly 20-28 dives on a standard 7-night trip. Early-morning and dusk dives target pelagic action, and some boats offer dawn dives for photographers. It is the highest dive-to-cost ratio in the industry.' },
+    { q: 'What is included in the price?', a: 'Typical packages include accommodation, all meals, 3-4 dives per day, tanks, weights, and guides. Nitrox, equipment rental, marine park fees, and alcohol are usually extra. Luxury vessels add en-suite cabins, gourmet dining, and personal dive guides; budget boats share cabins and bathrooms.' },
+    { q: 'Do I need experience for a liveaboard?', a: `Requirements vary by route: sheltered itineraries accept Open Water with 20+ dives, while current-swept routes (Komodo, Galapagos) demand Advanced Open Water and 50+ dives. This collection averages ${avgVis}m visibility and ${avgTemp}°C water, but conditions change quickly offshore - match the route to your experience honestly.` },
+    { q: 'Is seasickness a problem?', a: 'It affects roughly a third of guests on rough crossings, but most liveaboard routes run in calm-season windows, and modern stabilisers help. Bring motion-sickness patches or tablets, choose a mid-ship cabin, and most boats have a doctor or medic on longer routes. Crew are experienced at managing it.' },
+  ],
+  'best-budget': [
+    { q: 'Can I really get world-class diving on a budget?', a: 'Yes - and this collection is the proof. Every destination here combines a 4+ community rating with average daily costs under $200, and several - like Anilao, Lembeh Strait, and Malapascua - deliver world-class experiences for under $100 per day. You save on accommodation and transport, not on the reef.' },
+    { q: 'Where are the biggest savings?', a: 'Indonesia and the Philippines offer the best value per dollar: $25-50 for a two-tank guided dive, $15-30 guesthouse nights, and $3-5 local meals. Book dive packages locally rather than online, dive with smaller operators, and travel in shoulder season for 20-30% discounts.' },
+    { q: 'What costs do travelers underestimate?', a: `Equipment rental ($10-25/day), marine park fees, and transfers between sites. Budget travelers should also plan for one contingency day - weather can close sites. Even with these, total daily costs at our budget destinations stay well under the $${200} threshold for a comfortable trip.` },
+    { q: 'Is budget diving lower quality or less safe?', a: 'Price does not equal safety - reputation does. We only list destinations served by established, well-reviewed operators. Check recent reviews, verify equipment condition, and confirm insurance coverage. The dive sites themselves are the same reefs premium operators sell - you are just paying local prices.' },
+  ],
+};
+const faqList = faqs[collection] || [];
+const topDests = dests.slice(0, 12);
+const links: { href: string; label: string }[] = {
+  'best-shark-diving': [{ href: '/browse/marine-life/sharks', label: 'All shark diving' }, { href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/experience/liveaboard', label: 'Liveaboard trips' }],
+  'best-wreck-diving': [{ href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/browse/ocean/red-sea', label: 'Red Sea diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/price/mid-range', label: 'Mid-range diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }],
+  'best-macro-diving': [{ href: '/browse/marine-life/macro', label: 'All macro diving' }, { href: '/browse/price/budget', label: 'Budget diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }],
+  'best-beginner': [{ href: '/browse/experience/beginner', label: 'All beginner destinations' }, { href: '/browse/marine-life/turtles', label: 'Turtle diving' }, { href: '/browse/ocean/caribbean', label: 'Caribbean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/price/mid-range', label: 'Mid-range diving' }],
+  'best-liveaboard': [{ href: '/browse/experience/liveaboard', label: 'All liveaboard destinations' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/browse/marine-life/sharks', label: 'Shark diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/price/premium', label: 'Premium diving' }],
+  'best-budget': [{ href: '/browse/price/budget', label: 'All budget diving' }, { href: '/browse/marine-life/macro', label: 'Macro diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }],
+}[collection] || [];
 ---
 
 <BaseLayout title={title} description={desc + ' - ' + dests.length + ' hand-picked destinations rated by the community.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Collections', url: '/collections' }, { name: title }]}>
@@ -93,6 +145,82 @@ const intro = intros[collection] || '';
             </a>
           );
         })}
+      </div>
+
+      <div class="mt-16 max-w-3xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Top Picks in Detail</h2>
+        <p class="text-navy-600 mb-8">What makes each destination in this collection stand out, based on community ratings and our editorial research.</p>
+        <div class="space-y-6 mb-12">
+          {topDests.map((d: any) => {
+            const dd = d.data;
+            const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
+            return (
+              <div class="bg-white border border-sand-200 rounded-xl p-6">
+                <h3 class="font-semibold text-navy-900 mb-2"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a>, {dd.country} - {dd.overallRating}/5</h3>
+                <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
+                <p class="text-sm text-navy-600 leading-relaxed">With {dd.visibilityMeters}m visibility and {dd.waterTempCelsius}&deg;C water, {dd.name} dives best from {fmtMonths(dd.bestMonths)}. Daily costs average ${dd.averageDailyCostUsd}, and the signature sites are {topSpots}. Its {dd.difficulty} difficulty profile and {dd.budgetLevel} pricing tier make it a strong candidate for this collection.</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div class="mt-12 mb-12 max-w-4xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Collection at a Glance</h2>
+        <p class="text-navy-600 mb-6">Quick comparison of the destinations in this collection.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr class="bg-navy-950 text-white">
+                <th class="px-4 py-3 font-medium">Destination</th>
+                <th class="px-4 py-3 font-medium">Rating</th>
+                <th class="px-4 py-3 font-medium">Visibility</th>
+                <th class="px-4 py-3 font-medium">Temp</th>
+                <th class="px-4 py-3 font-medium">Cost/day</th>
+                <th class="px-4 py-3 font-medium">Best months</th>
+                <th class="px-4 py-3 font-medium">Difficulty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {topDests.map((d: any, i: number) => {
+                const dd = d.data;
+                return (
+                  <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                    <td class="px-4 py-3 font-medium text-navy-900"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a></td>
+                    <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                    <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                    <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                    <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
+                    <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                    <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-12 mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Frequently Asked Questions</h2>
+        <div class="space-y-6 mt-8">
+          {faqList.map((f: any) => (
+            <div class="bg-white border border-sand-200 rounded-xl p-6">
+              <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+              <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Explore More Collections</h2>
+        <p class="text-navy-600 mb-6">Browse related collections and dive guides to expand your shortlist.</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {links.map((l: any) => (
+            <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+          ))}
+        </div>
       </div>
     </div>
   </section>

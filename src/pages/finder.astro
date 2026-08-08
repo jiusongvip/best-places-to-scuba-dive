@@ -19,6 +19,30 @@ const destsData = allDests.map(d => {
   };
 });
 const jsonData = JSON.stringify(destsData);
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonths = (ms: number[]) => ms.map((m: number) => monthNames[m - 1]).join(', ');
+const countryCount = new Set(allDests.map(d => d.data.country)).size;
+const oceanCount = new Set(allDests.map(d => d.data.ocean)).size;
+const avgRating = (allDests.reduce((s, d) => s + d.data.overallRating, 0) / allDests.length).toFixed(1);
+const avgVis = Math.round(allDests.reduce((s, d) => s + d.data.visibilityMeters, 0) / allDests.length);
+const beginnerCount = allDests.filter(d => d.data.beginnerFriendly >= 4).length;
+const liveaboardCount = allDests.filter(d => d.data.liveaboardAvailable).length;
+const topPicks = [...allDests].sort((a, b) => b.data.overallRating - a.data.overallRating).slice(0, 5);
+const finderFaqs = [
+  { q: 'How accurate are the finder matches?', a: `The finder scores every destination in our database of ${allDests.length} guides against your answers. Matching month picks destinations whose best season overlaps your travel window, experience filters out sites above your comfort level, and marine life preference prioritises destinations rated highest for that species. It is a shortlist generator — the final decision should always factor in logistics and liveaboard availability.` },
+  { q: 'Do I need to answer all three questions?', a: `No. You can skip the month question to see year-round options, choose "Any Level" for experience, or pick "Show Me Everything" for marine life. The more answers you give, the tighter the matches — but even a single answer narrows the list usefully.` },
+  { q: 'How is difficulty level determined?', a: `Each destination carries an editorial difficulty rating based on typical currents, depth profiles, and entry conditions. Beginner means gentle currents and shallow reefs, intermediate suits divers with 20-50 dives, and advanced destinations assume drift experience and deeper profiles. Certification requirements are listed on every destination guide.` },
+  { q: 'Can the finder recommend liveaboard trips?', a: `${liveaboardCount} of our ${allDests.length} destinations offer liveaboard diving. The finder includes these in your matches, and the liveaboard collection page lists the best safari itineraries with typical prices and seasonality.` },
+  { q: 'What happens after I get my matches?', a: `Each match links directly to its full destination guide, where you can check visibility (averaging ${avgVis}m across the site), water temperature, daily costs, and the best dive spots. From there, use the compare tool to weigh two matches side by side before booking.` },
+];
+const finderLinks = [
+  { href: '/map', label: 'Explore the world map' },
+  { href: '/compare', label: 'Compare destinations' },
+  { href: '/collections/best-liveaboard', label: 'Liveaboard trips' },
+  { href: '/browse/experience/beginner', label: 'Beginner destinations' },
+  { href: '/browse/marine-life/whale-sharks', label: 'Whale shark diving' },
+  { href: '/browse/price/budget', label: 'Budget-friendly diving' },
+];
 ---
 
 <BaseLayout title="Scuba Dive Destination Finder" description="Answer 3 simple questions about travel dates, experience level, and marine life preferences. Get matched with the best scuba diving destinations for your trip." breadcrumbs={[{ name: "Home", url: "/" }, { name: "Finder" }]}>
@@ -135,11 +159,96 @@ const jsonData = JSON.stringify(destsData);
       </div>
     </div>
   </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">How the DiveAtlas Finder Works</h2>
+      <p class="text-navy-600 mb-8">Three quick questions, one shortlist of destinations built from our full database of {allDests.length} dive guides.</p>
+      <div class="space-y-6">
+        <div class="bg-white border border-sand-200 rounded-xl p-6">
+          <h3 class="font-semibold text-navy-900 mb-2">1. Choose your travel month</h3>
+          <p class="text-sm text-navy-600 leading-relaxed">Every destination has a best season defined by calm seas and peak visibility. Pick the month of your trip and the finder prioritises destinations whose best months overlap your window — so you do not end up booking Raja Ampat in the middle of its windiest season. Not decided yet? Skip and see year-round options instead.</p>
+        </div>
+        <div class="bg-white border border-sand-200 rounded-xl p-6">
+          <h3 class="font-semibold text-navy-900 mb-2">2. Set your experience level</h3>
+          <p class="text-sm text-navy-600 leading-relaxed">Honesty pays off here. {beginnerCount} of our destinations are rated strongly beginner-friendly, with gentle currents and shallow reef profiles, while the most advanced sites assume drift experience and deeper profiles. Matching your comfort level filters out trips that would need significant preparation — or upgrades to technical certification.</p>
+        </div>
+        <div class="bg-white border border-sand-200 rounded-xl p-6">
+          <h3 class="font-semibold text-navy-900 mb-2">3. Pick the marine life you want to see</h3>
+          <p class="text-sm text-navy-600 leading-relaxed">Sharks, manta rays, whale sharks, coral reefs, macro critters, or wrecks — each destination is scored for the species groups it reliably delivers. Tell the finder what excites you most and it ranks destinations by that score, so a whale shark trip goes to the aggregation sites that actually deliver.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">The Database Behind the Matches</h2>
+      <p class="text-navy-600 mb-8">The finder draws on the same editorial research as every destination guide on this site.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{allDests.length}</p>
+          <p class="text-xs text-ocean-700 mt-1">Destinations</p>
+        </div>
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{countryCount}</p>
+          <p class="text-xs text-ocean-700 mt-1">Countries</p>
+        </div>
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{oceanCount}</p>
+          <p class="text-xs text-ocean-700 mt-1">Oceans</p>
+        </div>
+        <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-ocean-600">{avgRating}</p>
+          <p class="text-xs text-ocean-700 mt-1">Avg Rating</p>
+        </div>
+      </div>
+      <h3 class="text-xl font-semibold text-navy-950 mb-6">Our Top-Rated Destinations</h3>
+      <div class="space-y-5">
+        {topPicks.map(d => {
+          const dd = d.data;
+          return (
+            <div class="bg-white border border-sand-200 rounded-xl p-5">
+              <div class="flex items-start justify-between mb-2">
+                <h4 class="font-semibold text-navy-900"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h4>
+                <span class="text-xs text-amber-500 bg-sand-100 px-2 py-1 rounded font-medium">{dd.overallRating}/5</span>
+              </div>
+              <p class="text-sm text-navy-600 leading-relaxed">{dd.tagline}. Best months: {fmtMonths(dd.bestMonths)}. Visibility {dd.visibilityMeters}m, water {dd.waterTempCelsius}&deg;C, from ${dd.averageDailyCostUsd}/day.</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Dive Finder: FAQ</h2>
+      <div class="space-y-6 mt-8">
+        {finderFaqs.map(f => (
+          <div class="bg-white border border-sand-200 rounded-xl p-6">
+            <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+            <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Keep Exploring</h2>
+      <p class="text-navy-600 mb-8">More tools and guides to plan the perfect dive trip.</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {finderLinks.map(l => (
+          <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <script is:inline src="/finder.js"></script>
-
-</script>
 
 
 
