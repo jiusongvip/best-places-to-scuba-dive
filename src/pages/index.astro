@@ -23,7 +23,7 @@ const fd = JSON.stringify(destsData);// Map data
 const mapData = d.map(x => ({  name: x.data.name, slug: x.data.slug, country: x.data.country,  lat: x.data.coordinates.lat, lng: x.data.coordinates.lng,  rating: x.data.overallRating, ocean: x.data.ocean,}));
 const t = "Best Places to Scuba Dive Worldwide";
 const desc = "Data-driven ranking of the 27 best places to scuba dive worldwide — compare visibility, marine life, budget and season. Interactive finder and map.";
-const sc = {  "@context":"https://schema.org","@graph":[  {"@type":"Organization","name":"DiveAtlas","url":"https://best-places-to-scuba-dive.com","description":"The dive destination directory. Find, compare, and discover scuba diving destinations worldwide."},  {"@type":"FAQPage",  mainEntity:[    {"@type":"Question",name:"Where is the best scuba diving in the world?",acceptedAnswer:{"@type":"Answer",text:"Raja Ampat, Indonesia is widely considered the best for marine biodiversity with over 1500 fish species. Galapagos and Cocos Island lead for big-animal encounters, while the Maldives excels for accessible luxury diving."}},    {"@type":"Question",name:"What is the best scuba diving for beginners?",acceptedAnswer:{"@type":"Answer",text:"Bonaire, Cozumel, the Maldives, and the Great Barrier Reef are excellent for beginners. They offer warm water, good visibility, gentle currents, and abundant marine life at accessible depths."}},    {"@type":"Question",name:"When is the best time to scuba dive?",acceptedAnswer:{"@type":"Answer",text:"The best diving season varies by destination. The Maldives peaks November to April, Raja Ampat October to April, the Red Sea March to November, and the Caribbean December to May."}}  ]},  {"@type":"ItemList","name":"Best Scuba Diving in the World","itemListElement":sorted.slice(0,12).map((x,i)=>({"@type":"ListItem","position":i+1,"name":x.data.name,"url":"https://best-places-to-scuba-dive.com/destinations/"+x.data.slug}))}  ]};
+const sc = {  "@context":"https://schema.org","@graph":[  {"@type":"Organization","name":"DiveAtlas","url":"https://www.best-places-to-scuba-dive.com","description":"The dive destination directory. Find, compare, and discover scuba diving destinations worldwide."},  {"@type":"FAQPage",  mainEntity:[    {"@type":"Question",name:"Where is the best scuba diving in the world?",acceptedAnswer:{"@type":"Answer",text:"Raja Ampat, Indonesia is widely considered the best for marine biodiversity with over 1500 fish species. Galapagos and Cocos Island lead for big-animal encounters, while the Maldives excels for accessible luxury diving."}},    {"@type":"Question",name:"What is the best scuba diving for beginners?",acceptedAnswer:{"@type":"Answer",text:"Bonaire, Cozumel, the Maldives, and the Great Barrier Reef are excellent for beginners. They offer warm water, good visibility, gentle currents, and abundant marine life at accessible depths."}},    {"@type":"Question",name:"When is the best time to scuba dive?",acceptedAnswer:{"@type":"Answer",text:"The best diving season varies by destination. The Maldives peaks November to April, Raja Ampat October to April, the Red Sea March to November, and the Caribbean December to May."}}  ]},  {"@type":"ItemList","name":"Best Scuba Diving in the World","itemListElement":sorted.slice(0,12).map((x,i)=>({"@type":"ListItem","position":i+1,"name":x.data.name,"url":"https://www.best-places-to-scuba-dive.com/destinations/"+x.data.slug}))}  ]};
 // ── NEW: Budget tiers for cost comparison ──
 const budgetTiers = [{level:'budget',label:'$ Budget',range:'Under $100/day',desc:'Affordable shore diving, backpacker-friendly destinations',color:'emerald'},{level:'mid-range',label:'$$ Mid-Range',range:'$100–200/day',desc:'Great value with comfortable amenities and reliable operators',color:'sky'},{level:'premium',label:'$$$ Premium',range:'$200–400/day',desc:'Liveaboards, remote atolls, top-tier biodiversity experiences',color:'amber'},{level:'luxury',label:'$$$$ Luxury',range:'$400+/day',desc:'Exclusive resorts, private charters, bucket-list encounters',color:'rose'}];
 const budgetSamples = budgetTiers.map(t => ({...t, destinations: sorted.filter(x => x.data.budgetLevel === t.level).slice(0, 4)}));
@@ -46,10 +46,10 @@ const diveTypes = [{s:'wall',l:'Wall Dives',d:'Dramatic drop-offs, deep blue vis
 <a href="#browse" class="hover:text-coral-500 transition-colors">Browse</a>        
 <a href="#destinations" class="hover:text-coral-500 transition-colors">Destinations</a>        
 <a href="#collections" class="hover:text-coral-500 transition-colors">Collections</a>        
-<a href="/map" class="hover:text-coral-500 transition-colors">Map</a>       
-<a href="/about" class="hover:text-coral-500 transition-colors">About</a>        
-<a href="/compare" class="hover:text-coral-500 transition-colors">Compare</a>        
-<a href="/finder" class="hover:text-coral-500 transition-colors">Finder</a>      </div>
+<a href="/map/" class="hover:text-coral-500 transition-colors">Map</a>       
+<a href="/about/" class="hover:text-coral-500 transition-colors">About</a>        
+<a href="/compare/" class="hover:text-coral-500 transition-colors">Compare</a>        
+<a href="/finder/" class="hover:text-coral-500 transition-colors">Finder</a>      </div>
     </div>
   
 </nav>  
@@ -258,7 +258,7 @@ return (
 })}
 </div>
 <div class="mt-10 text-center">
-<a href="/destinations" class="inline-flex items-center gap-2 text-navy-700 hover:text-coral-500 transition-colors font-medium text-sm">
+<a href="/destinations/" class="inline-flex items-center gap-2 text-navy-700 hover:text-coral-500 transition-colors font-medium text-sm">
   Browse all 27 destinations
   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
 </a>
@@ -290,7 +290,7 @@ return (
 ))}
 </div>
 <div class="mt-8 text-center">
-<a href="/browse/price/budget" class="inline-flex items-center gap-2 text-navy-700 hover:text-coral-500 transition-colors font-medium text-sm">
+<a href="/browse/price/budget/" class="inline-flex items-center gap-2 text-navy-700 hover:text-coral-500 transition-colors font-medium text-sm">
   Compare all destinations by budget
   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
 </a>
@@ -503,7 +503,7 @@ const dd = x.data;          return (
 <p class="text-sm text-navy-600 leading-relaxed line-clamp-2">{dd.tagline}</p>            </a>          );        })}      </div>
       
 <div class="mt-10 text-center">        
-<a href="/destinations" class="inline-flex items-center gap-2 text-navy-700 hover:text-coral-500 transition-colors font-medium text-sm">          View all destinations          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>        </a>      </div>
+<a href="/destinations/" class="inline-flex items-center gap-2 text-navy-700 hover:text-coral-500 transition-colors font-medium text-sm">          View all destinations          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>        </a>      </div>
     </div>
   
 </section>  {thisMonthBest.length > 0 && (    

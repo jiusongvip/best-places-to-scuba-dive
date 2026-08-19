@@ -3,8 +3,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://best-places-to-scuba-dive.com',
-  trailingSlash: 'never',
+  site: 'https://www.best-places-to-scuba-dive.com',
+  trailingSlash: 'always',
   integrations: [sitemap({ lastmod: new Date() })],
   vite: {
     plugins: [tailwindcss()],
