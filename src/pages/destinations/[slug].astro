@@ -185,7 +185,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
 
     <aside class="space-y-8">
       <div class="bg-white border border-sand-200 rounded-xl p-6">
-        <h4 class="font-semibold text-navy-900 mb-4">Trip Planning</h4>
+        <h3 class="font-semibold text-navy-900 mb-4">Trip Planning</h3>
         <dl class="space-y-3 text-sm">
           <div class="flex justify-between"><dt class="text-navy-500">Nearest Airport</dt><dd class="text-navy-900 font-medium">{dd.nearestAirport}</dd></div>
           <div class="flex justify-between"><dt class="text-navy-500">Timezone</dt><dd class="text-navy-900 font-medium">{dd.timezoneOffset}</dd></div>
@@ -197,7 +197,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
       </div>
 
       <div class="bg-white border border-sand-200 rounded-xl p-6">
-        <h4 class="font-semibold text-navy-900 mb-3">Dive Types</h4>
+        <h3 class="font-semibold text-navy-900 mb-3">Dive Types</h3>
         <div class="flex flex-wrap gap-2">
           {dd.diveTypes.map((t: string) => (<span class="px-2.5 py-1 bg-ocean-100 text-ocean-700 rounded-lg text-xs font-medium capitalize">{t}</span>))}
         </div>
@@ -205,7 +205,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
 
       {nearby.length > 0 && (
         <div class="bg-white border border-sand-200 rounded-xl p-6">
-          <h4 class="font-semibold text-navy-900 mb-3">Nearby</h4>
+          <h3 class="font-semibold text-navy-900 mb-3">Nearby</h3>
           <div class="space-y-2">
             {nearby.map((n: any) => (
               <a href={'/destinations/' + n.data.slug} class="block p-3 rounded-lg hover:bg-sand-100 transition-colors">

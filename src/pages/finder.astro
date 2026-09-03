@@ -210,7 +210,7 @@ const finderLinks = [
           return (
             <div class="bg-white border border-sand-200 rounded-xl p-5">
               <div class="flex items-start justify-between mb-2">
-                <h4 class="font-semibold text-navy-900"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h4>
+                <h3 class="font-semibold text-navy-900"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
                 <span class="text-xs text-amber-500 bg-sand-100 px-2 py-1 rounded font-medium">{dd.overallRating}/5</span>
               </div>
               <p class="text-sm text-navy-600 leading-relaxed">{dd.tagline}. Best months: {fmtMonths(dd.bestMonths)}. Visibility {dd.visibilityMeters}m, water {dd.waterTempCelsius}&deg;C, from ${dd.averageDailyCostUsd}/day.</p>

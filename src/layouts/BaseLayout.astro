@@ -15,6 +15,21 @@ const canonical = Astro.url.pathname === '/'
   ? new URL('/', Astro.site).toString().replace(/\/$/, '')
   : new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = image || "https://www.best-places-to-scuba-dive.com/og-default.png";
+const siteUrl = "https://www.best-places-to-scuba-dive.com";
+
+const pageSchema = {
+  "@type": "WebPage",
+  "@id": canonical,
+  "url": canonical,
+  "name": title,
+  "description": description,
+  "inLanguage": "en",
+  "datePublished": "2026-01-05",
+  "dateModified": lastUpdated,
+  "author": { "@type": "Organization", "name": "DiveAtlas Editorial Team", "url": siteUrl + "/about/", "sameAs": ["https://github.com/jiusongvip/best-places-to-scuba-dive"] },
+  "publisher": { "@type": "Organization", "name": "DiveAtlas", "url": siteUrl, "logo": { "@type": "ImageObject", "url": siteUrl + "/og-default.png" } },
+  "isPartOf": { "@type": "WebSite", "@id": siteUrl + "/#website", "url": siteUrl, "name": "DiveAtlas" },
+};
 
 const breadcrumbSchema = breadcrumbs ? {
   "@context": "https://schema.org",
@@ -68,6 +83,7 @@ const breadcrumbSchema = breadcrumbs ? {
   ]})}></script>
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>}
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>}
+  {!['/', '/contact/', '/privacy/', '/terms/'].includes(Astro.url.pathname) && <script type="application/ld+json" set:html={JSON.stringify(pageSchema)}></script>}
 </head>
 <body class="min-h-screen bg-surface text-navy-950 antialiased">
   <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -76,6 +92,13 @@ const breadcrumbSchema = breadcrumbs ? {
     <div class="organic-blob organic-blob-3" style="width:500px;height:500px;bottom:-150px;right:-200px;"></div>
   </div>
   <slot />
+  {Astro.url.pathname !== '/' && (
+    <div class="relative z-10 bg-white/80 border-t border-sand-200">
+      <div class="container-page py-5 text-sm text-navy-600">
+        Researched and written by the <a href="/about/" class="font-semibold text-navy-900 hover:text-coral-500 transition-colors">DiveAtlas Editorial Team</a> &middot; Updated {lastUpdated}
+      </div>
+    </div>
+  )}
   <footer class="mt-auto bg-navy-950 text-sand-300">
     <div class="container-page py-14">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
