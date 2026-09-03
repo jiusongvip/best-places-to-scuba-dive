@@ -28,6 +28,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
     { '@type': 'Question', name: 'How much does scuba diving in ' + dd.name + ' cost?', acceptedAnswer: { '@type': 'Answer', text: '$' + dd.averageDailyCostUsd + '/day average. ' + dd.budgetLevel + ' tier. Liveaboard: ' + (dd.liveaboardAvailable ? 'available' : 'not available') + '.' } }
   ] }
 ] };
+import { imgSrcset } from '../../utils/imgVariants';
 ---
 
 <BaseLayout title={title} description={description} image={dd.imageLocal} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Destinations', url: '/destinations' }, { name: dd.name }]}>

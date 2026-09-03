@@ -80,6 +80,7 @@ const schema = {
     })),
   },
 };
+import { imgSrc, imgSrcset } from '../../utils/imgVariants';
 ---
 
 <BaseLayout title={title} description={description} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Destinations' }]}>
@@ -180,7 +181,7 @@ const schema = {
           return (
             <a href={`/destinations/${dd.slug}`} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all card-playful" data-ocean={dd.ocean} data-difficulty={dd.difficulty} data-budget={dd.budgetLevel} data-rating={dd.overallRating} data-vis={dd.visibilityMeters} data-temp={dd.waterTempCelsius} data-cost={dd.averageDailyCostUsd} data-beginner={dd.beginnerFriendly}>
               <div class="aspect-[3/2] bg-sand-200 overflow-hidden relative">
-                <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
+                <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
                 <div class="absolute top-3 left-3 flex gap-1.5">
                   <span class="px-2 py-0.5 rounded-md bg-navy-950/70 text-white text-[10px] font-medium">{oceanIcons[dd.ocean] || ''} {oceanLabels[dd.ocean] || dd.ocean}</span>
                 </div>

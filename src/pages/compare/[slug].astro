@@ -40,6 +40,7 @@ const schema = { '@context':'https://schema.org','@type':'FAQPage', mainEntity: 
   {'@type':'Question','name':'Which is better: ' + da.name + ' or ' + db.name + '?','acceptedAnswer':{'@type':'Answer','text':'For biodiversity: ' + w('coral') + '. For beginners: ' + w('beginner') + '. For budget: ' + w('budget') + '.'}},
   {'@type':'Question','name':'Is ' + da.name + ' more expensive than ' + db.name + '?','acceptedAnswer':{'@type':'Answer','text': da.averageDailyCostUsd > db.averageDailyCostUsd ? da.name + ' ($' + da.averageDailyCostUsd + '/day) is more expensive than ' + db.name + ' ($' + db.averageDailyCostUsd + '/day).' : db.name + ' ($' + db.averageDailyCostUsd + '/day) is more expensive than ' + da.name + ' ($' + da.averageDailyCostUsd + '/day).'}}
 ]};
+import { imgSrc, imgSrcset } from '../../utils/imgVariants';
 ---
 
 <BaseLayout title={title} description={description} schema={schema} breadcrumbs={[{ name: "Home", url: "/" }, { name: "Compare", url: "/compare" }, { name: destA.data.name + " vs " + destB.data.name }]}>
@@ -62,11 +63,11 @@ const schema = { '@context':'https://schema.org','@type':'FAQPage', mainEntity: 
     <div class="container-page">
       <div class="grid grid-cols-2 gap-4 mb-8">
         <a href={'/destinations/' + da.slug} class="group block rounded-xl overflow-hidden relative aspect-[16/9] bg-navy-800">
-          <img src={da.imageLocal} alt={da.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="lazy" />
+          <img src={imgSrc(da.imageLocal)} srcset={imgSrcset(da.imageLocal)} sizes={'(min-width: 768px) 50vw, 92vw'} alt={da.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="lazy" />
           <span class="absolute bottom-2 left-3 bg-navy-950/60 text-white text-sm font-medium px-3 py-1 rounded-lg">{da.name}</span>
         </a>
         <a href={'/destinations/' + db.slug} class="group block rounded-xl overflow-hidden relative aspect-[16/9] bg-navy-800">
-          <img src={db.imageLocal} alt={db.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="lazy" />
+          <img src={imgSrc(db.imageLocal)} srcset={imgSrcset(db.imageLocal)} sizes={'(min-width: 768px) 50vw, 92vw'} alt={db.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="lazy" />
           <span class="absolute bottom-2 left-3 bg-navy-950/60 text-white text-sm font-medium px-3 py-1 rounded-lg">{db.name}</span>
         </a>
       </div>

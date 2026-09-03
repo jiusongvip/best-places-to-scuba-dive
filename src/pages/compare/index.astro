@@ -21,6 +21,7 @@ const links = [
   { href: '/browse/experience/beginner', label: 'Beginner destinations' },
   { href: '/finder', label: 'Destination finder' },
 ];
+import { imgSrc, imgSrcset } from '../../utils/imgVariants';
 ---
 
 <BaseLayout title="Compare Scuba Diving Destinations" description="Compare scuba diving destinations side by side. Evaluate visibility, marine life, difficulty, budget, and water temperature to choose your perfect dive trip." breadcrumbs={[{ name: "Home", url: "/" }, { name: "Compare" }]}>
@@ -61,10 +62,10 @@ const links = [
           <a href={'/compare/' + p.slug} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm rounded-xl overflow-hidden transition-all">
             <div class="grid grid-cols-2 gap-px bg-sand-200">
               <div class="aspect-[3/2] bg-sand-100 overflow-hidden">
-                {da && <img src={da.imageLocal} alt={da.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />}
+                {da && <img src={imgSrc(da.imageLocal)} srcset={imgSrcset(da.imageLocal)} sizes={'(min-width: 768px) 25vw, 46vw'} alt={da.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />}
               </div>
               <div class="aspect-[3/2] bg-sand-100 overflow-hidden">
-                {db && <img src={db.imageLocal} alt={db.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />}
+                {db && <img src={imgSrc(db.imageLocal)} srcset={imgSrcset(db.imageLocal)} sizes={'(min-width: 768px) 25vw, 46vw'} alt={db.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />}
               </div>
             </div>
             <div class="p-5">

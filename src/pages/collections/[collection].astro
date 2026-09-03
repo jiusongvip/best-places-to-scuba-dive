@@ -101,6 +101,7 @@ const links: { href: string; label: string }[] = {
   'best-liveaboard': [{ href: '/browse/experience/liveaboard', label: 'All liveaboard destinations' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/browse/marine-life/sharks', label: 'Shark diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/price/premium', label: 'Premium diving' }],
   'best-budget': [{ href: '/browse/price/budget', label: 'All budget diving' }, { href: '/browse/marine-life/macro', label: 'Macro diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }],
 }[collection] || [];
+import { imgSrc, imgSrcset } from '../../utils/imgVariants';
 ---
 
 <BaseLayout title={title} description={desc + ' - ' + dests.length + ' hand-picked destinations rated by the community.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Collections', url: '/collections' }, { name: title }]}>
@@ -139,7 +140,7 @@ const links: { href: string; label: string }[] = {
           const dd = d.data;
           return (
             <a href={`/destinations/${dd.slug}`} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
-              <div class="aspect-[3/2] bg-sand-200 overflow-hidden"><img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" /></div>
+              <div class="aspect-[3/2] bg-sand-200 overflow-hidden"><img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" /></div>
               <div class="p-6"><h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600">{dd.name}</h3>
               <p class="text-sm text-navy-600 mt-2">{dd.country} - {dd.overallRating}/5</p></div>
             </a>

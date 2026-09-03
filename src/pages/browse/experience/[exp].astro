@@ -66,6 +66,7 @@ const otherLinks: Record<string, { href: string; label: string }[]> = {
   liveaboard: [{ href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/collections/best-shark-diving', label: 'Best shark diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
 };
 const links = otherLinks[exp || 'beginner'] || [];
+import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
 ---
 
 <BaseLayout title={title} description={'Compare ' + dests.length + ' top-rated ' + (label || '').toLowerCase() + ' scuba diving destinations by visibility, water temp, marine life, and daily costs. Find your ideal dive trip with DiveAtlas.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: label }]}>
@@ -107,7 +108,7 @@ const links = otherLinks[exp || 'beginner'] || [];
           return (
             <a href={'/destinations/' + dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
               <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
-                <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" />
+                <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
               </div>
               <div class="p-6">
               <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600">{dd.name}</h3>

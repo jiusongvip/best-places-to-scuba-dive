@@ -39,6 +39,7 @@ const mlCalendar = mlTypes.map(mlt => ({...mlt, months: months.map((_, i) => d.f
 const mlMax = Math.max(...mlCalendar.flatMap(m => m.months), 1);
 // ── NEW: Dive types for browse panel ──
 const diveTypes = [{s:'wall',l:'Wall Dives',d:'Dramatic drop-offs, deep blue vistas'},{s:'drift',l:'Drift Dives',d:'Ride the current past stunning scenery'},{s:'wreck',l:'Wreck Dives',d:'WWII ships, artificial reefs'},{s:'cave',l:'Cave & Cavern',d:'Cenotes, swim-throughs, overhead environments'},{s:'reef',l:'Coral Reefs',d:'Vibrant gardens, shallow and accessible'},{s:'pelagic',l:'Pelagic',d:'Big animals, open ocean, thrilling encounters'},{s:'macro',l:'Macro / Muck',d:'Tiny critters, rare nudibranchs'},{s:'night',l:'Night Dives',d:'Nocturnal marine life, bioluminescence'}];
+import { imgSrc, imgSrcset } from '../utils/imgVariants';
 ---
 
 <BaseLayout title={t} description={desc} schema={sc}>  
@@ -230,7 +231,7 @@ return (
 <div class="group">
 <a href={"/destinations/"+dd.slug} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-lg rounded-xl overflow-hidden transition-all card-playful">
 <div class="aspect-[16/10] bg-sand-200 overflow-hidden relative">
-<img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1672" height="941" loading="lazy" />
+<img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1672" height="941" loading="lazy" />
 <div class="absolute top-3 left-3">
 <span class="px-3 py-1 rounded-full text-xs font-semibold bg-coral-500 text-white">{labels[i]}</span>
 </div>
@@ -495,7 +496,7 @@ var target = document.querySelector('section[data-panel="' + k + '"]');         
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">        {top12.map(x => {          
 const dd = x.data;          return (            
 <a href={"/destinations/"+dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl p-6 transition-all card-playful">              
-<div class="aspect-[3/2] bg-sand-200 rounded-lg mb-4 overflow-hidden">                <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" />              </div>
+<div class="aspect-[3/2] bg-sand-200 rounded-lg mb-4 overflow-hidden">                <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />              </div>
               
 <div class="flex items-start justify-between mb-1">                
 <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600 transition-colors">{dd.name}</h3>                <span class="text-amber-400 text-sm font-semibold">{dd.overallRating}</span>              </div>
@@ -523,7 +524,7 @@ const dd = x.data;          return (
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">          {thisMonthBest.map(x => {            
 const dd = x.data;            return (              
 <a href={"/destinations/"+dd.slug} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-md rounded-xl overflow-hidden transition-all">                
-<div class="aspect-[3/2] bg-sand-200 overflow-hidden">                  <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="eager" />                </div>
+<div class="aspect-[3/2] bg-sand-200 overflow-hidden">                  <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />                </div>
                 
 <div class="p-6">                  
 <div class="flex items-center justify-between mb-2">                    
@@ -553,7 +554,6 @@ const dd = x.data;            return (
     </div>
   
 </section>    
-<script is:inline src="/finder.js"></script>
 
 <!-- Top Dive Shops -->
 <section class="py-16 md:py-24 bg-white scroll-reveal">
