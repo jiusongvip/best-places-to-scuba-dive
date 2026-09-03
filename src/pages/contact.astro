@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.best-places-to-scuba-dive.com/contact/",
+  "url": "https://www.best-places-to-scuba-dive.com/contact/",
+  "name": "Contact DiveAtlas",
+  "description": "Contact the DiveAtlas team. Corrections, data questions, dive destination suggestions, and feedback. We read every message.",
+  "inLanguage": "en",
+  "dateModified": "2026-09-03",
+  "author": { "@type": "Organization", "name": "DiveAtlas", "url": "https://www.best-places-to-scuba-dive.com/about/" },
+  "publisher": { "@type": "Organization", "name": "DiveAtlas", "url": "https://www.best-places-to-scuba-dive.com" },
+};
+---
+<BaseLayout title="Contact" description="Contact the DiveAtlas team. Corrections, data questions, dive destination suggestions, and feedback. We read every message." schema={schema}>
+  <nav class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-700">Contact</span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium">CONTACT</p>
+      <h1 class="text-4xl md:text-5xl font-semibold text-navy-950 tracking-tight mb-3">Contact DiveAtlas</h1>
+      <p class="text-lg text-navy-600 mb-8">Corrections, data questions, and dive destination suggestions — reach us at <a href="mailto:hello@best-places-to-scuba-dive.com" class="text-coral-600 hover:underline font-medium">hello@best-places-to-scuba-dive.com</a>.</p>
+      <div class="space-y-10 text-navy-700 leading-relaxed">
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">What we welcome</h2>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><strong>Corrections.</strong> Spot a visibility range, water temperature, or best-month that looks off? Tell us and we will re-check the source.</li>
+            <li><strong>Destination suggestions.</strong> A dive site we have missed that deserves to be in the directory?</li>
+            <li><strong>Data questions.</strong> Curious how a rating or cost estimate was calculated? Our methodology page explains it, and we are happy to answer specifics.</li>
+            <li><strong>Feedback.</strong> Anything that would make the directory more useful to divers.</li>
+          </ul>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">What to include</h2>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>The destination page URL or name you are writing about</li>
+            <li>Your question, correction, or suggestion with as much detail as you like</li>
+            <li>If reporting an error, any source you used to verify the correct value</li>
+          </ul>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">How quickly do we respond?</h2>
+          <p>We aim to reply within a few business days. Because we are a small team, we cannot guarantee a response to every message — but we read them all, and reader corrections regularly become updates to destination pages.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Before you dive</h2>
+          <p>DiveAtlas is an independent directory. We are not affiliated with PADI, SSI, or any certification agency, and we do not book trips or sell dive packages. For bookings, contact the dive operators listed on each destination page directly.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

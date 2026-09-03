@@ -62,7 +62,10 @@ const breadcrumbSchema = breadcrumbs ? {
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
   <meta name="revised" content={`${lastUpdated}T00:00:00+08:00`} />
-  <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebSite","name":"DiveAtlas","url":"https://www.best-places-to-scuba-dive.com","description":"The dive destination directory.","dateModified":lastUpdated})}></script>
+  <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@graph":[
+    {"@type":"Organization","@id":"https://www.best-places-to-scuba-dive.com/#organization","name":"DiveAtlas","url":"https://www.best-places-to-scuba-dive.com","logo":"https://www.best-places-to-scuba-dive.com/og-default.png","description":"The dive destination directory. Find, compare, and discover scuba diving destinations worldwide.","sameAs":["https://github.com/jiusongvip/best-places-to-scuba-dive"]},
+    {"@type":"WebSite","@id":"https://www.best-places-to-scuba-dive.com/#website","name":"DiveAtlas","url":"https://www.best-places-to-scuba-dive.com","description":"The dive destination directory.","inLanguage":"en","publisher":{"@id":"https://www.best-places-to-scuba-dive.com/#organization"},"dateModified":lastUpdated}
+  ]})}></script>
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>}
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>}
 </head>
@@ -75,9 +78,9 @@ const breadcrumbSchema = breadcrumbs ? {
   <slot />
   <footer class="mt-auto bg-navy-950 text-sand-300">
     <div class="container-page py-14">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
         <div>
-          <h4 class="text-sm font-semibold text-white mb-4">Browse</h4>
+          <p class="text-sm font-semibold text-white mb-4">Browse</p>
           <ul class="space-y-2.5">
             <li><a href="/browse/ocean/pacific/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">By Ocean</a></li>
             <li><a href="/browse/experience/beginner/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">By Experience</a></li>
@@ -87,7 +90,7 @@ const breadcrumbSchema = breadcrumbs ? {
           </ul>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white mb-4">Collections</h4>
+          <p class="text-sm font-semibold text-white mb-4">Collections</p>
           <ul class="space-y-2.5">
             <li><a href="/collections/best-shark-diving/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">Best Shark Diving</a></li>
             <li><a href="/collections/best-wreck-diving/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">Best Wreck Diving</a></li>
@@ -98,12 +101,20 @@ const breadcrumbSchema = breadcrumbs ? {
           </ul>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white mb-4">Tools</h4>
+          <p class="text-sm font-semibold text-white mb-4">Tools</p>
           <ul class="space-y-2.5">
             <li><a href="/finder/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">Destination Finder</a></li>
             <li><a href="/compare/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">Compare Destinations</a></li>
             <li><a href="/map/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">World Map</a></li>
             <li><a href="/about/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">About DiveAtlas</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white mb-4">Legal</p>
+          <ul class="space-y-2.5">
+            <li><a href="/contact/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">Contact</a></li>
+            <li><a href="/privacy/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="text-sm text-sand-300/70 hover:text-coral-400 transition-colors">Terms of Use</a></li>
           </ul>
         </div>
         <div>
@@ -118,6 +129,9 @@ const breadcrumbSchema = breadcrumbs ? {
         <span>&copy; 2026 DiveAtlas. Updated: {lastUpdated}. Not affiliated with PADI, SSI, or any certification agency.</span>
         <div class="flex gap-6">
           <a href="/about/" class="hover:text-coral-400 transition-colors text-sand-400/60">About</a>
+          <a href="/contact/" class="hover:text-coral-400 transition-colors text-sand-400/60">Contact</a>
+          <a href="/privacy/" class="hover:text-coral-400 transition-colors text-sand-400/60">Privacy</a>
+          <a href="/terms/" class="hover:text-coral-400 transition-colors text-sand-400/60">Terms</a>
           <a href="/compare/" class="hover:text-coral-400 transition-colors text-sand-400/60">Compare</a>
           <a href="/finder/" class="hover:text-coral-400 transition-colors text-sand-400/60">Finder</a>
           <a href="/map/" class="hover:text-coral-400 transition-colors text-sand-400/60">Map</a>

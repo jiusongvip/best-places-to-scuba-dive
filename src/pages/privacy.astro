@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const date = "2026-08-03";
+const dateModified = "2026-09-03";
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.best-places-to-scuba-dive.com/privacy/",
+  "url": "https://www.best-places-to-scuba-dive.com/privacy/",
+  "name": "Privacy Policy",
+  "description": "How DiveAtlas handles data, cookies, and third-party services. We collect no personal information from visitors.",
+  "inLanguage": "en",
+  "datePublished": date,
+  "dateModified": dateModified,
+  "author": { "@type": "Organization", "name": "DiveAtlas", "url": "https://www.best-places-to-scuba-dive.com/about/" },
+  "publisher": { "@type": "Organization", "name": "DiveAtlas", "url": "https://www.best-places-to-scuba-dive.com" },
+};
+---
+<BaseLayout title="Privacy Policy" description="How DiveAtlas handles data, cookies, and third-party services. This site collects no personal information from visitors." schema={schema}>
+  <nav class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-700">Privacy</span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium">PRIVACY POLICY</p>
+      <h1 class="text-4xl md:text-5xl font-semibold text-navy-950 tracking-tight mb-3">Privacy Policy</h1>
+      <p class="text-sm text-navy-500 mb-10">Last updated: {dateModified}</p>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-8">
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Who we are</h2>
+          <p>DiveAtlas (best-places-to-scuba-dive.com) publishes an independent, data-driven directory of scuba diving destinations. We are a static informational website. You can reach us at <a href="mailto:hello@best-places-to-scuba-dive.com" class="text-coral-600 hover:underline">hello@best-places-to-scuba-dive.com</a>.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">What we collect</h2>
+          <p>We do not collect, store, or process any personal information about our visitors.</p>
+          <h3 class="text-lg font-semibold text-navy-900 mt-4 mb-2">No accounts, forms, or comments</h3>
+          <p>This site has no account registration, no contact forms that store data, and no comments. We never ask for your name, email, or phone number.</p>
+          <h3 class="text-lg font-semibold text-navy-900 mt-4 mb-2">No advertising trackers</h3>
+          <p>We run no advertising and no cross-site tracking that builds a profile of individual visitors. Your dives stay your own.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Analytics</h2>
+          <p>We use Google Analytics in aggregate to understand which pages divers find useful. Analytics data is anonymized and used only to improve the directory — never to target advertising at you.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Hosting and edge logs</h2>
+          <p>This site is hosted on Cloudflare Pages. Like any web host, Cloudflare may process standard server logs (such as IP address, user-agent, and requested URL) for security and to keep the site running. This data is used by Cloudflare under its own privacy policy, not by us.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Third-party services</h2>
+          <p>Our pages load resources from a small number of third parties: Google Analytics, Google Fonts and Font Awesome for typography and icons, and the YouTube embed for our destination video. Those services have their own privacy policies and may process standard request data (such as your IP address) when you load them.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">External links</h2>
+          <p>Some pages link to external websites (dive operator sites, certification agencies, and research references). We are not responsible for the privacy practices of those sites.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Contact</h2>
+          <p>If you have any questions about this policy, email <a href="mailto:hello@best-places-to-scuba-dive.com" class="text-coral-600 hover:underline">hello@best-places-to-scuba-dive.com</a>.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

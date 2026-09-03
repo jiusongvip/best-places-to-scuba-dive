@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const date = "2026-08-03";
+const dateModified = "2026-09-03";
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.best-places-to-scuba-dive.com/terms/",
+  "url": "https://www.best-places-to-scuba-dive.com/terms/",
+  "name": "Terms of Use",
+  "description": "Terms of use for DiveAtlas, the independent scuba diving destination directory. Always verify current conditions and operator information before you dive.",
+  "inLanguage": "en",
+  "datePublished": date,
+  "dateModified": dateModified,
+  "author": { "@type": "Organization", "name": "DiveAtlas", "url": "https://www.best-places-to-scuba-dive.com/about/" },
+  "publisher": { "@type": "Organization", "name": "DiveAtlas", "url": "https://www.best-places-to-scuba-dive.com" },
+};
+---
+<BaseLayout title="Terms of Use" description="Terms of use for DiveAtlas, the independent scuba diving destination directory. Always verify current conditions and operator information before you dive." schema={schema}>
+  <nav class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-700">Terms</span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium">TERMS OF USE</p>
+      <h1 class="text-4xl md:text-5xl font-semibold text-navy-950 tracking-tight mb-3">Terms of Use</h1>
+      <p class="text-sm text-navy-500 mb-10">Last updated: {dateModified}</p>
+      <div class="prose prose-navy max-w-none text-navy-700 leading-relaxed space-y-8">
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Information accuracy</h2>
+          <p>We make every effort to keep destination data — visibility ranges, water temperatures, best months, costs, and certification requirements — accurate and up to date. However, diving conditions and operator offerings change. Always verify current conditions, local regulations, and operator information before planning or undertaking a dive. This site is provided as a helpful directory, not as a guaranteed source of current information.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Diving safety</h2>
+          <p>Scuba diving carries inherent risk and requires proper training and certification. Information on this site is not diving instruction, medical advice, or a substitute for training from a certified agency such as PADI or SSI. Never dive beyond your certification or comfort level. Always dive with a qualified operator who knows local conditions.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Use of content</h2>
+          <p>All content on this site is original. You may share links to this site freely. Republishing substantial portions of the content without permission is not permitted. If you would like to reference or quote this content, please provide attribution and a link back to the original page.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">No liability</h2>
+          <p>This site is provided for informational purposes only. We are not responsible for any losses, injuries, or damages arising from the use of the information on this site. Diving and travel decisions are your own responsibility.</p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-navy-950 tracking-tight mb-3">Contact</h2>
+          <p>Questions about these terms? Email <a href="mailto:hello@best-places-to-scuba-dive.com" class="text-coral-600 hover:underline">hello@best-places-to-scuba-dive.com</a>.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

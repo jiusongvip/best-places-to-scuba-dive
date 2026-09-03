@@ -1,20 +1,67 @@
-# DiveAtlas - Dive Destination Search Engine
-DiveAtlas is a structured database of scuba diving destinations worldwide.
-Each destination includes visibility, water temperature, best season,
-marine life ratings, difficulty level, and budget estimates.
+# DiveAtlas — Best Places to Scuba Dive
+> Data-driven directory of the 27 best scuba diving destinations worldwide. Visibility, water temperature, marine life, budget, season, and difficulty compared on every page.
 
-## Core Pages
-- /: Homepage with destination finder, interactive map, and browse categories
-- /destinations/[slug]: Individual destination guide with diving conditions,
-  marine life ratings, best dive spots, pros/cons, and FAQ
-- /browse/month/[1-12]: Monthly dive guides with seasonal marine life calendars
-- /compare/[slug]: Side-by-side destination comparisons with data tables
-- /collections/[slug]: Curated lists (best shark diving, best wrecks, etc.)
-- /countries/[slug]: Country-level diving overviews
+## Site
+- [Home — Best Places to Scuba Dive](https://www.best-places-to-scuba-dive.com/): Data-ranked top picks, destination finder, map, and browse categories
+- [All Destinations](https://www.best-places-to-scuba-dive.com/destinations/): Every rated dive destination in the directory
+- [About DiveAtlas](https://www.best-places-to-scuba-dive.com/about/): Methodology, data sources, and editorial standards
+- [Contact](https://www.best-places-to-scuba-dive.com/contact/): Corrections, data questions, and suggestions
+- [Privacy Policy](https://www.best-places-to-scuba-dive.com/privacy/): How visitor data is handled
+- [Terms of Use](https://www.best-places-to-scuba-dive.com/terms/): Terms for using the content
 
-## Data Model
-Each destination has structured data for: visibility (meters),
-water temperature (Celsius), current strength, difficulty level,
-best months, certification requirements, budget tier, and
-marine life ratings for sharks, manta rays, whale sharks, turtles,
-coral, macro, and pelagics.
+## Browse by Ocean
+- [Pacific](https://www.best-places-to-scuba-dive.com/browse/ocean/pacific/): Coral Triangle and the richest reefs
+- [Indian](https://www.best-places-to-scuba-dive.com/browse/ocean/indian/): Maldives, Seychelles, Thailand
+- [Caribbean](https://www.best-places-to-scuba-dive.com/browse/ocean/caribbean/): Blue Hole, Cozumel, Bonaire
+- [Red Sea](https://www.best-places-to-scuba-dive.com/browse/ocean/red-sea/): World-class wrecks, vibrant walls
+- [Atlantic](https://www.best-places-to-scuba-dive.com/browse/ocean/atlantic/): Azores to Fernando de Noronha
+
+## Browse by Experience
+- [Beginner](https://www.best-places-to-scuba-dive.com/browse/experience/beginner/): Gentle currents, easy shore dives
+- [Intermediate](https://www.best-places-to-scuba-dive.com/browse/experience/intermediate/): Moderate currents, deeper profiles
+- [Advanced](https://www.best-places-to-scuba-dive.com/browse/experience/advanced/): Drifts, deep walls, pelagic action
+- [Liveaboard](https://www.best-places-to-scuba-dive.com/browse/experience/liveaboard/): Multi-day remote atoll safaris
+
+## Browse by Marine Life
+- [Sharks](https://www.best-places-to-scuba-dive.com/browse/marine-life/sharks/): Hammerheads, tigers, bulls
+- [Manta Rays](https://www.best-places-to-scuba-dive.com/browse/marine-life/manta-rays/)
+- [Whale Sharks](https://www.best-places-to-scuba-dive.com/browse/marine-life/whale-sharks/)
+- [Turtles](https://www.best-places-to-scuba-dive.com/browse/marine-life/turtles/)
+- [Coral Reefs](https://www.best-places-to-scuba-dive.com/browse/marine-life/coral-reefs/)
+- [Macro Life](https://www.best-places-to-scuba-dive.com/browse/marine-life/macro/): Muck diving capitals, critter hotspots
+
+## Browse by Budget
+- [Budget](https://www.best-places-to-scuba-dive.com/browse/price/budget/): Under $100/day
+- [Mid-Range](https://www.best-places-to-scuba-dive.com/browse/price/mid-range/): $100–200/day
+- [Premium](https://www.best-places-to-scuba-dive.com/browse/price/premium/): $200–400/day
+- [Luxury](https://www.best-places-to-scuba-dive.com/browse/price/luxury/): $400+/day
+
+## Browse by Month
+- [January](https://www.best-places-to-scuba-dive.com/browse/month/1/) through [December](https://www.best-places-to-scuba-dive.com/browse/month/12/): Peak destinations for each month
+
+## Top Destinations
+- [Raja Ampat](https://www.best-places-to-scuba-dive.com/destinations/raja-ampat/): The epicenter of marine biodiversity
+- [Galapagos Islands](https://www.best-places-to-scuba-dive.com/destinations/galapagos/): Big-animal diving at Darwin and Wolf
+- [Maldives](https://www.best-places-to-scuba-dive.com/destinations/maldives/): Accessible luxury, mantas and whale sharks
+- [Great Barrier Reef](https://www.best-places-to-scuba-dive.com/destinations/great-barrier-reef/): The world's largest living structure
+- [Palau](https://www.best-places-to-scuba-dive.com/destinations/palau/): Blue Corner, Jellyfish Lake
+- [Komodo](https://www.best-places-to-scuba-dive.com/destinations/komodo/): Currents, mantas, and dragons
+
+## Collections
+- [Best Shark Diving](https://www.best-places-to-scuba-dive.com/collections/best-shark-diving/)
+- [Best Wreck Diving](https://www.best-places-to-scuba-dive.com/collections/best-wreck-diving/)
+- [Best Macro Diving](https://www.best-places-to-scuba-dive.com/collections/best-macro-diving/)
+- [Best for Beginners](https://www.best-places-to-scuba-dive.com/collections/best-beginner/)
+- [Best Liveaboards](https://www.best-places-to-scuba-dive.com/collections/best-liveaboard/)
+- [Best Budget](https://www.best-places-to-scuba-dive.com/collections/best-budget/)
+
+## Tools
+- [Destination Finder](https://www.best-places-to-scuba-dive.com/finder/): Match destinations to dates, level, and interests
+- [Compare Destinations](https://www.best-places-to-scuba-dive.com/compare/): Side-by-side destination data
+- [World Map](https://www.best-places-to-scuba-dive.com/map/): Every destination on an interactive map
+
+## Key Facts
+- Best overall destination: Raja Ampat, Indonesia (widely considered #1 for marine biodiversity, 1,500+ fish species)
+- Best for beginners: Bonaire, Cozumel, Maldives, Great Barrier Reef
+- Best big-animal diving: Galapagos and Cocos Island
+- Each destination rated on seven weighted criteria: marine life, coral health, visibility, accessibility, seasonal reliability, value, uniqueness

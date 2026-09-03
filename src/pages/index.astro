@@ -23,7 +23,10 @@ const fd = JSON.stringify(destsData);// Map data
 const mapData = d.map(x => ({  name: x.data.name, slug: x.data.slug, country: x.data.country,  lat: x.data.coordinates.lat, lng: x.data.coordinates.lng,  rating: x.data.overallRating, ocean: x.data.ocean,}));
 const t = "Best Places to Scuba Dive Worldwide";
 const desc = "Data-driven ranking of the 27 best places to scuba dive worldwide — compare visibility, marine life, budget and season. Interactive finder and map.";
-const sc = {  "@context":"https://schema.org","@graph":[  {"@type":"Organization","name":"DiveAtlas","url":"https://www.best-places-to-scuba-dive.com","description":"The dive destination directory. Find, compare, and discover scuba diving destinations worldwide."},  {"@type":"FAQPage",  mainEntity:[    {"@type":"Question",name:"Where is the best scuba diving in the world?",acceptedAnswer:{"@type":"Answer",text:"Raja Ampat, Indonesia is widely considered the best for marine biodiversity with over 1500 fish species. Galapagos and Cocos Island lead for big-animal encounters, while the Maldives excels for accessible luxury diving."}},    {"@type":"Question",name:"What is the best scuba diving for beginners?",acceptedAnswer:{"@type":"Answer",text:"Bonaire, Cozumel, the Maldives, and the Great Barrier Reef are excellent for beginners. They offer warm water, good visibility, gentle currents, and abundant marine life at accessible depths."}},    {"@type":"Question",name:"When is the best time to scuba dive?",acceptedAnswer:{"@type":"Answer",text:"The best diving season varies by destination. The Maldives peaks November to April, Raja Ampat October to April, the Red Sea March to November, and the Caribbean December to May."}}  ]},  {"@type":"ItemList","name":"Best Scuba Diving in the World","itemListElement":sorted.slice(0,12).map((x,i)=>({"@type":"ListItem","position":i+1,"name":x.data.name,"url":"https://www.best-places-to-scuba-dive.com/destinations/"+x.data.slug}))}  ]};
+const homeUrl = "https://www.best-places-to-scuba-dive.com/";
+const author = { "@type": "Organization", "name": "DiveAtlas Editorial Team", "url": homeUrl + "about/", "sameAs": ["https://github.com/jiusongvip/best-places-to-scuba-dive"] };
+const publisher = { "@type": "Organization", "name": "DiveAtlas", "url": homeUrl.replace(/\/$/, ""), "logo": { "@type": "ImageObject", "url": homeUrl + "og-default.png" } };
+const sc = {  "@context":"https://schema.org","@graph":[  {"@type":"WebPage","@id":homeUrl,"url":homeUrl,"name":t,"description":desc,"inLanguage":"en","datePublished":"2026-01-05","dateModified":"2026-08-03","author":author,"publisher":publisher,"isPartOf":{"@type":"WebSite","@id":homeUrl,"url":homeUrl,"name":"DiveAtlas"}},  {"@type":"FAQPage",  mainEntity:[    {"@type":"Question",name:"Where is the best scuba diving in the world?",acceptedAnswer:{"@type":"Answer",text:"Raja Ampat, Indonesia is widely considered the best for marine biodiversity with over 1500 fish species. Galapagos and Cocos Island lead for big-animal encounters, while the Maldives excels for accessible luxury diving."}},    {"@type":"Question",name:"What is the best scuba diving for beginners?",acceptedAnswer:{"@type":"Answer",text:"Bonaire, Cozumel, the Maldives, and the Great Barrier Reef are excellent for beginners. They offer warm water, good visibility, gentle currents, and abundant marine life at accessible depths."}},    {"@type":"Question",name:"When is the best time to scuba dive?",acceptedAnswer:{"@type":"Answer",text:"The best diving season varies by destination. The Maldives peaks November to April, Raja Ampat October to April, the Red Sea March to November, and the Caribbean December to May."}}  ]},  {"@type":"ItemList","name":"Best Scuba Diving in the World","itemListElement":sorted.slice(0,12).map((x,i)=>({"@type":"ListItem","position":i+1,"name":x.data.name,"url":"https://www.best-places-to-scuba-dive.com/destinations/"+x.data.slug}))}  ]};
 // ── NEW: Budget tiers for cost comparison ──
 const budgetTiers = [{level:'budget',label:'$ Budget',range:'Under $100/day',desc:'Affordable shore diving, backpacker-friendly destinations',color:'emerald'},{level:'mid-range',label:'$$ Mid-Range',range:'$100–200/day',desc:'Great value with comfortable amenities and reliable operators',color:'sky'},{level:'premium',label:'$$$ Premium',range:'$200–400/day',desc:'Liveaboards, remote atolls, top-tier biodiversity experiences',color:'amber'},{level:'luxury',label:'$$$$ Luxury',range:'$400+/day',desc:'Exclusive resorts, private charters, bucket-list encounters',color:'rose'}];
 const budgetSamples = budgetTiers.map(t => ({...t, destinations: sorted.filter(x => x.data.budgetLevel === t.level).slice(0, 4)}));
@@ -83,24 +86,30 @@ const diveTypes = [{s:'wall',l:'Wall Dives',d:'Dramatic drop-offs, deep blue vis
 <div class="container-page max-w-4xl">
 <div class="prose prose-lg prose-navy max-w-none">
 <p class="text-lg md:text-xl text-navy-700/80 leading-relaxed mb-6">
-  Choosing where to scuba dive is harder than it looks. Visibility, marine life, currents, budget, and season all shift dramatically from one destination to the next. A site that is world-class in December might be washed out by monsoons in June. A beginner-friendly reef in the Maldives shares the same ocean with an advanced drift dive in Komodo that demands 50+ logged dives.
+  Choosing where to scuba dive is harder than it looks. Visibility, marine life, currents, budget, and season all shift dramatically from one destination to the next. That is why we built <strong class="text-navy-950">DiveAtlas</strong> — a data-driven directory where you can compare 27 destinations across 25+ objective data points.
 </p>
 <p class="text-lg md:text-xl text-navy-700/80 leading-relaxed mb-6">
-  That is why we built <strong class="text-navy-950">DiveAtlas</strong> —the first data-driven dive destination directory that compares every major scuba site across 25+ objective data points. Whether you are planning your first Open Water trip or chasing hammerheads at 40 meters, our goal is to help you find the right destination, at the right time, for your budget and skill level.
-</p>
-<p class="text-lg md:text-xl text-navy-700/80 leading-relaxed mb-8">
-  Below you will find data-ranked top picks, an interactive destination finder, a world map of dive sites, and detailed guides organized by ocean, experience level, marine life, budget, and season. Every destination page includes real-world data on visibility ranges, water temperatures, best months to visit, daily costs, required certifications, and detailed breakdowns of the best dive spots at each location.
+  Below you will find data-ranked top picks, an interactive finder, a world map, and guides organized by ocean, experience, marine life, budget, and season.
 </p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+<div class="flex flex-wrap items-center gap-2 text-xs text-navy-500 mb-8">
+  <span class="inline-block h-px w-6 bg-coral-400/40" aria-hidden="true"></span>
+  By <a href="/about/" class="font-medium text-coral-600 hover:underline">DiveAtlas Editorial Team</a>
+  <span aria-hidden="true">·</span>
+  Updated <time datetime="2026-08-03">August 2026</time>
+  <span aria-hidden="true">·</span>
+  <a href="/about/" class="underline decoration-navy-300 underline-offset-2 hover:text-coral-600">Methodology</a>
+</div>
+<h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-8">How We Rank Dive Destinations</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
   <div class="bg-sand-50 rounded-xl p-6 border border-sand-200 card-playful">
-    <h3 class="text-lg font-semibold text-navy-950 mb-3">How We Rate Destinations</h3>
-    <p class="text-navy-600/80 leading-relaxed text-sm">Each destination receives an overall rating based on seven weighted criteria: marine life abundance, coral health, visibility, accessibility, seasonal reliability, value for money, and uniqueness of experience. Ratings are reviewed quarterly and cross-referenced against diver community feedback, operator reports, and official marine park records.</p>
+    <h3 class="text-lg font-semibold text-navy-950 mb-3">Our Rating Criteria</h3>
+    <p class="text-navy-600/80 leading-relaxed text-sm">Each destination is rated on seven weighted criteria — marine life, coral health, visibility, accessibility, seasonal reliability, value, and uniqueness — reviewed quarterly.</p>
   </div>
   <div class="bg-sand-50 rounded-xl p-6 border border-sand-200 card-playful">
     <h3 class="text-lg font-semibold text-navy-950 mb-3">Who This Guide Is For</h3>
-    <p class="text-navy-600/80 leading-relaxed text-sm">Newly certified divers looking for gentle, confidence-building sites. Experienced divers chasing pelagics, deep walls, and technical wrecks. Budget-conscious travelers who want world-class diving without the liveaboard price tag. Liveaboard enthusiasts searching for remote, untouched reefs. Whatever your profile, DiveAtlas helps you compare options side by side.</p>
+    <p class="text-navy-600/80 leading-relaxed text-sm">From newly certified divers to advanced wreck and pelagic chasers, from budget travelers to liveaboard enthusiasts — DiveAtlas helps you compare options side by side.</p>
   </div>
 </div>
   </div>
@@ -110,7 +119,7 @@ const diveTypes = [{s:'wall',l:'Wall Dives',d:'Dramatic drop-offs, deep blue vis
 <div class="container-page max-w-4xl">
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">WATCH</p>
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-4 text-center">The World's Best Scuba Diving Destinations, in 8 Minutes</h2>
-<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-8 leading-relaxed">A visual tour of the destinations every diver should know — from Raja Ampat's Coral Triangle reefs to the Red Sea's legendary wrecks. Watch it to shortlist before you dive into our data.</p>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-8 leading-relaxed">A visual tour of the destinations every diver should know — from Raja Ampat's Coral Triangle reefs to the Red Sea's legendary wrecks.</p>
 <div class="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-navy-950">
 <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube-nocookie.com/embed/bIvgHBuzBYQ" title="The 10 Best Scuba Diving Destinations in the World" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
@@ -207,7 +216,7 @@ const dd = x.data;            return (
 <div class="container-page">
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">EDITOR'S CHOICE</p>
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">Best Places to Scuba Dive: Our Top Picks for 2026</h2>
-<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">After analyzing 27 destinations across 25 data points — visibility, marine life, accessibility, seasonality, and value — these three destinations stand out for their unmatched combination of marine life, accessibility, and overall dive experience.</p>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">After analyzing 27 destinations across 25 data points, these three stand out for their combination of marine life, accessibility, and overall dive experience.</p>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 {top3.map((x, i) => {
 const dd = x.data;
@@ -270,7 +279,7 @@ return (
 <div class="container-page">
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">DIVING BUDGET GUIDE</p>
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">What Does Scuba Diving Cost?</h2>
-<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">From $18/day shore diving in Bali to $400+/day liveaboards in the Galapagos — here is what you can expect at every budget level, with real destinations and real daily costs.</p>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">From $18/day shore diving in Bali to $400+/day Galapagos liveaboards — here is what to expect at every budget level, with real daily costs.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 {budgetSamples.map(t => (
 <div class={"rounded-xl border p-5 " + budgetColorMap[t.color]}>
@@ -303,7 +312,7 @@ return (
 <div class="container-page">      
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">INTERACTIVE MAP</p>      
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-3 text-center">Where to Scuba Dive</h2>
-<p class="text-navy-600/70 text-center max-w-xl mx-auto mb-8 text-sm leading-relaxed">Click a region to zoom in, or scroll to discover dive sites across six oceans. Each dot is a rated destination with full data — click through to compare.</p>
+<p class="text-navy-600/70 text-center max-w-xl mx-auto mb-8 text-sm leading-relaxed">Click a region to zoom in, or scroll to discover dive sites across six oceans. Each dot is a rated destination — click through to compare.</p>
 <!-- Ocean quick-access cards -->
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
 {oceans.map(o => {
@@ -331,7 +340,7 @@ return (
 <div class="container-page">
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">MARINE LIFE CALENDAR</p>
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">When to See What</h2>
-<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-10 leading-relaxed">Marine life follows seasonal patterns. Use this calendar to find which months give you the best chance of encountering the creatures on your bucket list — from whale sharks to coral spawning events.</p>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-10 leading-relaxed">Marine life follows seasonal patterns. Use this calendar to find which months give you the best chance of seeing whale sharks, manta rays, and other bucket-list creatures.</p>
 <div class="overflow-x-auto">
 <table class="w-full text-sm min-w-[700px]">
 <thead>
@@ -391,7 +400,7 @@ return (
 <div class="container-page">      
 <div class="browse-panel" data-panel="ocean">      
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Ocean</h2>      
-<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">The Pacific hosts the Coral Triangle —the most biodiverse marine ecosystem on Earth, home to over 75% of the world's coral species and 3,000+ fish species. The Caribbean offers year-round warm water, easy shore diving, and vibrant reefs accessible to beginners. The Red Sea is the wreck diving capital of the world with legendary sites like the Thistlegorm and Blue Hole. The Indian Ocean delivers luxury atolls and reliable megafauna encounters in the Maldives and Seychelles.</p>      
+<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">The Pacific hosts the Coral Triangle — the most biodiverse ecosystem on Earth. The Caribbean offers warm beginner reefs; the Red Sea is the wreck capital; the Indian Ocean delivers luxury atolls.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">        {oceans.map(o => (          
 <a href={"/browse/ocean/"+o.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all">            
 <div class="w-10 h-10 rounded-lg bg-ocean-100 text-ocean-600 flex items-center justify-center font-semibold text-sm mb-3 group-hover:bg-ocean-200 transition-colors">{o.l.slice(0,1)}</div>
@@ -407,7 +416,7 @@ return (
 <div class="container-page">      
 <div class="browse-panel" data-panel="dive-type">      
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Dive Type</h2>      
-<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">Different dive sites offer fundamentally different experiences. Wall dives plunge into the abyss with dramatic drop-offs and pelagic action. Wreck dives combine history and marine life as WWII ships and artificial reefs. Drift dives let the current carry you past stunning underwater scenery. Cave and cavern dives explore overhead environments from Mexican cenotes to Florida springs. Reef dives deliver kaleidoscopic coral gardens at accessible depths. Pelagic dives target big animals in open ocean. Macro and muck dives reveal the tiny, bizarre critters that make the underwater world endlessly fascinating.</p>      
+<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">Different dive sites offer fundamentally different experiences — wall dives with dramatic drop-offs and pelagic action, WWII wreck dives, drift dives, cenote cave explorations, shallow reef gardens, pelagic big-animal encounters, and macro muck diving.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">        {diveTypes.map(dt => (          
 <a href={"/browse/dive-type/"+dt.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all">            
 <h3 class="font-semibold text-navy-900 mb-1">{dt.l}</h3>            
@@ -420,7 +429,7 @@ return (
 <div class="container-page">      
 <div class="browse-panel" data-panel="experience">      
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Experience Level</h2>      
-<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">Whether you just earned your Open Water certification or you are chasing hammerheads at 40 meters, every destination in our directory is categorized by difficulty. Beginner sites feature gentle currents, shallow reefs, and excellent visibility —perfect for building confidence. Intermediate destinations add moderate currents and deeper profiles. Advanced locations offer drift dives, deep walls, and pelagic action. Technical sites include deep wrecks, caves, and rebreather-required environments for the most experienced divers.</p>      
+<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">Every destination is categorized by difficulty — beginner sites with gentle currents and shallow reefs, intermediate drifts, advanced walls and pelagics, and technical wrecks and caves.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">        {exp.map(e => (          
 <a href={"/browse/experience/"+e.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm transition-all">            
 <h3 class="font-semibold text-navy-900 mb-1">{e.l}</h3>            
@@ -433,7 +442,7 @@ return (
 <div class="container-page">      
 <div class="browse-panel" data-panel="marine-life">      
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Marine Life</h2>      
-<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">What do you want to see underwater? From the schooling hammerheads at Cocos Island and Galapagos to the pygmy seahorses of Lembeh Strait, every destination has a unique marine life signature. Filter by sharks for adrenaline-pumping encounters with tiger, bull, and reef sharks. Choose manta rays or whale sharks for the ocean's most graceful megafauna. Pick coral reefs for kaleidoscopic gardens, or macro life for the tiny, bizarre critters that make muck diving so addictive.</p>      
+<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">From schooling hammerheads at Cocos Island to the pygmy seahorses of Lembeh Strait, every destination has a unique marine life signature. Filter by sharks, manta rays, whale sharks, coral, or macro life.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">        {ml.map(m => (          
 <a href={"/browse/marine-life/"+m.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all text-center">            
 <div class="w-14 h-14 rounded-full bg-ocean-100 text-ocean-600 flex items-center justify-center font-bold text-lg mx-auto mb-3 group-hover:bg-ocean-200 transition-colors">{m.e}</div>
@@ -447,7 +456,7 @@ return (
 <div class="container-page">      
 <div class="browse-panel" data-panel="budget">      
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Budget</h2>      
-<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">World-class diving does not require a luxury budget. Budget destinations like Anilao and Koh Tao offer incredible diving under $100 per day including accommodation and meals. Mid-range options in the $100-200 range open up destinations like Cozumel, Bali, and the Red Sea. Premium destinations ($200-400/day) include liveaboard trips in Komodo and the Similan Islands. Luxury experiences ($400+/day) cover remote atolls, Galapagos cruises, and exclusive overwater resorts in the Maldives and Raja Ampat.</p>      
+<p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">World-class diving does not require a luxury budget — from under $100/day at Anilao and Koh Tao to premium liveaboards in Komodo and Galapagos.</p>      
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">        {[          {s:"budget",l:"$ Budget",d:"Under $100/day",c:"bg-emerald-50 border-emerald-200 hover:border-emerald-400 text-emerald-700"},          {s:"mid-range",l:"$$ Mid-Range",d:"$100-200/day",c:"bg-sky-50 border-sky-200 hover:border-sky-400 text-sky-700"},          {s:"premium",l:"$$$ Premium",d:"$200-400/day",c:"bg-amber-50 border-amber-200 hover:border-amber-400 text-amber-700"},          {s:"luxury",l:"$$$$ Luxury",d:"$400+/day",c:"bg-rose-50 border-rose-200 hover:border-rose-400 text-rose-700"}        ].map(b => (          
 <a href={"/browse/price/"+b.s} class={"group block p-5 rounded-xl border transition-all "+b.c}>            
 <h3 class="font-semibold mb-1">{b.l}</h3>            
@@ -460,7 +469,7 @@ return (
 <div class="container-page">      
 <div class="browse-panel" data-panel="month">      
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Month</h2>      
-<p class="text-navy-600/70 leading-relaxed mb-8 max-w-2xl text-sm">Timing is everything in diving —the wrong month can mean monsoons, poor visibility, or missed migrations. November through April delivers peak conditions in the Maldives, Raja Ampat, and the Caribbean. May through October is prime time for the Red Sea, Komodo, and the Galapagos. Use our month-by-month guide to find destinations at their absolute peak, with detailed data on visibility, water temperature, and marine life activity for every season.</p>      
+<p class="text-navy-600/70 leading-relaxed mb-8 max-w-2xl text-sm">The wrong month can mean monsoons or missed migrations: November to April peaks in the Maldives, Raja Ampat, and the Caribbean; May to October is prime for the Red Sea and Komodo.</p>      
 <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">        {months.map((m,i) => (          
 <a href={"/browse/month/"+(i+1)} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md transition-all text-center">            <span class="font-semibold text-navy-900 text-base block mb-1">{m}</span>            <span class="text-xs text-ocean-500 font-medium">{monthCounts[i]} destinations</span>            
 <div class="mt-3 h-1.5 rounded-full bg-sand-200 overflow-hidden">              
@@ -551,7 +560,7 @@ const dd = x.data;            return (
 <div class="container-page">
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">DIVE SHOPS</p>
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">World-Class Dive Operators, at a Glance</h2>
-<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">From PADI 5-Star IDC resorts to local eco-operators, here are some of the most trusted dive shops worldwide — organized by destination so you can find the right operator for your trip.</p>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">From PADI 5-Star IDC resorts to local eco-operators, here are trusted dive shops worldwide, organized by destination.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 {[
 {shop:'Bali Scuba',dest:'Bali, Indonesia',type:'PADI 5-Star IDC',features:'Shore diving, muck diving, Mola Mola season trips',link:'/destinations/bali'},
@@ -580,7 +589,7 @@ const dd = x.data;            return (
 <div class="text-center mb-12">
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">FROM THE DIVE COMMUNITY</p>
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">What Divers Say About These Destinations</h2>
-<p class="text-navy-600/70 text-center max-w-2xl mx-auto leading-relaxed">Real quotes from divers on Reddit's r/scuba, linked to the original discussion so you can verify every word. These are commenters' own opinions — not DiveAtlas endorsements — and they include both praise and honest caveats.</p>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto leading-relaxed">Real quotes from divers on Reddit's r/scuba, linked to the original discussion. Commenters' own opinions — not DiveAtlas endorsements — including praise and honest caveats.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 {[{quote:"The only place we've returned to is Palau — three times in nine years. Nothing comes close to Palau in terms of healthy ecosystem (reefs, wildlife variety and abundance), near limitless visibility, and quality of dive sites.",user:'u/mitchsn',dest:'Palau',slug:'palau'},{quote:"Raja Ampat can't be beat. The only downsides are that it's a bit difficult to get to, the dives are on the deeper side, and current is medium to strong almost always. Small price to pay in my opinion.",user:'u/Quizzub',dest:'Raja Ampat',slug:'raja-ampat'},{quote:"Cocos Island, Costa Rica. Hands down the best diving I've ever done. Saw sharks on every dive — schools of hammerheads and a whale shark. I don't recommend it for anyone with fewer than 100 dives.",user:'u/WTFO4',dest:'Cocos Island',slug:'cocos-island'},{quote:"The unique ability to go on your own without a guide and shore dive basically anywhere on the west side of the island is really cool. While Bonaire doesn't really hold a candle to Komodo, it's still quite good.",user:'u/vash1012',dest:'Bonaire',slug:'bonaire'}].map(item => (
@@ -598,7 +607,7 @@ const dd = x.data;            return (
 ))}
 </div>
 <div class="mt-8 bg-navy-950 rounded-xl p-6">
-<p class="text-sand-200/80 text-sm leading-relaxed"><strong class="text-white">Honest expectations:</strong> Divers disagree — and that's the point of this section. Quizzub calls Raja Ampat's currents "medium to strong almost always"; WTFO4 sets a 100-dive minimum for Cocos Island; vash1012 ranks Komodo above Bonaire. We publish the data; the debate stays with the community. Quotes come from a single public r/scuba thread (2022) and will grow as more divers share their experiences.</p>
+<p class="text-sand-200/80 text-sm leading-relaxed"><strong class="text-white">Honest expectations:</strong> Divers disagree. Quizzub calls Raja Ampat's currents "medium to strong almost always"; WTFO4 sets a 100-dive minimum for Cocos Island; vash1012 ranks Komodo above Bonaire. We publish the data; the debate stays with the community.</p>
 </div>
 </div>
 </section>
@@ -609,7 +618,7 @@ const dd = x.data;            return (
 <div class="text-center mb-12">
 <p class="text-coral-400 text-sm tracking-wider mb-3 font-medium">WHY TRUST DIVEATLAS</p>
 <h2 class="text-3xl md:text-4xl font-semibold text-white tracking-tight mb-4">Data-Driven, Community-Checked</h2>
-<p class="text-sand-300/70 max-w-2xl mx-auto leading-relaxed">Every destination in our directory is researched, rated, and reviewed using a consistent methodology grounded in publicly available data: marine park records, certification agency statistics, operator reports, and diver community feedback. Rankings are recalculated quarterly from the same 27-destination dataset.</p>
+<p class="text-sand-300/70 max-w-2xl mx-auto leading-relaxed">Every destination is researched, rated, and reviewed using a consistent methodology grounded in publicly available data — marine park records, operator reports, and diver community feedback. Rankings are recalculated quarterly.</p>
 </div>
 <!-- Team stats row -->
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
@@ -655,7 +664,7 @@ const dd = x.data;            return (
 </div>
 <div class="bg-navy-800/60 border border-navy-700 rounded-xl p-6 text-center">
 <p class="text-sand-200/80 text-sm leading-relaxed mb-2">
-<strong class="text-white">DiveAtlas</strong> is an independent, data-driven dive destination directory. We are <strong class="text-white">not affiliated</strong> with PADI, SSI, or any certification agency. We do not accept paid placements — every rating is based on our methodology, not advertising dollars.
+<strong class="text-white">DiveAtlas</strong> is an independent, data-driven directory. We are <strong class="text-white">not affiliated</strong> with PADI, SSI, or any certification agency, and we do not accept paid placements.
 </p>
 <p class="text-sand-400/60 text-xs">Last updated: August 2026 &middot; Content reviewed quarterly &middot; 27 destinations catalogued</p>
 </div>
@@ -667,28 +676,28 @@ const dd = x.data;            return (
 <div class="container-page max-w-4xl">
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">OUR METHODOLOGY</p>
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-4 text-center">How We Rank Dive Destinations</h2>
-<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">Every rating and recommendation on DiveAtlas follows the same transparent, repeatable process. We combine structured destination data with community intelligence — diver reviews, forum discussions, and operator reports — so rankings stay grounded in what divers actually experience, not in any single opinion.</p>
+<p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">Every rating follows the same transparent, repeatable process: structured destination data combined with community intelligence — diver reviews, forum discussions, and operator reports.</p>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 <div class="bg-white border border-sand-200 rounded-xl p-6 hover:border-coral-300 hover:shadow-md transition-all card-playful">
 <div class="w-12 h-12 rounded-full bg-ocean-500/15 text-ocean-600 flex items-center justify-center mb-4">
 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
 </div>
 <h3 class="font-semibold text-navy-900 mb-2">Global Reach</h3>
-<p class="text-navy-600/80 text-sm leading-relaxed">Our dataset spans 27 destinations across five oceans and seas — from the Coral Triangle to the Caribbean, from the Red Sea to the Galapagos — covering every major dive region on the map.</p>
+<p class="text-navy-600/80 text-sm leading-relaxed">Our dataset spans 27 destinations across five oceans and seas, covering every major dive region.</p>
 </div>
 <div class="bg-white border border-sand-200 rounded-xl p-6 hover:border-coral-300 hover:shadow-md transition-all card-playful">
 <div class="w-12 h-12 rounded-full bg-coral-500/15 text-coral-600 flex items-center justify-center mb-4">
 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
 </div>
 <h3 class="font-semibold text-navy-900 mb-2">Standardized Criteria</h3>
-<p class="text-navy-600/80 text-sm leading-relaxed">Every destination is scored on the same seven weighted criteria: marine life abundance, coral health, visibility, accessibility, seasonal reliability, value for money, and uniqueness of experience. Scores are recalculated quarterly.</p>
+<p class="text-navy-600/80 text-sm leading-relaxed">Every destination is scored on the same seven weighted criteria. Scores are recalculated quarterly.</p>
 </div>
 <div class="bg-white border border-sand-200 rounded-xl p-6 hover:border-coral-300 hover:shadow-md transition-all card-playful">
 <div class="w-12 h-12 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center mb-4">
 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
 </div>
 <h3 class="font-semibold text-navy-900 mb-2">Cross-Referenced Sources</h3>
-<p class="text-navy-600/80 text-sm leading-relaxed">Ratings are validated against diver reviews, liveaboard operator reports, marine park records, and certification agency data — so no single source can skew a destination's score.</p>
+<p class="text-navy-600/80 text-sm leading-relaxed">Ratings are validated against diver reviews, operator reports, marine park records, and certification agency data.</p>
 </div>
 </div>
 </div>
@@ -729,7 +738,7 @@ const dd = x.data;            return (
 </div>
 <div class="bg-navy-950 rounded-xl p-6 mt-8 text-center">
 <p class="text-sand-200/80 text-sm leading-relaxed">
-<strong class="text-white">Pro tip:</strong> Many of the world\'s best dive sites require <strong class="text-white">Advanced Open Water</strong> certification and 50+ logged dives. If you\'re serious about diving, getting your AOW is the single highest-ROI investment you can make.
+<strong class="text-white">Pro tip:</strong> Many of the world\'s best dive sites require <strong class="text-white">Advanced Open Water</strong> certification and 50+ logged dives. Getting your AOW is the single highest-ROI investment you can make.
 </p>
 </div>
 </div>
