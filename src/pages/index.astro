@@ -42,8 +42,8 @@ const diveTypes = [{s:'wall',l:'Wall Dives',d:'Dramatic drop-offs, deep blue vis
 import { imgSrc, imgSrcset } from '../utils/imgVariants';
 ---
 
-<BaseLayout title={t} description={desc} schema={sc}>  
-<nav class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border">    
+<BaseLayout title={t} description={desc} schema={sc} heroImage="/images/hero.webp">  
+<nav class="sticky top-0 z-50 bg-surface border-b border-border">    
 <div class="container-page flex items-center justify-between h-16">      
 <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-coral-400 inline-block"></span>DiveAtlas</a>      
 <div class="hidden md:flex items-center gap-8 text-sm text-navy-700">        
@@ -72,7 +72,7 @@ import { imgSrc, imgSrcset } from '../utils/imgVariants';
 <div class="flex flex-wrap gap-6 mb-10 text-sm text-sand-300/60">          <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-coral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Community-rated, not one person's opinion</span>          <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-coral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>25+ data points per destination</span>          <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-coral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>Side-by-side comparisons</span>        </div>
         
 <div class="relative max-w-lg">          
-<input type="text" placeholder="Search destinations - Raja Ampat, Maldives, Sipadan..."            class="w-full px-5 py-4 bg-white/10 backdrop-blur border border-white/20 rounded-xl text-white placeholder:text-white/40 focus:outline-none focus:border-coral-400/60 focus:bg-white/15 transition-all text-lg"            id="hero-search" />          
+<input type="text" placeholder="Search destinations - Raja Ampat, Maldives, Sipadan..."            class="w-full px-5 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-white/40 focus:outline-none focus:border-coral-400/60 focus:bg-white/15 transition-all text-lg"            id="hero-search" />          
 <div id="search-suggestions" class="absolute top-full left-0 right-0 mt-2 bg-navy-800 border border-navy-600 rounded-xl shadow-2xl hidden overflow-hidden z-50"></div>
         </div>
         
@@ -121,8 +121,15 @@ import { imgSrc, imgSrcset } from '../utils/imgVariants';
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium text-center">WATCH</p>
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-4 text-center">The World's Best Scuba Diving Destinations, in 8 Minutes</h2>
 <p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-8 leading-relaxed">A visual tour of the destinations every diver should know — from Raja Ampat's Coral Triangle reefs to the Red Sea's legendary wrecks.</p>
-<div class="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-navy-950">
-<iframe class="absolute inset-0 w-full h-full" src="https://www.youtube-nocookie.com/embed/bIvgHBuzBYQ" title="The 10 Best Scuba Diving Destinations in the World" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div class="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-navy-950" id="video-facade" data-video-id="bIvgHBuzBYQ">
+<button type="button" id="video-facade-btn" class="group absolute inset-0 w-full h-full cursor-pointer" aria-label="Play video: The 10 Best Scuba Diving Destinations in the World">
+<img src="/images/video-thumb.webp" alt="Scuba diving video tour of the world's best dive destinations" class="absolute inset-0 w-full h-full object-cover" width="1280" height="720" loading="lazy" />
+<span class="absolute inset-0 flex items-center justify-center">
+<span class="w-16 h-11 md:w-20 md:h-14 rounded-xl bg-red-600 group-hover:bg-red-500 flex items-center justify-center shadow-lg transition-colors">
+<svg class="w-6 h-6 md:w-8 md:h-8 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+</span>
+</span>
+</button>
 </div>
 </div>
 </section>
@@ -488,6 +495,25 @@ var tabs = document.querySelectorAll('.browse-tab');
 var sections = document.querySelectorAll('section[data-panel]');      if (!tabs.length) return;      tabs.forEach(function(t) {        t.addEventListener('click', function() {          
 var k = t.getAttribute('data-tab');          tabs.forEach(function(b) { b.className = 'browse-tab px-4 py-2.5 text-sm font-medium rounded-t-lg transition-colors text-navy-500 hover:text-navy-700'; });          t.className = 'browse-tab px-4 py-2.5 text-sm font-medium rounded-t-lg transition-colors text-coral-500 border-b-2 border-coral-500';          sections.forEach(function(s) { s.classList.add('hidden'); });          
 var target = document.querySelector('section[data-panel="' + k + '"]');          if (target) target.classList.remove('hidden');        });      });    });  </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var facade = document.getElementById('video-facade');
+    var btn = document.getElementById('video-facade-btn');
+    if (!facade || !btn) return;
+    btn.addEventListener('click', function() {
+      var id = facade.getAttribute('data-video-id');
+      var iframe = document.createElement('iframe');
+      iframe.className = 'absolute inset-0 w-full h-full';
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      iframe.title = 'The 10 Best Scuba Diving Destinations in the World';
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
+      facade.replaceChildren(iframe);
+    });
+  });
+</script>
   
 <section id="destinations" class="py-20 md:py-28 bg-surface-alt/50 scroll-reveal">    
 <div class="container-page">      

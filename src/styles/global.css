@@ -92,6 +92,12 @@
   z-index: 0;
 }
 
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .organic-blob {
+    animation: none !important;
+  }
+}
+
 .organic-blob-1 {
   background: radial-gradient(circle, color-mix(in srgb, var(--color-ocean-200) 20%, transparent), color-mix(in srgb, var(--color-ocean-100) 10%, transparent));
   animation: blobFloat 14s ease-in-out infinite;

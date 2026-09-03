@@ -7,9 +7,10 @@ export interface Props {
   image?: string;
   schema?: object;
   breadcrumbs?: { name: string; url?: string }[];
+  heroImage?: string;
 }
 
-const { title, description, image, schema, breadcrumbs } = Astro.props;
+const { title, description, image, schema, breadcrumbs, heroImage } = Astro.props;
 const lastUpdated = "2026-08-03";
 const canonical = Astro.url.pathname === '/'
   ? new URL('/', Astro.site).toString().replace(/\/$/, '')
@@ -72,6 +73,7 @@ const breadcrumbSchema = breadcrumbs ? {
   <title>{title} | DiveAtlas</title>
   <link rel="canonical" href={canonical} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  {heroImage && <link rel="preload" as="image" href={heroImage} fetchpriority="high" />}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" media="print" onload="this.media='all'" />
