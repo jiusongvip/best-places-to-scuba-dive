@@ -27,6 +27,20 @@ const budgetRange = budgetLevels.map((b: string) => budgetLabels[b]);
 const totalSpots = dests.reduce((sum: number, d: any) => sum + d.data.bestDiveSpots.length, 0);
 const avgVis = Math.round(dests.reduce((sum: number, d: any) => sum + d.data.visibilityMeters, 0) / dests.length);
 const avgRating = (dests.reduce((sum: number, d: any) => sum + d.data.overallRating, 0) / dests.length).toFixed(1);
+
+// Related countries: same ocean first, then by destination count
+const countryMeta: Record<string, { oceans: Set<string>, dests: number }> = {};
+allDests.forEach((d: any) => {
+  const c = d.data.countrySlug;
+  if (!countryMeta[c]) countryMeta[c] = { oceans: new Set(), dests: 0 };
+  countryMeta[c].oceans.add(d.data.ocean);
+  countryMeta[c].dests++;
+});
+const relatedCountries = Object.entries(countryMeta)
+  .filter(([c]) => c !== country)
+  .map(([c, m]) => ({ slug: c, name: countryNames[c], shared: [...m.oceans].filter(o => countryMeta[country || ''].oceans.has(o)).length, dests: m.dests }))
+  .sort((a, b) => b.shared - a.shared || b.dests - a.dests)
+  .slice(0, 4);
 const topMarine = ['sharks','mantaRays','whaleSharks','turtles','coral','macro'] as const;
 const mlLabels: Record<string, string> = { sharks: 'Sharks', mantaRays: 'Manta Rays', whaleShakes: 'Whale Sharks', turtles: 'Turtles', coral: 'Coral Reefs', macro: 'Macro Life' };
 let bestML = topMarine
@@ -200,6 +214,16 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
               <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
               <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
             </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Scuba Diving in Nearby Countries</h2>
+        <p class="text-navy-600 mb-6">Explore more dive destinations in {countryName}'s region and beyond.</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {relatedCountries.map(rc => (
+            <a href={'/countries/' + rc.slug + '/'} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">Scuba Diving in {rc.name} <span class="text-navy-400 text-xs ml-1">({rc.dests})</span></a>
           ))}
         </div>
       </div>

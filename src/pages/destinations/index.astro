@@ -193,7 +193,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
                   <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600 transition-colors">{dd.name}</h3>
                   <span class="text-amber-400 text-sm font-semibold ml-2 flex-shrink-0">{dd.overallRating}</span>
                 </div>
-                <p class="text-xs text-navy-500 mb-3">{dd.country}</p>
+                <p class="text-xs text-navy-500 mb-3"><a href={'/countries/' + dd.countrySlug + '/'} class="hover:text-coral-600 transition-colors">{dd.country}</a></p>
                 <p class="text-sm text-navy-600 leading-relaxed mb-4 line-clamp-2">{dd.tagline}</p>
                 <div class="flex flex-wrap gap-1.5 mb-4">
                   {dd.bestMonths.slice(0, 3).map((m: number) => <span class="px-2 py-0.5 rounded-md bg-ocean-50 text-ocean-700 text-xs font-medium">{mn[m]}</span>)}
