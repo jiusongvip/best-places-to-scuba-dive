@@ -39,7 +39,7 @@ const breadcrumbSchema = breadcrumbs ? {
     "@type": "ListItem",
     position: i + 1,
     name: b.name,
-    ...(b.url ? { item: new URL(b.url, Astro.site).toString() } : {}),
+    ...(b.url ? { item: new URL(b.url.endsWith('/') || b.url.includes('.') ? b.url : b.url + '/', Astro.site).toString() } : {}),
   })),
 } : null;
 ---

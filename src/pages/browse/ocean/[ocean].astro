@@ -10,7 +10,7 @@ const { ocean } = Astro.params;
 const allDests = await getCollection('destinations');
 const dests = allDests.filter(d => d.data.ocean === ocean).sort((a,b) => b.data.overallRating - a.data.overallRating);
 const label = ocean === 'red-sea' ? 'Red Sea' : ocean.charAt(0).toUpperCase() + ocean.slice(1);
-const title = ocean === 'red-sea' ? `Red Sea Scuba Diving` : `Scuba Diving in the ${label} Ocean`;
+const title = ocean === 'red-sea' ? 'Red Sea Scuba Diving - Wrecks & Coral Reefs' : `Scuba Diving in the ${label} Ocean`;
 const regionLabel = ocean === 'red-sea' ? 'Red Sea' : `the ${label} Ocean`;
 const description = `Compare ${dests.length} top-rated dive sites in ${regionLabel} by visibility, marine life, water temperature, and season.`;
 const avgVis = dests.length > 0 ? Math.round(dests.reduce((s,d) => s + d.data.visibilityMeters, 0) / dests.length) : 0;
@@ -67,11 +67,11 @@ const faqs: Record<string, { q: string; a: string }[]> = {
 const faqList = faqs[ocean || ''] || [];
 const topDests = dests.slice(0, 10);
 const links: { href: string; label: string }[] = {
-  pacific: [{ href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/collections/best-shark-diving', label: 'Best shark diving' }, { href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
-  indian: [{ href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
-  caribbean: [{ href: '/browse/ocean/atlantic', label: 'Atlantic diving' }, { href: '/browse/experience/beginner', label: 'Beginner destinations' }, { href: '/browse/price/budget', label: 'Budget-friendly diving' }, { href: '/browse/marine-life/turtles', label: 'Turtle diving' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
-  'red-sea': [{ href: '/browse/experience/intermediate', label: 'Intermediate destinations' }, { href: '/browse/price/mid-range', label: 'Mid-range diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
-  atlantic: [{ href: '/browse/ocean/caribbean', label: 'Caribbean diving' }, { href: '/browse/marine-life/sharks', label: 'Shark diving' }, { href: '/browse/experience/advanced', label: 'Advanced destinations' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/map', label: 'Explore the dive map' }, { href: '/compare', label: 'Compare destinations' }],
+  pacific: [{ href: '/browse/ocean/indian/', label: 'Indian Ocean diving' }, { href: '/collections/best-shark-diving/', label: 'Best shark diving' }, { href: '/browse/marine-life/coral-reefs/', label: 'Coral reef diving' }, { href: '/browse/experience/beginner/', label: 'Beginner destinations' }, { href: '/map/', label: 'Explore the dive map' }, { href: '/compare/', label: 'Compare destinations' }],
+  indian: [{ href: '/browse/ocean/pacific/', label: 'Pacific Ocean diving' }, { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' }, { href: '/browse/marine-life/manta-rays/', label: 'Manta ray diving' }, { href: '/browse/experience/beginner/', label: 'Beginner destinations' }, { href: '/map/', label: 'Explore the dive map' }, { href: '/compare/', label: 'Compare destinations' }],
+  caribbean: [{ href: '/browse/ocean/atlantic/', label: 'Atlantic diving' }, { href: '/browse/experience/beginner/', label: 'Beginner destinations' }, { href: '/browse/price/budget/', label: 'Budget-friendly diving' }, { href: '/browse/marine-life/turtles/', label: 'Turtle diving' }, { href: '/map/', label: 'Explore the dive map' }, { href: '/compare/', label: 'Compare destinations' }],
+  'red-sea': [{ href: '/browse/experience/intermediate/', label: 'Intermediate destinations' }, { href: '/browse/price/mid-range/', label: 'Mid-range diving' }, { href: '/browse/ocean/pacific/', label: 'Pacific Ocean diving' }, { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' }, { href: '/map/', label: 'Explore the dive map' }, { href: '/compare/', label: 'Compare destinations' }],
+  atlantic: [{ href: '/browse/ocean/caribbean/', label: 'Caribbean diving' }, { href: '/browse/marine-life/sharks/', label: 'Shark diving' }, { href: '/browse/experience/advanced/', label: 'Advanced destinations' }, { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' }, { href: '/map/', label: 'Explore the dive map' }, { href: '/compare/', label: 'Compare destinations' }],
 }[ocean || ''] || [];
 import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
 ---
@@ -132,7 +132,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
           {dests.map(d => {
             const dd = d.data;
             return (
-              <a href={`/destinations/${dd.slug}`} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
+              <a href={`/destinations/${dd.slug}/`} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
                 <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
                   <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
                 </div>
@@ -167,7 +167,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
           const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
           return (
             <div class="bg-white border border-sand-200 rounded-xl p-6">
-              <h3 class="font-semibold text-navy-900 mb-2"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
+              <h3 class="font-semibold text-navy-900 mb-2"><a href={`/destinations/${dd.slug}/`} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
               <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
               <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 with {dd.visibilityMeters}m visibility and {dd.waterTempCelsius}&deg;C water, {dd.name} is best dived from {fmtMonths(dd.bestMonths)}. Daily costs average ${dd.averageDailyCostUsd}, and the signature sites include {topSpots}. Its {dd.difficulty} difficulty profile and {dd.budgetLevel} pricing tier make it a clear choice for divers targeting this region.</p>
             </div>
@@ -201,7 +201,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
               const dd = d.data;
               return (
                 <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
-                  <td class="px-4 py-3 font-medium text-navy-900"><a href={`/destinations/${dd.slug}`} class="hover:text-coral-600">{dd.name}</a></td>
+                  <td class="px-4 py-3 font-medium text-navy-900"><a href={`/destinations/${dd.slug}/`} class="hover:text-coral-600">{dd.name}</a></td>
                   <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
                   <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
                   <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>

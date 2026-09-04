@@ -35,7 +35,7 @@
         '<strong style=\"font-size:14px\">' + d.name + '</strong><br>' +
         '<span style=\"font-size:12px;color:#555\">' + d.country + '</span><br>' +
         '<span style=\"font-size:12px;color:#d96c4a\">' + '\u2605'.repeat(Math.round(d.rating)) + ' ' + d.rating + '</span><br>' +
-        '<a href=\"/destinations/' + d.slug + '\" style=\"font-size:12px;color:#2e8ab8\">View details \u2192</a></div>');
+        '<a href=\"/destinations/' + d.slug + '/\" style=\"font-size:12px;color:#2e8ab8\">View details \u2192</a></div>');
       marker._ocean = d.ocean;
       markers.push(marker);
     });

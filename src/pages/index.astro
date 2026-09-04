@@ -10,8 +10,8 @@ const thisMonth = now.getMonth() + 1;
 const thisMonthBest = sorted.filter(x => x.data.bestMonths.includes(thisMonth)).slice(0, 3);
 const dJson = JSON.stringify(sorted.map(x=>({name:x.data.name, slug:x.data.slug, country:x.data.country})));
 const mn = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const dl: Record<string,string> = {beginner:"Beginner",intermediate:"Intermediate",advanced:"Advanced",technical:"Technical",shark:"Shark"};
-const oceans = [  {s:"pacific",l:"Pacific",d:"Coral Triangle and the richest reefs",icon:"🌏"},  {s:"indian",l:"Indian",d:"Maldives, Seychelles, Thailand",icon:"🌍"},  {s:"caribbean",l:"Caribbean",d:"Blue Hole, Cozumel, Bonaire",icon:"🏝️"},  {s:"red-sea",l:"Red Sea",d:"World-class wrecks, vibrant walls",icon:"🐠"},  {s:"atlantic",l:"Atlantic",d:"Azores to Fernando de Noronha",icon:"🌊"},  {s:"mediterranean",l:"Mediterranean",d:"Historic wrecks, marine parks",icon:"🏛️"}];
-const exp = [  {s:"beginner",l:"Beginner",d:"Gentle currents, easy shore dives"},  {s:"intermediate",l:"Intermediate",d:"Moderate currents, deeper profiles"},  {s:"advanced",l:"Advanced",d:"Drifts, deep walls, pelagic action"},  {s:"technical",l:"Technical",d:"Deep wrecks, caves, rebreather"},  {s:"liveaboard",l:"Liveaboard",d:"Remote atolls, multi-day safaris"}];
+const oceans = [  {s:"pacific",l:"Pacific",d:"Coral Triangle and the richest reefs",icon:"🌏"},  {s:"indian",l:"Indian",d:"Maldives, Seychelles, Thailand",icon:"🌍"},  {s:"caribbean",l:"Caribbean",d:"Blue Hole, Cozumel, Bonaire",icon:"🏝️"},  {s:"red-sea",l:"Red Sea",d:"World-class wrecks, vibrant walls",icon:"🐠"},  {s:"atlantic",l:"Atlantic",d:"Azores to Fernando de Noronha",icon:"🌊"}];
+const exp = [  {s:"beginner",l:"Beginner",d:"Gentle currents, easy shore dives"},  {s:"intermediate",l:"Intermediate",d:"Moderate currents, deeper profiles"},  {s:"advanced",l:"Advanced",d:"Drifts, deep walls, pelagic action"},  {s:"liveaboard",l:"Liveaboard",d:"Remote atolls, multi-day safaris"}];
 const ml = [  {s:"sharks",l:"Sharks",e:"S"},{s:"manta-rays",l:"Manta Rays",e:"M"},  {s:"whale-sharks",l:"Whale Sharks",e:"W"},{s:"turtles",l:"Turtles",e:"T"},  {s:"coral-reefs",l:"Coral Reefs",e:"C"},{s:"macro",l:"Macro Life",e:"L"}];
 const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 const monthCounts = months.map((_, i) => d.filter(x => x.data.bestMonths.includes(i + 1)).length);
@@ -26,13 +26,13 @@ const desc = "Data-driven ranking of the 27 best places to scuba dive worldwide 
 const homeUrl = "https://www.best-places-to-scuba-dive.com/";
 const author = { "@type": "Organization", "name": "DiveAtlas Editorial Team", "url": homeUrl + "about/", "sameAs": ["https://github.com/jiusongvip/best-places-to-scuba-dive"] };
 const publisher = { "@type": "Organization", "name": "DiveAtlas", "url": homeUrl.replace(/\/$/, ""), "logo": { "@type": "ImageObject", "url": homeUrl + "og-default.png" } };
-const sc = {  "@context":"https://schema.org","@graph":[  {"@type":"WebPage","@id":homeUrl,"url":homeUrl,"name":t,"description":desc,"inLanguage":"en","datePublished":"2026-01-05","dateModified":"2026-08-03","author":author,"publisher":publisher,"isPartOf":{"@type":"WebSite","@id":homeUrl,"url":homeUrl,"name":"DiveAtlas"}},  {"@type":"FAQPage",  mainEntity:[    {"@type":"Question",name:"Where is the best scuba diving in the world?",acceptedAnswer:{"@type":"Answer",text:"Raja Ampat, Indonesia is widely considered the best for marine biodiversity with over 1500 fish species. Galapagos and Cocos Island lead for big-animal encounters, while the Maldives excels for accessible luxury diving."}},    {"@type":"Question",name:"What is the best scuba diving for beginners?",acceptedAnswer:{"@type":"Answer",text:"Bonaire, Cozumel, the Maldives, and the Great Barrier Reef are excellent for beginners. They offer warm water, good visibility, gentle currents, and abundant marine life at accessible depths."}},    {"@type":"Question",name:"When is the best time to scuba dive?",acceptedAnswer:{"@type":"Answer",text:"The best diving season varies by destination. The Maldives peaks November to April, Raja Ampat October to April, the Red Sea March to November, and the Caribbean December to May."}}  ]},  {"@type":"ItemList","name":"Best Scuba Diving in the World","itemListElement":sorted.slice(0,12).map((x,i)=>({"@type":"ListItem","position":i+1,"name":x.data.name,"url":"https://www.best-places-to-scuba-dive.com/destinations/"+x.data.slug}))}  ]};
+const sc = {  "@context":"https://schema.org","@graph":[  {"@type":"WebPage","@id":homeUrl,"url":homeUrl,"name":t,"description":desc,"inLanguage":"en","datePublished":"2026-01-05","dateModified":"2026-08-03","author":author,"publisher":publisher,"isPartOf":{"@type":"WebSite","@id":homeUrl,"url":homeUrl,"name":"DiveAtlas"}},  {"@type":"FAQPage",  mainEntity:[    {"@type":"Question",name:"Where is the best scuba diving in the world?",acceptedAnswer:{"@type":"Answer",text:"Raja Ampat, Indonesia is widely considered the best for marine biodiversity with over 1500 fish species. Galapagos and Cocos Island lead for big-animal encounters, while the Maldives excels for accessible luxury diving."}},    {"@type":"Question",name:"What is the best scuba diving for beginners?",acceptedAnswer:{"@type":"Answer",text:"Bonaire, Cozumel, the Maldives, and the Great Barrier Reef are excellent for beginners. They offer warm water, good visibility, gentle currents, and abundant marine life at accessible depths."}},    {"@type":"Question",name:"When is the best time to scuba dive?",acceptedAnswer:{"@type":"Answer",text:"The best diving season varies by destination. The Maldives peaks November to April, Raja Ampat October to April, the Red Sea March to November, and the Caribbean December to May."}}  ]},  {"@type":"ItemList","name":"Best Scuba Diving in the World","itemListElement":sorted.slice(0,12).map((x,i)=>({"@type":"ListItem","position":i+1,"name":x.data.name,"url":"https://www.best-places-to-scuba-dive.com/destinations/"+x.data.slug+"/"}))}  ]};
 // ── NEW: Budget tiers for cost comparison ──
 const budgetTiers = [{level:'budget',label:'$ Budget',range:'Under $100/day',desc:'Affordable shore diving, backpacker-friendly destinations',color:'emerald'},{level:'mid-range',label:'$$ Mid-Range',range:'$100–200/day',desc:'Great value with comfortable amenities and reliable operators',color:'sky'},{level:'premium',label:'$$$ Premium',range:'$200–400/day',desc:'Liveaboards, remote atolls, top-tier biodiversity experiences',color:'amber'},{level:'luxury',label:'$$$$ Luxury',range:'$400+/day',desc:'Exclusive resorts, private charters, bucket-list encounters',color:'rose'}];
 const budgetSamples = budgetTiers.map(t => ({...t, destinations: sorted.filter(x => x.data.budgetLevel === t.level).slice(0, 4)}));
 const budgetColorMap: Record<string,string> = {emerald:'bg-emerald-50 border-emerald-200 text-emerald-700',sky:'bg-sky-50 border-sky-200 text-sky-700',amber:'bg-amber-50 border-amber-200 text-amber-700',rose:'bg-rose-50 border-rose-200 text-rose-700'};
 // ── NEW: Best For quick match cards ──
-const bestForCards = [{label:'Whale Sharks',icon:'🐋',dest: sorted.filter(x => x.data.marineLife && typeof x.data.marineLife === 'object' && x.data.marineLife.whaleSharks > 0)[0],link:'/browse/marine-life/whale-sharks',tag:'Big Animals'},{label:'Beginners',icon:'🎓',dest: sorted.filter(x => x.data.beginnerFriendly && x.data.difficulty === 'beginner').sort((a,b)=>b.data.overallRating-a.data.overallRating)[0],link:'/browse/experience/beginner',tag:'Easy Dives'},{label:'Wrecks',icon:'⚓',dest: sorted.filter(x => Array.isArray(x.data.diveTypes) && x.data.diveTypes.includes('wreck'))[0],link:'/collections/best-wreck-diving',tag:'History'},{label:'Budget',icon:'💰',dest: sorted.filter(x => x.data.budgetLevel === 'budget').sort((a,b)=>b.data.overallRating-a.data.overallRating)[0],link:'/browse/price/budget',tag:'Under $100/day'},{label:'Luxury',icon:'✨',dest: sorted.filter(x => x.data.budgetLevel === 'luxury').sort((a,b)=>b.data.overallRating-a.data.overallRating)[0],link:'/browse/price/luxury',tag:'$400+/day'},{label:'Sharks',icon:'🦈',dest: sorted.filter(x => x.data.marineLife && typeof x.data.marineLife === 'object' && x.data.marineLife.sharks > 0)[0],link:'/browse/marine-life/sharks',tag:'Pelagics'}];
+const bestForCards = [{label:'Whale Sharks',icon:'🐋',dest: sorted.filter(x => x.data.marineLife && typeof x.data.marineLife === 'object' && x.data.marineLife.whaleSharks > 0)[0],link:'/browse/marine-life/whale-sharks/',tag:'Big Animals'},{label:'Beginners',icon:'🎓',dest: sorted.filter(x => x.data.beginnerFriendly && x.data.difficulty === 'beginner').sort((a,b)=>b.data.overallRating-a.data.overallRating)[0],link:'/browse/experience/beginner/',tag:'Easy Dives'},{label:'Wrecks',icon:'⚓',dest: sorted.filter(x => Array.isArray(x.data.diveTypes) && x.data.diveTypes.includes('wreck'))[0],link:'/collections/best-wreck-diving/',tag:'History'},{label:'Budget',icon:'💰',dest: sorted.filter(x => x.data.budgetLevel === 'budget').sort((a,b)=>b.data.overallRating-a.data.overallRating)[0],link:'/browse/price/budget/',tag:'Under $100/day'},{label:'Luxury',icon:'✨',dest: sorted.filter(x => x.data.budgetLevel === 'luxury').sort((a,b)=>b.data.overallRating-a.data.overallRating)[0],link:'/browse/price/luxury/',tag:'$400+/day'},{label:'Sharks',icon:'🦈',dest: sorted.filter(x => x.data.marineLife && typeof x.data.marineLife === 'object' && x.data.marineLife.sharks > 0)[0],link:'/browse/marine-life/sharks/',tag:'Pelagics'}];
 // ── NEW: Marine life calendar ──
 const mlTypes = [{id:'sharks',label:'Sharks',icon:'🦈'},{id:'mantaRays',label:'Manta Rays',icon:'🐬'},{id:'whaleSharks',label:'Whale Sharks',icon:'🐋'},{id:'turtles',label:'Turtles',icon:'🐢'},{id:'coral',label:'Coral Reefs',icon:'🪸'},{id:'macro',label:'Macro Life',icon:'🔍'}];
 const mlCalendar = mlTypes.map(mlt => ({...mlt, months: months.map((_, i) => d.filter(x => x.data.marineLife && typeof x.data.marineLife === 'object' && (x.data.marineLife[mlt.id] || 0) > 0 && x.data.bestMonths.includes(i + 1)).length)}));
@@ -77,7 +77,7 @@ import { imgSrc, imgSrcset } from '../utils/imgVariants';
         </div>
         
 <div class="flex flex-wrap gap-3 mt-4">          {top12.slice(0,5).map(x => (
-<a href={"/destinations/"+x.data.slug} class="text-sm text-sand-200/60 hover:text-coral-400 transition-colors">{x.data.name}</a>))}        </div>
+<a href={"/destinations/"+x.data.slug + '/'} class="text-sm text-sand-200/60 hover:text-coral-400 transition-colors">{x.data.name}</a>))}        </div>
       </div>
     </div>
   
@@ -204,7 +204,7 @@ return (
 </section>        
 <div class="mt-12 hidden lg:grid grid-cols-3 gap-4">          {top3.map(x => {            
 const dd = x.data;            return (              
-<a href={"/destinations/"+dd.slug} class="group block bg-navy-800/60 hover:bg-navy-800 rounded-xl p-4 border border-navy-700/50 hover:border-ocean-500/30 transition-all">                
+<a href={"/destinations/"+dd.slug + '/'} class="group block bg-navy-800/60 hover:bg-navy-800 rounded-xl p-4 border border-navy-700/50 hover:border-ocean-500/30 transition-all">                
 <div class="flex items-center justify-between mb-2"><span class="text-white font-medium text-sm group-hover:text-coral-400 transition-colors">{dd.name}</span><span class="text-amber-400 text-xs font-semibold">{dd.overallRating}</span></div>
                 
 <div class="grid grid-cols-3 gap-2 text-[10px] text-navy-400">
@@ -236,7 +236,7 @@ const highlights = [
 ];
 return (
 <div class="group">
-<a href={"/destinations/"+dd.slug} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-lg rounded-xl overflow-hidden transition-all card-playful">
+<a href={"/destinations/"+dd.slug + '/'} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-lg rounded-xl overflow-hidden transition-all card-playful">
 <div class="aspect-[16/10] bg-sand-200 overflow-hidden relative">
 <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1672" height="941" loading="lazy" />
 <div class="absolute top-3 left-3">
@@ -297,7 +297,7 @@ return (
 <div class="space-y-2">
 <p class="text-[10px] font-semibold uppercase tracking-wider opacity-50">Example Destinations</p>
 {t.destinations.map(dd => (
-<a href={"/destinations/" + dd.data.slug} class="flex items-center justify-between text-xs py-1.5 px-2 rounded-lg hover:bg-white/40 transition-colors">
+<a href={"/destinations/" + dd.data.slug + '/'} class="flex items-center justify-between text-xs py-1.5 px-2 rounded-lg hover:bg-white/40 transition-colors">
 <span class="font-medium truncate mr-2">{dd.data.name}</span>
 <span class="font-semibold flex-shrink-0">${dd.data.averageDailyCostUsd}/d</span>
 </a>
@@ -327,7 +327,7 @@ return (
 const count = sorted.filter(x => x.data.ocean === o.s).length;
 const top = sorted.filter(x => x.data.ocean === o.s).sort((a,b)=>b.data.overallRating-a.data.overallRating)[0];
 return (
-<a href={"/browse/ocean/"+o.s} class="group block bg-white border border-sand-200 rounded-xl p-3 text-center hover:border-ocean-300 hover:shadow-sm transition-all card-playful">
+<a href={"/browse/ocean/"+o.s + '/'} class="group block bg-white border border-sand-200 rounded-xl p-3 text-center hover:border-ocean-300 hover:shadow-sm transition-all card-playful">
 <p class="text-xl mb-1">{o.icon}</p>
 <p class="font-semibold text-navy-900 text-xs mb-0.5 group-hover:text-ocean-600 transition-colors">{o.l}</p>
 <p class="text-[10px] text-navy-400">{count} destinations</p>
@@ -410,7 +410,7 @@ return (
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Ocean</h2>      
 <p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">The Pacific hosts the Coral Triangle — the most biodiverse ecosystem on Earth. The Caribbean offers warm beginner reefs; the Red Sea is the wreck capital; the Indian Ocean delivers luxury atolls.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">        {oceans.map(o => (          
-<a href={"/browse/ocean/"+o.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all">            
+<a href={"/browse/ocean/"+o.s + '/'} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all">            
 <div class="w-10 h-10 rounded-lg bg-ocean-100 text-ocean-600 flex items-center justify-center font-semibold text-sm mb-3 group-hover:bg-ocean-200 transition-colors">{o.l.slice(0,1)}</div>
             
 <h3 class="font-semibold text-navy-900 mb-1">{o.l}</h3>            
@@ -426,7 +426,7 @@ return (
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Dive Type</h2>      
 <p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">Different dive sites offer fundamentally different experiences — wall dives with dramatic drop-offs and pelagic action, WWII wreck dives, drift dives, cenote cave explorations, shallow reef gardens, pelagic big-animal encounters, and macro muck diving.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">        {diveTypes.map(dt => (          
-<a href={"/browse/dive-type/"+dt.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all">            
+<a href={"/browse/dive-type/"+dt.s + '/'} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all">            
 <h3 class="font-semibold text-navy-900 mb-1">{dt.l}</h3>            
 <p class="text-xs text-navy-600/70 leading-relaxed">{dt.d}</p>          </a>        ))}      </div>
       </div>
@@ -439,7 +439,7 @@ return (
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Experience Level</h2>      
 <p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">Every destination is categorized by difficulty — beginner sites with gentle currents and shallow reefs, intermediate drifts, advanced walls and pelagics, and technical wrecks and caves.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">        {exp.map(e => (          
-<a href={"/browse/experience/"+e.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm transition-all">            
+<a href={"/browse/experience/"+e.s + '/'} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm transition-all">            
 <h3 class="font-semibold text-navy-900 mb-1">{e.l}</h3>            
 <p class="text-xs text-navy-600/70 leading-relaxed">{e.d}</p>          </a>        ))}      </div>
       </div>
@@ -452,7 +452,7 @@ return (
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Marine Life</h2>      
 <p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">From schooling hammerheads at Cocos Island to the pygmy seahorses of Lembeh Strait, every destination has a unique marine life signature. Filter by sharks, manta rays, whale sharks, coral, or macro life.</p>      
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">        {ml.map(m => (          
-<a href={"/browse/marine-life/"+m.s} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all text-center">            
+<a href={"/browse/marine-life/"+m.s + '/'} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-sm transition-all text-center">            
 <div class="w-14 h-14 rounded-full bg-ocean-100 text-ocean-600 flex items-center justify-center font-bold text-lg mx-auto mb-3 group-hover:bg-ocean-200 transition-colors">{m.e}</div>
             
 <h3 class="font-semibold text-navy-900">{m.l}</h3>          </a>        ))}      </div>
@@ -466,7 +466,7 @@ return (
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Budget</h2>      
 <p class="text-navy-600/70 leading-relaxed mb-10 max-w-2xl text-sm">World-class diving does not require a luxury budget — from under $100/day at Anilao and Koh Tao to premium liveaboards in Komodo and Galapagos.</p>      
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">        {[          {s:"budget",l:"$ Budget",d:"Under $100/day",c:"bg-emerald-50 border-emerald-200 hover:border-emerald-400 text-emerald-700"},          {s:"mid-range",l:"$$ Mid-Range",d:"$100-200/day",c:"bg-sky-50 border-sky-200 hover:border-sky-400 text-sky-700"},          {s:"premium",l:"$$$ Premium",d:"$200-400/day",c:"bg-amber-50 border-amber-200 hover:border-amber-400 text-amber-700"},          {s:"luxury",l:"$$$$ Luxury",d:"$400+/day",c:"bg-rose-50 border-rose-200 hover:border-rose-400 text-rose-700"}        ].map(b => (          
-<a href={"/browse/price/"+b.s} class={"group block p-5 rounded-xl border transition-all "+b.c}>            
+<a href={"/browse/price/"+b.s + '/'} class={"group block p-5 rounded-xl border transition-all "+b.c}>            
 <h3 class="font-semibold mb-1">{b.l}</h3>            
 <p class="text-xs opacity-70">{b.d}</p>          </a>        ))}      </div>
       </div>
@@ -479,7 +479,7 @@ return (
 <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-3">Month</h2>      
 <p class="text-navy-600/70 leading-relaxed mb-8 max-w-2xl text-sm">The wrong month can mean monsoons or missed migrations: November to April peaks in the Maldives, Raja Ampat, and the Caribbean; May to October is prime for the Red Sea and Komodo.</p>      
 <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">        {months.map((m,i) => (          
-<a href={"/browse/month/"+(i+1)} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md transition-all text-center">            <span class="font-semibold text-navy-900 text-base block mb-1">{m}</span>            <span class="text-xs text-ocean-500 font-medium">{monthCounts[i]} destinations</span>            
+<a href={"/browse/month/"+(i+1)+"/"} class="group block p-5 rounded-xl bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md transition-all text-center">            <span class="font-semibold text-navy-900 text-base block mb-1">{m}</span>            <span class="text-xs text-ocean-500 font-medium">{monthCounts[i]} destinations</span>            
 <div class="mt-3 h-1.5 rounded-full bg-sand-200 overflow-hidden">              
 <div class="h-full rounded-full bg-ocean-400 group-hover:bg-ocean-500 transition-all" style={"width:" + Math.round(monthCounts[i] / maxMCount * 100) + "%"}></div>
             </div>
@@ -521,7 +521,7 @@ var target = document.querySelector('section[data-panel="' + k + '"]');         
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-12">Best Scuba Diving in the World</h2>      
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">        {top12.map(x => {          
 const dd = x.data;          return (            
-<a href={"/destinations/"+dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl p-6 transition-all card-playful">              
+<a href={"/destinations/"+dd.slug + '/'} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl p-6 transition-all card-playful">              
 <div class="aspect-[3/2] bg-sand-200 rounded-lg mb-4 overflow-hidden">                <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />              </div>
               
 <div class="flex items-start justify-between mb-1">                
@@ -549,7 +549,7 @@ const dd = x.data;          return (
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-12">Best Diving Right Now</h2>        
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">          {thisMonthBest.map(x => {            
 const dd = x.data;            return (              
-<a href={"/destinations/"+dd.slug} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-md rounded-xl overflow-hidden transition-all">                
+<a href={"/destinations/"+dd.slug + '/'} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-md rounded-xl overflow-hidden transition-all">                
 <div class="aspect-[3/2] bg-sand-200 overflow-hidden">                  <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />                </div>
                 
 <div class="p-6">                  
@@ -574,7 +574,7 @@ const dd = x.data;            return (
 <p class="text-coral-500 text-sm tracking-wider mb-3 font-medium">CURATED LISTS</p>      
 <h2 class="text-3xl md:text-4xl font-semibold text-navy-950 tracking-tight mb-12">Collections</h2>      
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">        {cols.map(c => (          
-<a href={"/collections/"+c.s} class="group block p-6 rounded-xl bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm transition-all card-playful">            
+<a href={"/collections/"+c.s + '/'} class="group block p-6 rounded-xl bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm transition-all card-playful">            
 <h3 class="font-semibold text-navy-900 text-lg mb-1">{c.l}</h3>            
 <p class="text-sm text-navy-600/70">{c.d}</p>          </a>        ))}      </div>
     </div>
@@ -589,14 +589,13 @@ const dd = x.data;            return (
 <p class="text-navy-600/70 text-center max-w-2xl mx-auto mb-12 leading-relaxed">From PADI 5-Star IDC resorts to local eco-operators, here are trusted dive shops worldwide, organized by destination.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 {[
-{shop:'Bali Scuba',dest:'Bali, Indonesia',type:'PADI 5-Star IDC',features:'Shore diving, muck diving, Mola Mola season trips',link:'/destinations/bali'},
-{shop:'Pro Dive Cairns',dest:'Great Barrier Reef, Australia',type:'PADI 5-Star CDC',features:'Liveaboard trips, OW→DM courses, reef conservation',link:'/destinations/great-barrier-reef'},
-{shop:'Ban\'s Diving Resort',dest:'Koh Tao, Thailand',type:'PADI 5-Star IDC',features:'World\'s largest cert center, 40+ instructors, budget courses',link:'/destinations/koh-tao'},
-{shop:'Dive Adventures',dest:'Raja Ampat, Indonesia',type:'Eco-Operator',features:'Small groups, conservation-focused, homestay options',link:'/destinations/raja-ampat'},
-{shop:'Blue Corner Dive',dest:'Nusa Lembongan, Indonesia',type:'PADI 5-Star IDC',features:'Manta and Mola Mola dives, drift diving, tech courses',link:'/destinations/nusa-lembongan'},
-{shop:'Seasport Divers',dest:'Kauai, Hawaii',type:'PADI 5-Star',features:'Niihau trips, whale watching dives, shore diving',link:'/destinations/kauai'},
-{shop:'Red Sea Diving Safari',dest:'Marsa Alam, Egypt',type:'Eco-Village',features:'House reef access, dolphin encounters, shore-based safaris',link:'/destinations/marsa-alam'},
-{shop:'Coconut Tree Divers',dest:'Roatan, Honduras',type:'PADI 5-Star IDC',features:'Fun dives, tech courses, Shark dive specialty',link:'/destinations/roatan'}
+{shop:'Pro Dive Cairns',dest:'Great Barrier Reef, Australia',type:'PADI 5-Star CDC',features:'Liveaboard trips, OW→DM courses, reef conservation',link:'/destinations/great-barrier-reef/'},
+{shop:'Bali Scuba',dest:'Bali, Indonesia',type:'PADI 5-Star IDC',features:'Shore diving, muck diving, Mola Mola season trips',link:'/destinations/bali/'},
+{shop:'Dive Adventures',dest:'Raja Ampat, Indonesia',type:'Eco-Operator',features:'Small groups, conservation-focused, homestay options',link:'/destinations/raja-ampat/'},
+{shop:'Komodo Dive Center',dest:'Komodo, Indonesia',type:'PADI 5-Star IDC',features:'Drift dives, manta point, komodo park liveaboards',link:'/destinations/komodo/'},
+{shop:'Palau Dive Adventures',dest:'Palau, Micronesia',type:'PADI 5-Star',features:'Blue Corner drifts, jellyfish lake, wall diving',link:'/destinations/palau/'},
+{shop:'Red Sea Diving Safari',dest:'Marsa Alam area, Egypt',type:'Eco-Operator',features:'House reef access, dolphin encounters, shore safaris',link:'/destinations/red-sea/'},
+{shop:'Galapagos Sky Liveaboard',dest:'Galapagos, Ecuador',type:'Liveaboard',features:'Wolf and Darwin dives, hammerhead schools, pelagic action',link:'/destinations/galapagos/'}
 ].map(shop => (
 <a href={shop.link} class="group block bg-surface-alt/30 border border-sand-200 rounded-xl p-5 hover:border-coral-300 hover:shadow-md transition-all card-playful">
 <p class="text-xs text-coral-500 font-medium mb-1">{shop.type}</p>
@@ -627,7 +626,7 @@ const dd = x.data;            return (
 <span class="text-navy-400 mx-1">·</span>
 <a href="https://www.reddit.com/r/scuba/comments/zl6tbf/best_diving_tripin_the_whole_world/" target="_blank" rel="nofollow noopener" class="text-ocean-700 hover:text-coral-600 text-sm">r/scuba ↗</a>
 </div>
-<a href={'/destinations/' + item.slug} class="text-sm font-medium text-coral-600 hover:text-coral-700">See {item.dest} data →</a>
+<a href={'/destinations/' + item.slug + '/'} class="text-sm font-medium text-coral-600 hover:text-coral-700">See {item.dest} data →</a>
 </figcaption>
 </figure>
 ))}
@@ -803,7 +802,7 @@ const dd = x.data;            return (
         if(q.length<2){ su.style.display = "none"; return }
         var m = destMap.filter(function(d){return d.name.toLowerCase().indexOf(q)!==-1||d.country.toLowerCase().indexOf(q)!==-1}).slice(0,8);
         if(!m.length){ su.style.display = "none"; return }
-        su.innerHTML = m.map(function(d){return '<a href="/destinations/'+d.slug+'" class="block px-5 py-3 hover:bg-navy-700 transition-colors border-b border-navy-700 last:border-0"><span class="text-white font-medium">'+d.name+'</span><span class="text-navy-400 text-sm ml-2">'+d.country+'</span></a>'}).join("");
+        su.innerHTML = m.map(function(d){return '<a href="/destinations/'+d.slug+'/" class="block px-5 py-3 hover:bg-navy-700 transition-colors border-b border-navy-700 last:border-0"><span class="text-white font-medium">'+d.name+'</span><span class="text-navy-400 text-sm ml-2">'+d.country+'</span></a>'}).join("");
         su.style.display = "block"
       });
       document.addEventListener("click",function(e){if(!input.contains(e.target)&&!su.contains(e.target)) su.style.display = "none"})

@@ -5,8 +5,8 @@ import { getCollection } from 'astro:content';
 const all = await getCollection('destinations');
 const sorted = all.sort((a, b) => b.data.overallRating - a.data.overallRating);
 
-const title = 'All Scuba Diving Destinations — Compare 27 Top Dive Sites Worldwide';
-const description = 'Browse all 27 scuba diving destinations in our directory. Compare by visibility, marine life, budget, season, difficulty, and ocean. Find your perfect dive trip.';
+const title = 'All Scuba Diving Destinations - Compare 27 Top Sites';
+const description = 'Browse all 27 scuba diving destinations. Compare by visibility, marine life, budget, season, difficulty, and ocean. Find your perfect dive trip.';
 const mn = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const diffLabels: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
 const budgetLabels: Record<string, string> = { budget: 'Budget', mid_range: 'Mid-Range', premium: 'Premium', luxury: 'Luxury' };
@@ -32,9 +32,11 @@ const difficultyCounts = Object.entries(diffLabels).map(([key, label]) => ({
   count: all.filter(d => d.data.difficulty === key).length,
 })).filter(d => d.count > 0);
 
-// Budget counts
+// Budget counts (map data key mid_range -> URL slug mid-range)
+const budgetUrlSlug = (key: string) => key.replace('_', '-');
 const budgetCounts = Object.entries(budgetLabels).map(([key, label]) => ({
   key, label,
+  urlKey: budgetUrlSlug(key),
   count: all.filter(d => d.data.budgetLevel === key).length,
   symbol: key === 'budget' ? '$' : key === 'mid_range' ? '$$' : key === 'premium' ? '$$$' : '$$$$',
 })).filter(b => b.count > 0);
@@ -179,7 +181,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
         {sorted.map(d => {
           const dd = d.data;
           return (
-            <a href={`/destinations/${dd.slug}`} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all card-playful" data-ocean={dd.ocean} data-difficulty={dd.difficulty} data-budget={dd.budgetLevel} data-rating={dd.overallRating} data-vis={dd.visibilityMeters} data-temp={dd.waterTempCelsius} data-cost={dd.averageDailyCostUsd} data-beginner={dd.beginnerFriendly}>
+            <a href={`/destinations/${dd.slug}/`} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all card-playful" data-ocean={dd.ocean} data-difficulty={dd.difficulty} data-budget={dd.budgetLevel} data-rating={dd.overallRating} data-vis={dd.visibilityMeters} data-temp={dd.waterTempCelsius} data-cost={dd.averageDailyCostUsd} data-beginner={dd.beginnerFriendly}>
               <div class="aspect-[3/2] bg-sand-200 overflow-hidden relative">
                 <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
                 <div class="absolute top-3 left-3 flex gap-1.5">
@@ -223,7 +225,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
           <h3 class="font-semibold text-navy-900 mb-3 text-sm uppercase tracking-wider">By Ocean</h3>
           <ul class="space-y-2">
             {oceanCounts.map(o => (
-              <li><a href={`/browse/ocean/${o.key}`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center gap-2">{o.icon} {o.label} <span class="text-navy-400 text-xs">({o.count})</span></a></li>
+              <li><a href={`/browse/ocean/${o.key}/`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center gap-2">{o.icon} {o.label} <span class="text-navy-400 text-xs">({o.count})</span></a></li>
             ))}
           </ul>
         </div>
@@ -231,7 +233,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
           <h3 class="font-semibold text-navy-900 mb-3 text-sm uppercase tracking-wider">By Difficulty</h3>
           <ul class="space-y-2">
             {difficultyCounts.map(d => (
-              <li><a href={`/browse/experience/${d.key}`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center justify-between">{d.label} <span class="text-navy-400 text-xs">({d.count})</span></a></li>
+              <li><a href={`/browse/experience/${d.key}/`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center justify-between">{d.label} <span class="text-navy-400 text-xs">({d.count})</span></a></li>
             ))}
           </ul>
         </div>
@@ -239,7 +241,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
           <h3 class="font-semibold text-navy-900 mb-3 text-sm uppercase tracking-wider">By Budget</h3>
           <ul class="space-y-2">
             {budgetCounts.map(b => (
-              <li><a href={`/browse/price/${b.key}`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center justify-between">{b.symbol} {b.label} <span class="text-navy-400 text-xs">({b.count})</span></a></li>
+              <li><a href={`/browse/price/${b.urlKey}/`} class="text-sm text-navy-600 hover:text-coral-500 transition-colors flex items-center justify-between">{b.symbol} {b.label} <span class="text-navy-400 text-xs">({b.count})</span></a></li>
             ))}
           </ul>
         </div>

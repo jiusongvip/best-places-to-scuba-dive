@@ -129,7 +129,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
           {top3.map((d: any) => {
             const dd = d.data;
             return (
-              <a href={'/destinations/' + dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all">
+              <a href={'/destinations/' + dd.slug + '/'} class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all">
                 <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
                   <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
                 </div>
@@ -198,7 +198,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
               {spots.map((d: any) => {
                 const dd = d.data;
                 return (
-                  <a href={'/destinations/' + dd.slug} class="group flex items-center gap-3 p-3 rounded-lg bg-white border border-sand-200 hover:border-ocean-300 transition-all">
+                  <a href={'/destinations/' + dd.slug + '/'} class="group flex items-center gap-3 p-3 rounded-lg bg-white border border-sand-200 hover:border-ocean-300 transition-all">
                     <span class="text-amber-400 text-sm font-semibold flex-shrink-0 w-8 text-center">{dd.overallRating}</span>
                     <div class="min-w-0">
                       <p class="font-medium text-navy-900 text-sm truncate group-hover:text-coral-600">{dd.name}</p>
@@ -227,7 +227,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
           </h3>
           <div class="space-y-2 max-h-96 overflow-y-auto">
             {best.slice(0, 15).map((d: any) => (
-              <a href={'/destinations/' + d.data.slug} class="block p-3 rounded-lg bg-white border border-emerald-200 hover:border-emerald-400 transition-all">
+              <a href={'/destinations/' + d.data.slug + '/'} class="block p-3 rounded-lg bg-white border border-emerald-200 hover:border-emerald-400 transition-all">
                 <span class="font-medium text-navy-900 text-sm">{d.data.name}</span>
                 <span class="text-xs text-navy-500 ml-2">{d.data.country} — &starf;{d.data.overallRating}</span>
               </a>
@@ -241,7 +241,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
           </h3>
           <div class="space-y-2 max-h-96 overflow-y-auto">
             {avoid.slice(0, 15).map((d: any) => (
-              <a href={'/destinations/' + d.data.slug} class="block p-3 rounded-lg bg-white border border-rose-200 hover:border-rose-400 transition-all">
+              <a href={'/destinations/' + d.data.slug + '/'} class="block p-3 rounded-lg bg-white border border-rose-200 hover:border-rose-400 transition-all">
                 <span class="font-medium text-navy-900 text-sm">{d.data.name}</span>
                 <span class="text-xs text-navy-500 ml-2">{d.data.country} — &starf;{d.data.overallRating}</span>
               </a>
@@ -275,9 +275,9 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
   <section class="py-12 border-t border-sand-200">
     <div class="container-page">
       <div class="flex items-center justify-between">
-        {m > 1 ? <a href={'/browse/month/' + (m - 1)} class="text-navy-700 hover:text-coral-500 font-medium text-sm">&larr; {monthNames[m - 1]}</a> : <span></span>}
+        {m > 1 ? <a href={'/browse/month/' + (m - 1) + '/'} class="text-navy-700 hover:text-coral-500 font-medium text-sm">&larr; {monthNames[m - 1]}</a> : <span></span>}
         <span class="text-navy-400 text-sm">{monthNames[m]}</span>
-        {m < 12 ? <a href={'/browse/month/' + (m + 1)} class="text-navy-700 hover:text-coral-500 font-medium text-sm">{monthNames[m + 1]} &rarr;</a> : <span></span>}
+        {m < 12 ? <a href={'/browse/month/' + (m + 1) + '/'} class="text-navy-700 hover:text-coral-500 font-medium text-sm">{monthNames[m + 1]} &rarr;</a> : <span></span>}
       </div>
     </div>
   </section>

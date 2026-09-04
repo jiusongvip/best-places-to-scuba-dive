@@ -14,12 +14,12 @@ const faqs = [
   { q: 'Can I compare more than two destinations at once?', a: 'Yes - use the Destinations page to filter and sort all destinations by rating, ocean, difficulty, and budget. The table on this page also ranks our 12 highest-rated destinations side by side. For a detailed two-way breakdown, open any comparison card below.' },
 ];
 const links = [
-  { href: '/destinations', label: 'Browse all destinations' },
-  { href: '/map', label: 'Explore the dive map' },
-  { href: '/collections/best-shark-diving', label: 'Best shark diving' },
-  { href: '/collections/best-liveaboard', label: 'Best liveaboards' },
-  { href: '/browse/experience/beginner', label: 'Beginner destinations' },
-  { href: '/finder', label: 'Destination finder' },
+  { href: '/destinations/', label: 'Browse all destinations' },
+  { href: '/map/', label: 'Explore the dive map' },
+  { href: '/collections/best-shark-diving/', label: 'Best shark diving' },
+  { href: '/collections/best-liveaboard/', label: 'Best liveaboards' },
+  { href: '/browse/experience/beginner/', label: 'Beginner destinations' },
+  { href: '/finder/', label: 'Destination finder' },
 ];
 import { imgSrc, imgSrcset } from '../../utils/imgVariants';
 ---
@@ -59,7 +59,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
           const da = destMap.get(p.a.toLowerCase().replace(/\s+/g, '-'));
           const db = destMap.get(p.b.toLowerCase().replace(/\s+/g, '-'));
           return (
-          <a href={'/compare/' + p.slug} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm rounded-xl overflow-hidden transition-all">
+          <a href={'/compare/' + p.slug + '/'} class="group block bg-white border border-sand-200 hover:border-coral-300 hover:shadow-sm rounded-xl overflow-hidden transition-all">
             <div class="grid grid-cols-2 gap-px bg-sand-200">
               <div class="aspect-[3/2] bg-sand-100 overflow-hidden">
                 {da && <img src={imgSrc(da.imageLocal)} srcset={imgSrcset(da.imageLocal)} sizes={'(min-width: 768px) 25vw, 46vw'} alt={da.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />}
@@ -102,7 +102,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
               const dd = d.data;
               return (
                 <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
-                  <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                  <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug + '/'} class="hover:text-coral-600">{dd.name}</a></td>
                   <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
                   <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
                   <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>

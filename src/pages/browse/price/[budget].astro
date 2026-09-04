@@ -58,10 +58,10 @@ const faqs: Record<string, { q: string; a: string }[]> = {
 const faqList = faqs[budget || 'budget'] || [];
 const topDests = dests.slice(0, 10);
 const links: { href: string; label: string }[] = {
-  budget: [{ href: '/browse/price/mid-range', label: 'Mid-range diving' }, { href: '/collections/best-budget', label: 'Best budget collection' }, { href: '/browse/marine-life/macro', label: 'Macro diving' }, { href: '/browse/ocean/pacific', label: 'Pacific Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
-  'mid-range': [{ href: '/browse/price/premium', label: 'Premium diving' }, { href: '/browse/price/budget', label: 'Budget diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
-  premium: [{ href: '/browse/price/luxury', label: 'Luxury diving' }, { href: '/browse/price/mid-range', label: 'Mid-range diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/browse/marine-life/coral-reefs', label: 'Coral reef diving' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
-  luxury: [{ href: '/browse/price/premium', label: 'Premium diving' }, { href: '/browse/ocean/indian', label: 'Indian Ocean diving' }, { href: '/browse/marine-life/manta-rays', label: 'Manta ray diving' }, { href: '/collections/best-liveaboard', label: 'Liveaboard trips' }, { href: '/compare', label: 'Compare destinations' }, { href: '/map', label: 'Explore the dive map' }],
+  budget: [{ href: '/browse/price/mid-range/', label: 'Mid-range diving' }, { href: '/collections/best-budget/', label: 'Best budget collection' }, { href: '/browse/marine-life/macro/', label: 'Macro diving' }, { href: '/browse/ocean/pacific/', label: 'Pacific Ocean diving' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  'mid-range': [{ href: '/browse/price/premium/', label: 'Premium diving' }, { href: '/browse/price/budget/', label: 'Budget diving' }, { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' }, { href: '/browse/ocean/indian/', label: 'Indian Ocean diving' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  premium: [{ href: '/browse/price/luxury/', label: 'Luxury diving' }, { href: '/browse/price/mid-range/', label: 'Mid-range diving' }, { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' }, { href: '/browse/marine-life/coral-reefs/', label: 'Coral reef diving' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  luxury: [{ href: '/browse/price/premium/', label: 'Premium diving' }, { href: '/browse/ocean/indian/', label: 'Indian Ocean diving' }, { href: '/browse/marine-life/manta-rays/', label: 'Manta ray diving' }, { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
 }[budget || 'budget'] || [];
 import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
 ---
@@ -114,7 +114,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
           {dests.map((d: any) => {
             const dd = d.data;
             return (
-              <a href={'/destinations/' + dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
+              <a href={'/destinations/' + dd.slug + '/'} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
                 <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
                   <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
                 </div>
@@ -139,7 +139,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
               const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
               return (
                 <div class="bg-white border border-sand-200 rounded-xl p-6">
-                  <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
+                  <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug + '/'} class="hover:text-coral-600">{dd.name}</a>, {dd.country}</h3>
                   <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
                   <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 with ${dd.averageDailyCostUsd} average daily cost, {dd.name} offers {dd.visibilityMeters}m visibility in {dd.waterTempCelsius}&deg;C water and is best dived from {fmtMonths(dd.bestMonths)}. Signature sites include {topSpots}. Its {dd.difficulty} difficulty profile suits divers who know what they want from this price tier.</p>
                 </div>
@@ -171,7 +171,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
                   const dd = d.data;
                   return (
                     <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
-                      <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                      <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug + '/'} class="hover:text-coral-600">{dd.name}</a></td>
                       <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
                       <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
                       <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>

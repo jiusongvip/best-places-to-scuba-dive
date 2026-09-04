@@ -28,7 +28,7 @@
     var grid = document.getElementById('results-grid');
     if (!grid) return;
     grid.innerHTML = results.slice(0, 12).map(function(d) {
-      return '<a href="/destinations/' + d.slug + '" class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all">' +
+      return '<a href="/destinations/' + d.slug + '/" class="group block bg-white border border-sand-200 hover:border-ocean-300 hover:shadow-md rounded-xl overflow-hidden transition-all">' +
         '<div class="aspect-[3/2] bg-sand-200 overflow-hidden"><img src="' + (d.imageLocal || '/og-default.png') + '" alt="' + d.name + ' scuba diving" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" /></div>' +
         '<div class="p-6">' +
         '<div class="flex items-start justify-between mb-1">' +

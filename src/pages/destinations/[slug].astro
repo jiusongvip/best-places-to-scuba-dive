@@ -10,13 +10,18 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const destinations = await getCollection('destinations');
 const dest = destinations.find((d: any) => d.data.slug === slug);
-if (!dest) return Astro.redirect('/404');
+if (!dest) return Astro.redirect('/404/');
 const dd = dest.data;
 const title = dd.name + ' Scuba Diving Guide' + ((dd.name + ' Scuba Diving Guide').length < 30 ? ' - ' + dd.country : '');
 const nearby = destinations.filter((d: any) => d.data.slug !== slug && (d.data.country === dd.country || d.data.ocean === dd.ocean)).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating).slice(0, 4);
 const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const diffLabel: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
-const description = dd.name + ' scuba diving guide: $' + dd.averageDailyCostUsd + '/day, ' + dd.visibilityMeters + 'm vis, ' + dd.waterTempCelsius + '\u00b0C, ' + (diffLabel[dd.difficulty] || dd.difficulty) + '. Best: ' + dd.bestMonths.slice(0, 3).map((m: number) => monthNames[m]).join('-') + '. ' + dd.tagline;
+const descBase = dd.name + ' scuba diving guide: $' + dd.averageDailyCostUsd + '/day, ' + dd.visibilityMeters + 'm vis, ' + dd.waterTempCelsius + '\u00b0C, ' + (diffLabel[dd.difficulty] || dd.difficulty) + '. Best: ' + dd.bestMonths.slice(0, 3).map((m: number) => monthNames[m]).join('-') + '. ';
+const maxTagline = 158 - descBase.length;
+const tagline = dd.tagline.length > maxTagline
+  ? dd.tagline.slice(0, Math.max(0, maxTagline - 1)).replace(/\s+\S*$/, '') + '.'
+  : dd.tagline;
+const description = descBase + tagline;
 const budgetLabel: Record<string, string> = { budget: '$ Budget', mid_range: '$$ Mid-Range', premium: '$$$ Premium', luxury: '$$$$ Luxury' };
 const currentLabel: Record<string, string> = { mild: 'Mild', moderate: 'Moderate', moderate_to_strong: 'Moderate to Strong', strong: 'Strong' };
 function starStr(r: number) { return '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r)); }
@@ -31,7 +36,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
 import { imgSrcset } from '../../utils/imgVariants';
 ---
 
-<BaseLayout title={title} description={description} image={dd.imageLocal} heroImage={dd.imageLocal} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Destinations', url: '/destinations' }, { name: dd.name }]}>
+<BaseLayout title={title} description={description} image={dd.imageLocal} heroImage={dd.imageLocal} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Destinations', url: '/destinations/' }, { name: dd.name }]}>
   <nav class="sticky top-0 z-50 bg-surface border-b border-border">
     <div class="container-page flex items-center justify-between h-16">
       <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
@@ -61,7 +66,7 @@ import { imgSrcset } from '../../utils/imgVariants';
   <!-- Destination hero image -->
   <div class="container-page -mt-8">
     <div class="aspect-[21/9] rounded-xl overflow-hidden relative">
-      <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="eager" />
+      <img src={dd.imageLocal} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover" width="1672" height="941" loading="eager" fetchpriority="high" />
       <p class="absolute bottom-3 right-4 text-xs text-white/70 bg-navy-950/50 px-2 py-1 rounded-md">Image: {dd.imageCredit}</p>
     </div>
   </div>
@@ -209,7 +214,7 @@ import { imgSrcset } from '../../utils/imgVariants';
           <h3 class="font-semibold text-navy-900 mb-3">Nearby</h3>
           <div class="space-y-2">
             {nearby.map((n: any) => (
-              <a href={'/destinations/' + n.data.slug} class="block p-3 rounded-lg hover:bg-sand-100 transition-colors">
+              <a href={'/destinations/' + n.data.slug + '/'} class="block p-3 rounded-lg hover:bg-sand-100 transition-colors">
                 <p class="font-medium text-navy-900 text-sm">{n.data.name}</p>
                 <p class="text-xs text-navy-500">{n.data.country} - {n.data.overallRating}/5</p>
               </a>

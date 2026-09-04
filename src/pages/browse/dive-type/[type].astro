@@ -1,0 +1,258 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return ['wall','drift','wreck','cave','reef','pelagic','macro','night'].map(t => ({ params: { type: t } }));
+}
+
+const { type } = Astro.params;
+const allDests = await getCollection('destinations');
+const matchers: Record<string, (d: any) => boolean> = {
+  wall: d => d.data.diveTypes.includes('wall'),
+  drift: d => d.data.diveTypes.includes('drift'),
+  wreck: d => d.data.diveTypes.includes('wreck'),
+  cave: d => d.data.diveTypes.includes('cave') || d.data.diveTypes.includes('cavern'),
+  reef: d => d.data.marineLife.coral >= 3,
+  pelagic: d => d.data.marineLife.pelagics >= 3,
+  macro: d => d.data.diveTypes.includes('muck') || d.data.marineLife.macro >= 3,
+  night: d => d.data.diveTypes.includes('night'),
+};
+const dests = allDests
+  .filter(matchers[type || 'reef'])
+  .sort((a, b) => b.data.overallRating - a.data.overallRating);
+
+const labelMap: Record<string, string> = {
+  wall: 'Wall', drift: 'Drift', wreck: 'Wreck', cave: 'Cave & Cavern',
+  reef: 'Coral Reef', pelagic: 'Pelagic', macro: 'Macro / Muck', night: 'Night',
+};
+const label = labelMap[type || 'reef'] || type;
+
+const typeDescriptions: Record<string, string> = {
+  wall: 'Wall diving follows sheer reef faces that plunge into deep blue water. Drift along dramatic drop-offs past sea fans, black coral, and pelagic life patrolling the edge. Wall dives deliver the sensation of floating alongside an underwater skyscraper, with visibility that often exceeds 30 meters.',
+  drift: 'Drift diving lets the current carry you along the reef, turning the ocean into a moving walkway. Current-swept channels concentrate marine life — sharks, rays, and large schools of fish — while divers cover far more ground with minimal effort. Reef hooks and good buoyancy are essential.',
+  wreck: 'Wreck diving explores sunken ships, planes, and artificial reefs teeming with marine life. From the legendary SS Thistlegorm to WWII fleets at Chuuk Lagoon, wrecks combine history, atmosphere, and coral colonization. Penetration diving is available for trained wreck specialists.',
+  cave: 'Cave and cavern diving explores overhead environments from cenotes to swim-throughs. Cavern diving stays within the daylight zone accessible to recreational divers, while full cave diving demands dedicated training. Crystal-clear freshwater and dramatic light beams make these dives unforgettable.',
+  reef: 'Coral reef diving is the heart of recreational scuba: vibrant gardens of hard and soft coral dense with reef fish, turtles, and macro critters. Reef sites span every difficulty level, from shallow sandy bays perfect for beginners to current-washed slopes for experienced divers.',
+  pelagic: 'Pelagic diving targets open-ocean big animals — schooling hammerheads, manta rays, whale sharks, and tuna. These sites sit at reef edges or offshore pinnacles where currents deliver nutrients, drawing the ocean\'s largest visitors. Expect blue-water vistas and heart-pounding encounters.',
+  macro: 'Macro and muck diving rewards the sharpest eyes: frogfish, mimic octopus, pygmy seahorses, nudibranchs, and blue-ringed octopus hide on sandy slopes and rubble. Tiny subjects, shallow depths, and calm water make these sites a photographer\'s paradise.',
+  night: 'Night diving reveals a completely different reef: nocturnal crustaceans, hunting octopus, bioluminescent plankton, and parrotfish sleeping in cocoons. Many species only emerge after dark, and coral polyps open to feed, transforming familiar sites into new worlds.',
+};
+
+const desc = typeDescriptions[type || 'reef'] || '';
+const avgVis = dests.length > 0 ? Math.round(dests.reduce((s, d) => s + d.data.visibilityMeters, 0) / dests.length) : 0;
+const avgRating = dests.length > 0 ? (dests.reduce((s, d) => s + d.data.overallRating, 0) / dests.length).toFixed(1) : 0;
+const avgTemp = dests.length > 0 ? Math.round(dests.reduce((s, d) => s + d.data.waterTempCelsius, 0) / dests.length) : 0;
+const avgCost = dests.length > 0 ? Math.round(dests.reduce((s, d) => s + d.data.averageDailyCostUsd, 0) / dests.length) : 0;
+const minCost = dests.length > 0 ? Math.min(...dests.map(d => d.data.averageDailyCostUsd)) : 0;
+const maxCost = dests.length > 0 ? Math.max(...dests.map(d => d.data.averageDailyCostUsd)) : 0;
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const fmtMonths = (ms: number[]) => ms.map(m => monthNames[m - 1]).join(', ');
+
+const faqs: Record<string, { q: string; a: string }[]> = {
+  wall: [
+    { q: 'What certification do I need for wall diving?', a: 'Open Water covers most shallow wall dives, but Advanced Open Water is recommended since walls often descend beyond 30 meters. Deep walls in current-exposed regions also call for drift experience. Check the difficulty column in the table below to match sites to your certification level.' },
+    { q: 'What will I see on a wall dive?', a: `Walls attract pelagic life that patrols the blue water edge - barracuda, eagle rays, reef sharks, and occasionally hammerheads - while the rock face itself hosts sea fans, black coral, and nudibranchs. Average visibility across this collection is ${avgVis}m, letting you watch both the wall and the open ocean at once.` },
+    { q: 'Are wall dives suitable for beginners?', a: 'Many walls have shallow rims where beginners can safely hover above the drop-off while staying at 18m or less. Sites graded beginner in the table below keep profiles gentle, and guides keep groups close to the face where currents are mildest. Advanced walls require deeper experience.' },
+    { q: 'How do I stay oriented on a wall?', a: 'Keep the reef face on one shoulder - left descending, right ascending - and track your depth against the wall\'s rim. Dive guides point out the turnaround depth. A dive computer with a depth alarm plus a surface marker buoy make wall profiles simple and safe.' },
+  ],
+  drift: [
+    { q: 'Is drift diving scary?', a: 'Drift diving feels like flying - once you relax, it is one of diving\'s greatest pleasures. Currents vary from gentle walks to exhilarating rides, and guides deploy surface marker buoys and pick boats follow the group. Start with a mild drift site and build confidence gradually.' },
+    { q: 'What equipment helps in a current?', a: 'A reef hook lets you hold position at cleaning stations, a surface marker buoy signals the boat, and a good low-volume mask stays put in fast water. Streamline your gear, clip dangling accessories close to your body, and maintain neutral buoyancy so the water - not your fins - does the work.' },
+    { q: 'Why does marine life love currents?', a: `Currents deliver plankton and nutrients that big animals follow. Channel and pass dives concentrate manta rays, sharks, and massive fish schools - action rarely seen at slack-water sites. Drift dives here average ${avgRating}/5 for marine life encounters precisely because of the flow.` },
+    { q: 'Do I need to be very fit for drift dives?', a: 'No - the secret of drift diving is that the ocean does the moving. Relax, hover horizontally, and fin only to adjust position. Fitness matters less than buoyancy control and comfort in moving water. Guides brief the expected strength before every dive so you can opt out if it feels too strong.' },
+  ],
+  wreck: [
+    { q: 'What is the most famous wreck dive?', a: 'The SS Thistlegorm in the Red Sea is the world\'s most famous recreational wreck - a WWII armed merchant ship sunk in 1941, packed with trucks, motorbikes, and locomotives. It sits at 16-33 meters, diveable by Advanced Open Water divers, and tops most Red Sea itineraries.' },
+    { q: 'Can beginners dive wrecks?', a: 'Shallow wrecks at 15-25 meters are open to Open Water divers for exterior tours, and many artificial reefs were placed specifically at beginner depths. Penetration - swimming inside - requires dedicated Wreck Diver training regardless of certification level. Start outside; the colonized superstructures are spectacular.' },
+    { q: 'Is wreck diving safe?', a: 'Exterior wreck diving is as safe as any recreational dive when you follow the briefing: no silty areas, watch overhead structures, and maintain distance from sharp metal. Penetration adds risk that training and equipment (reels, lights, redundant air) manage. Choose operators experienced at the specific wreck.' },
+    { q: 'Why do wrecks attract so much marine life?', a: `Hard structure in open water becomes an oasis: corals colonize the superstructure, schools of snapper and barracuda shelter in the shade, and macro critters fill the rust crevices. Within decades a wreck rivals natural reefs - sites in this collection average ${avgRating}/5 for marine life.` },
+  ],
+  cave: [
+    { q: 'Can recreational divers explore caves?', a: 'Yes - cavern diving stays within the daylight zone, always within sight of the exit, and is open to certified divers with a guide. Many cenote and swim-through sites are graded for Open Water divers. Full cave penetration requires dedicated training and equipment and should never be attempted without it.' },
+    { q: 'What is a cenote dive like?', a: 'Cenote diving combines crystal-clear freshwater, surreal light beams filtering through openings, halocline mirrors where salt and fresh water meet, and ancient stalactites. Water temperatures hold near 25°C year-round and visibility can exceed 50 meters - an otherworldly, almost space-like experience.' },
+    { q: 'What training does cave diving require?', a: 'Cavern certification covers the daylight zone; full cave certification adds line protocols, redundant gas, and blackout procedures across multiple courses and dozens of training dives. The rule every agency teaches: no training, no overhead. The sites listed here include caverns and swim-throughs suitable for guided recreational dives.' },
+    { q: 'Is it dark inside a cave?', a: 'Within the cavern zone, daylight still reaches and creates the famous light shows. Beyond the cavern limit it is absolute darkness - another reason cave penetration demands training, continuous guideline, and redundant lights. Recreational cavern dives stay firmly in the illuminated zone.' },
+  ],
+  reef: [
+    { q: 'What makes a coral reef dive great?', a: 'Three factors: coral cover and diversity, fish density, and water clarity. Sites in this collection average ${avgVis}m visibility with healthy hard and soft coral gardens. The best reefs combine shallow gardens for long bottom times with nearby deeper slopes where pelagics pass by.' },
+    { q: 'Are reef dives good for beginners?', a: `Absolutely - most entry-level training happens on reefs. Sandy shallows, gentle currents, and abundant life make reef sites the ideal classroom. Sites graded beginner in the table below keep depths under 18 meters with easy entries, and average ${avgRating}/5 from the dive community.` },
+    { q: 'How can divers help protect reefs?', a: 'Perfect your buoyancy before diving sensitive reefs, never touch or stand on coral, keep fins away from the structure, and choose reef-safe sunscreen. Operators in marine parks brief conservation rules - follow them. Healthy reefs are the reason these destinations rank so highly.' },
+    { q: 'What marine life lives on coral reefs?', a: 'Reefs hold roughly a quarter of all marine species: turtles grazing, moray eels peeking from crevices, clownfish in anemones, cleaning stations busy with wrasse, and night octopus hunts. Densities here average some of the highest recorded - a single reef dive can produce dozens of species sightings.' },
+  ],
+  pelagic: [
+    { q: 'What counts as a pelagic encounter?', a: 'Open-ocean animals that roam beyond the reef: schooling hammerheads, oceanic mantas, whale sharks, tuna, billfish, and dolphins. Pelagic sites sit at drop-offs and offshore pinnacles where currents concentrate food. Encounters are the reward for diving the blue-water edge.' },
+    { q: 'Do I need advanced certification for pelagic dives?', a: 'Most pelagic sites demand Advanced Open Water plus drift experience, and several of the most famous - Cocos Island, the Galapagos - ask for 50+ logged dives. Depths exceed 25 meters and currents shift quickly. The reward is the ocean\'s biggest shows, and the table below lists requirements per destination.' },
+    { q: 'When is pelagic season?', a: 'It varies by region: hammerhead schools peak June to December in the Galapagos, whale sharks visit the Maldives and Mexico mid-year, and manta aggregations follow plankton blooms. Check the best-months column in the table below - each destination lists its peak big-animal window.' },
+    { q: 'What if we do not see big animals?', a: 'Honest answer: pelagic diving never guarantees sightings - these are wild animals on their own schedule. Reputable operators set expectations and the reef itself still delivers. Most divers find that even a quiet blue-water dive at a famous site beats a crowded reef, and the chance of a lifetime encounter is the draw.' },
+  ],
+  macro: [
+    { q: 'What is muck diving?', a: 'Muck diving explores sandy, rubble, and detritus slopes where extraordinary critters gather: flamboyant cuttlefish, mimic octopus, harlequin shrimp, ghost pipefish, and pygmy seahorses. Indonesia\'s Lembeh Strait and Anilao are the world capitals, with guides spotting subjects the size of a grain of rice.' },
+    { q: 'What camera gear do I need for macro?', a: 'A compact camera with macro mode starts; serious shooters add a 60-100mm macro lens, focus light, and wet lenses. The key skills are slow approach and perfect buoyancy - hovering centimeters above the sand without stirring it. Guides at the sites below are trained subject-spotters.' },
+    { q: 'Is macro diving good for beginners?', a: 'Yes - muck sites are shallow (5-20m) with little current, ideal for new divers. The challenge is buoyancy rather than conditions. We suggest 20+ dives and a peak-performance-buoyancy session before a dedicated photography trip; the sites below reward patience over experience.' },
+    { q: 'When is the best season for macro diving?', a: `Calm water matters more than temperature for spotting tiny subjects, so dry season wins: November to April across most of this collection, with ${avgVis}m average visibility. Night dives are a macro highlight - many species, from bobbit worms to stargazers, only emerge after dark.` },
+  ],
+  night: [
+    { q: 'What will I see on a night dive?', a: 'A different reef takes over after dark: octopus hunting, lobster walking in the open, basket stars unfurling, parrotfish in cocoon bubbles, and bioluminescent plankton sparking as you wave your hand. Predators like lionfish use your torch beam to hunt. Sites below include dedicated night dives most nights.' },
+    { q: 'Is night diving dangerous?', a: 'Night diving with a professional operator is very safe: dives stay shallow and close to the boat or shore, each diver carries a primary and backup torch, and briefings cover light signals. The discipline it teaches - slow movement, close buddy awareness - makes you a better day diver too.' },
+    { q: 'What equipment does night diving require?', a: 'A primary torch (wide beam), a backup light, and a tank marker light so buddies can track you. Glow sticks or LED markers on your gauge console help. Many divers add a red filter to avoid startling marine life. Operators usually rent torches; check battery life before committing.' },
+    { q: 'Do I need special training for night dives?', a: 'The Night Diver specialty teaches navigation by compass and natural references plus light discipline, but most operators accept Open Water divers with good buoyancy on guided night dives. If it has been a while, a dusk dive - entering at twilight - is a gentle introduction before full darkness.' },
+  ],
+};
+const faqList = faqs[type || 'reef'] || [];
+const topDests = dests.slice(0, 10);
+const links: { href: string; label: string }[] = {
+  wall: [{ href: '/browse/dive-type/drift/', label: 'Drift diving' }, { href: '/browse/dive-type/reef/', label: 'Coral reef diving' }, { href: '/browse/ocean/red-sea/', label: 'Red Sea diving' }, { href: '/browse/experience/advanced/', label: 'Advanced destinations' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  drift: [{ href: '/browse/dive-type/wall/', label: 'Wall diving' }, { href: '/browse/dive-type/pelagic/', label: 'Pelagic diving' }, { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' }, { href: '/browse/experience/intermediate/', label: 'Intermediate destinations' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  wreck: [{ href: '/browse/dive-type/night/', label: 'Night diving' }, { href: '/browse/dive-type/cave/', label: 'Cave diving' }, { href: '/collections/best-wreck-diving/', label: 'Best wreck collection' }, { href: '/browse/ocean/red-sea/', label: 'Red Sea diving' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  cave: [{ href: '/browse/dive-type/wall/', label: 'Wall diving' }, { href: '/browse/dive-type/night/', label: 'Night diving' }, { href: '/browse/experience/advanced/', label: 'Advanced destinations' }, { href: '/collections/best-wreck-diving/', label: 'Wreck collections' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  reef: [{ href: '/browse/dive-type/macro/', label: 'Macro diving' }, { href: '/browse/dive-type/night/', label: 'Night diving' }, { href: '/collections/best-beginner/', label: 'Best beginner collection' }, { href: '/browse/marine-life/coral-reefs/', label: 'Marine life: coral reefs' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  pelagic: [{ href: '/browse/dive-type/drift/', label: 'Drift diving' }, { href: '/browse/dive-type/wall/', label: 'Wall diving' }, { href: '/collections/best-shark-diving/', label: 'Best shark diving' }, { href: '/browse/marine-life/whale-sharks/', label: 'Whale shark diving' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  macro: [{ href: '/browse/dive-type/night/', label: 'Night diving' }, { href: '/browse/dive-type/reef/', label: 'Coral reef diving' }, { href: '/collections/best-macro-diving/', label: 'Best macro collection' }, { href: '/browse/marine-life/macro/', label: 'Marine life: macro' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+  night: [{ href: '/browse/dive-type/wreck/', label: 'Wreck diving' }, { href: '/browse/dive-type/macro/', label: 'Macro diving' }, { href: '/browse/marine-life/macro/', label: 'Marine life: macro' }, { href: '/browse/experience/intermediate/', label: 'Intermediate destinations' }, { href: '/compare/', label: 'Compare destinations' }, { href: '/map/', label: 'Explore the dive map' }],
+}[type || 'reef'] || [];
+import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
+---
+
+<BaseLayout title={`Best ${label} Scuba Diving - ${dests.length} Top Sites`} description={`Compare ${dests.length} top-rated ${label.toLowerCase()} scuba diving destinations by visibility, water temp, marine life, and daily costs.`} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Dive Types' }, { name: label }]}>
+  <nav class="sticky top-0 z-50 bg-surface border-b border-border">
+    <div class="container-page flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
+      <div class="text-xs text-navy-500">
+        <a href="/" class="hover:text-coral-500 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-700">{label} Dives</span>
+      </div>
+    </div>
+  </nav>
+  <section class="bg-navy-950 py-16 md:py-24">
+    <div class="container-page">
+      <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">Best {label} Scuba Diving</h1>
+      <p class="text-lg text-sand-200/80">{dests.length} destinations offering {label.toLowerCase()} dives</p>
+    </div>
+  </section>
+  <section class="py-16">
+    <div class="container-page max-w-3xl">
+      {desc && <p class="text-navy-700 leading-relaxed mb-8">{desc}</p>}
+      {dests.length > 0 && (
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+            <p class="text-2xl font-semibold text-ocean-600">{dests.length}</p>
+            <p class="text-xs text-ocean-700 mt-1">Destinations</p>
+          </div>
+          <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+            <p class="text-2xl font-semibold text-ocean-600">{avgVis}m</p>
+            <p class="text-xs text-ocean-700 mt-1">Avg Visibility</p>
+          </div>
+          <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+            <p class="text-2xl font-semibold text-ocean-600">{avgTemp}&deg;C</p>
+            <p class="text-xs text-ocean-700 mt-1">Avg Water Temp</p>
+          </div>
+          <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
+            <p class="text-2xl font-semibold text-ocean-600">{avgRating}</p>
+            <p class="text-xs text-ocean-700 mt-1">Avg Rating</p>
+          </div>
+        </div>
+      )}
+      {dests.length === 0 ? (
+        <div class="bg-sand-100/50 rounded-xl p-10 text-center">
+          <p class="text-navy-500 text-lg mb-2">No {label.toLowerCase()} dive sites catalogued yet.</p>
+          <p class="text-navy-400 text-sm">We are actively researching this dive type. Check back soon or browse other dive types.</p>
+        </div>
+      ) : (
+        <div>
+          <h2 class="text-xl font-semibold text-navy-950 mb-6">Top {label} Dive Destinations</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {dests.map(d => {
+              const dd = d.data;
+              return (
+                <a href={`/destinations/${dd.slug}/`} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
+                  <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
+                    <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-start justify-between mb-3">
+                      <h3 class="text-lg font-semibold text-navy-900 group-hover:text-coral-600 transition-colors">{dd.name}</h3>
+                      <span class="text-xs text-amber-500 bg-sand-100 px-2 py-1 rounded font-medium">{dd.overallRating}</span>
+                    </div>
+                    <p class="text-sm text-navy-600 leading-relaxed mb-4">{dd.tagline}</p>
+                    <div class="grid grid-cols-2 gap-2 text-xs text-navy-500">
+                      <div>Vis: {dd.visibilityMeters}m</div><div>Temp: {dd.waterTempCelsius}C</div>
+                      <div>{dd.difficulty}</div><div>{dd.budgetLevel}</div>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {topDests.length > 0 && (
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Key Stats: {label} Diving Compared</h2>
+      <p class="text-navy-600 mb-8">Side-by-side comparison of every {label.toLowerCase()} destination we cover - visibility, temperature, cost, and season.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr class="bg-navy-950 text-white">
+              <th class="px-4 py-3 font-medium">Destination</th>
+              <th class="px-4 py-3 font-medium">Rating</th>
+              <th class="px-4 py-3 font-medium">Visibility</th>
+              <th class="px-4 py-3 font-medium">Temp</th>
+              <th class="px-4 py-3 font-medium">Cost/day</th>
+              <th class="px-4 py-3 font-medium">Best months</th>
+              <th class="px-4 py-3 font-medium">Difficulty</th>
+            </tr>
+          </thead>
+          <tbody>
+            {topDests.map((d, i) => {
+              const dd = d.data;
+              return (
+                <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
+                  <td class="px-4 py-3 font-medium text-navy-900"><a href={`/destinations/${dd.slug}/`} class="hover:text-coral-600">{dd.name}</a></td>
+                  <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
+                  <td class="px-4 py-3 text-navy-600">${dd.averageDailyCostUsd}</td>
+                  <td class="px-4 py-3 text-navy-600">{fmtMonths(dd.bestMonths)}</td>
+                  <td class="px-4 py-3 text-navy-600">{dd.difficulty}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  )}
+
+  <section class="py-16 md:py-20">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">{label} Diving: FAQ</h2>
+      <div class="space-y-6 mt-8">
+        {faqList.map(f => (
+          <div class="bg-white border border-sand-200 rounded-xl p-6">
+            <h3 class="font-semibold text-navy-900 mb-2">{f.q}</h3>
+            <p class="text-sm text-navy-600 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Explore More Dive Types</h2>
+      <p class="text-navy-600 mb-8">Compare diving across other dive styles, collections, and regions.</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {links.map(l => (
+          <a href={l.href} class="bg-white border border-sand-200 hover:border-coral-300 rounded-xl px-4 py-3 text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{l.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

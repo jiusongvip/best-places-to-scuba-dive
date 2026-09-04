@@ -14,7 +14,7 @@ const countryNames: Record<string, string> = {};
 allDests.forEach((d: any) => { countryNames[d.data.countrySlug] = d.data.country; });
 const countryName = countryNames[country || ''] || country || '';
 const dests = allDests.filter((d: any) => d.data.countrySlug === country).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
-const title = 'Scuba Diving in ' + countryName;
+const title = 'Scuba Diving in ' + countryName + ' - Top Dive Sites';
 
 // Aggregate data for intro
 const oceans = [...new Set(dests.map((d: any) => d.data.ocean))];
@@ -51,17 +51,17 @@ const faqs = [
   { q: `What marine life will I see in ${countryName}?`, a: `${countryName} is known for ${bestML.join(', ').toLowerCase()}. Across ${totalSpots}+ named dive sites, divers can expect ${dests.map((d: any) => d.data.marineLife).length > 0 ? 'healthy reef systems, abundant pelagics, and year-round resident species' : 'healthy reef systems and abundant marine life'}. Night dives add a different dimension - many operators run them on request for photographers and adventure-seekers.` },
 ];
 const links = [
-  { href: '/compare', label: 'Compare destinations' },
-  { href: '/map', label: 'Explore the dive map' },
-  { href: '/browse/experience/beginner', label: 'Beginner destinations' },
-  { href: '/browse/ocean/' + (oceans[0] || 'pacific'), label: (oceanLabels[oceans[0]] || 'Ocean') + ' diving' },
-  { href: '/collections/best-liveaboard', label: 'Liveaboard trips' },
-  { href: '/browse/price/budget', label: 'Budget-friendly diving' },
+  { href: '/compare/', label: 'Compare destinations' },
+  { href: '/map/', label: 'Explore the dive map' },
+  { href: '/browse/experience/beginner/', label: 'Beginner destinations' },
+  { href: '/browse/ocean/' + (oceans[0] || 'pacific') + '/', label: (oceanLabels[oceans[0]] || 'Ocean') + ' diving' },
+  { href: '/collections/best-liveaboard/', label: 'Liveaboard trips' },
+  { href: '/browse/price/budget/', label: 'Budget-friendly diving' },
 ];
 import { imgSrc, imgSrcset } from '../../utils/imgVariants';
 ---
 
-<BaseLayout title={title} description={'Discover the best scuba diving in ' + countryName + '. Compare ' + dests.length + ' dive sites by visibility, marine life, season, difficulty, and daily costs. Rated ' + avgRating + '/5 by the dive community.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: countryName }]}>
+<BaseLayout title={title} description={'Discover the best scuba diving in ' + countryName + '. Compare ' + dests.length + ' dive sites by visibility, marine life, season, difficulty, and daily costs. Rated ' + avgRating + '/5 by divers.'} breadcrumbs={[{ name: 'Home', url: '/' }, { name: countryName }]}>
   <nav class="sticky top-0 z-50 bg-surface border-b border-border">
     <div class="container-page flex items-center justify-between h-16">
       <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
@@ -116,7 +116,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
         {dests.map((d: any) => {
           const dd = d.data;
           return (
-            <a href={'/destinations/' + dd.slug} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
+            <a href={'/destinations/' + dd.slug + '/'} class="group block bg-white border border-sand-200 hover:border-ocean-300 rounded-xl overflow-hidden transition-all">
               <div class="aspect-[3/2] bg-sand-200 overflow-hidden">
                 <img src={imgSrc(dd.imageLocal)} srcset={imgSrcset(dd.imageLocal)} sizes={'(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 92vw'} alt={dd.name + ' scuba diving'} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="1672" height="941" loading="lazy" />
               </div>
@@ -147,7 +147,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
             const topSpots = (dd.bestDiveSpots || []).slice(0, 2).map((s: any) => s.name).join(' and ');
             return (
               <div class="bg-white border border-sand-200 rounded-xl p-6">
-                <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a> - {dd.overallRating}/5</h3>
+                <h3 class="font-semibold text-navy-900 mb-2"><a href={'/destinations/' + dd.slug + '/'} class="hover:text-coral-600">{dd.name}</a> - {dd.overallRating}/5</h3>
                 <p class="text-sm text-navy-600 leading-relaxed mb-2">{dd.tagline}.</p>
                 <p class="text-sm text-navy-600 leading-relaxed">Rated {dd.overallRating}/5 by the dive community, {dd.name} offers {dd.visibilityMeters}m visibility in {dd.waterTempCelsius}&deg;C water, with the best diving from {fmtMonths(dd.bestMonths)}. Daily costs average ${dd.averageDailyCostUsd}. Signature dive sites include {topSpots}. Its {dd.difficulty} difficulty profile and {dd.budgetLevel} pricing tier make it a reliable pick for your {countryName} itinerary.</p>
               </div>
@@ -177,7 +177,7 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
                 const dd = d.data;
                 return (
                   <tr class={i % 2 === 0 ? 'bg-white' : 'bg-sand-100/60'}>
-                    <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug} class="hover:text-coral-600">{dd.name}</a></td>
+                    <td class="px-4 py-3 font-medium text-navy-900"><a href={'/destinations/' + dd.slug + '/'} class="hover:text-coral-600">{dd.name}</a></td>
                     <td class="px-4 py-3 text-navy-600">{dd.overallRating}/5</td>
                     <td class="px-4 py-3 text-navy-600">{dd.visibilityMeters}m</td>
                     <td class="px-4 py-3 text-navy-600">{dd.waterTempCelsius}&deg;C</td>
