@@ -91,7 +91,7 @@ import { imgSrcset } from '../../utils/imgVariants';
         <ul class="space-y-4">
           {dd.whyDive.map((reason: string) => (
             <li class="flex gap-3">
-              <span class="text-coral-500 mt-1 flex-shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
+              <span class="text-coral-500 mt-1 flex-shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
               <span class="text-navy-700 leading-relaxed">{reason}</span>
             </li>
           ))}
@@ -163,7 +163,7 @@ import { imgSrcset } from '../../utils/imgVariants';
         <div class="space-y-3">
           {[{ q: 'When is the best time to dive ' + dd.name + '?', a: 'Best months: ' + dd.bestMonths.map((m: number) => monthNames[m]).join(', ') + '. Peak: ' + dd.peakSeason.map((m: number) => monthNames[m]).join('-') + '. Water: ' + dd.waterTempRange + '.' }, { q: 'What certification do I need?', a: dd.certificationRequired.replace(/_/g, ' ') + ' certification recommended. Minimum ' + dd.minDivesRecommended + '+ dives.' }, { q: 'How much does it cost?', a: '$' + dd.averageDailyCostUsd + '/day average. ' + dd.budgetLevel + ' tier. Liveaboard: ' + (dd.liveaboardAvailable ? 'available' : 'not available') + '.' }].map((faq: any) => (
             <details class="group border border-sand-200 rounded-xl bg-white">
-              <summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer font-medium text-navy-900 group-open:text-coral-600 transition-colors text-sm">{faq.q}<svg class="w-4 h-4 transition-transform group-open:rotate-180 text-navy-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary>
+              <summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer font-medium text-navy-900 group-open:text-coral-600 transition-colors text-sm">{faq.q}<svg class="w-4 h-4 transition-transform group-open:rotate-180 text-navy-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary>
               <p class="px-5 pb-4 text-sm text-navy-600 leading-relaxed">{faq.a}</p>
             </details>
           ))}
