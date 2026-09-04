@@ -47,25 +47,6 @@ const breadcrumbSchema = breadcrumbs ? {
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) - deferred until first interaction or 4s to reduce main-thread blocking -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4TP031VK73');
-    var __gaLoaded = false;
-    var __loadGA = function(){
-      if (__gaLoaded) return;
-      __gaLoaded = true;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4TP031VK73';
-      document.head.appendChild(s);
-    };
-    ['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){
-      window.addEventListener(ev, __loadGA, { once: true, passive: true });
-    });
-  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content={description} />
@@ -173,5 +154,24 @@ const breadcrumbSchema = breadcrumbs ? {
       </div>
     </div>
   </footer>
+  <!-- Google tag (gtag.js) - loaded from end of body on first interaction to keep the main thread free during startup -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4TP031VK73');
+    var __gaLoaded = false;
+    var __loadGA = function(){
+      if (__gaLoaded) return;
+      __gaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4TP031VK73';
+      document.head.appendChild(s);
+    };
+    ['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){
+      window.addEventListener(ev, __loadGA, { once: true, passive: true });
+    });
+  </script>
 </body>
 </html>
