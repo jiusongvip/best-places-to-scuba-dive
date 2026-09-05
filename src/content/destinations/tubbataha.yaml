@@ -34,7 +34,12 @@ familyFriendly: false
 photographyScore: 5
 overallRating: 4.8
 tagline: The crown jewel of the Philippines - only accessible by liveaboard, and worth every mile
-description: Tubbataha Reefs Natural Park is a UNESCO World Heritage site in the middle of the Sulu Sea, accessible only by liveaboard during a short season from March to June. Its isolation has protected it from fishing and development, resulting in some of the healthiest coral reefs on the planet, with walls plunging into the abyss, abundant sharks, and an overwhelming density of marine life.
+description: >
+  Tubbataha Reefs Natural Park is a UNESCO World Heritage site in the middle of the Sulu Sea,
+  accessible only by liveaboard during a short season from March to June. Its isolation has protected
+  it from fishing and development, resulting in some of the healthiest coral reefs on the planet,
+  with walls plunging into the abyss, abundant sharks, and an overwhelming density of marine life.
+  Tubbataha reef diving is considered among the best in the world.
 whyDive:
   - Among the healthiest coral reefs left on Earth
   - Short season keeps sites pristine and uncrowded
@@ -64,6 +69,14 @@ nearestAirport: Puerto Princesa (PPS)
 timezoneOffset: UTC+8
 imageLocal: /images/tubbataha.webp
 imageCredit: Destination image
+customTitle: "Tubbataha Diving: Complete Guide to Tubbataha Reef Diving"
+extraFaqs:
+  - q: When is the best time to dive Tubbataha Reef?
+    a: "The Tubbataha Reefs are only open to divers from March to June. The best conditions are typically in April and May, with calm seas and excellent visibility."
+  - q: How do I get to Tubbataha Reef?
+    a: "You need to book a liveaboard dive trip from Puerto Princesa, Palawan. The journey takes 8-12 hours by boat. Most liveaboards offer 4-7 day trips to the reef."
+  - q: Is Tubbataha Reef suitable for beginner divers?
+    a: "Tubbataha is best suited for intermediate to advanced divers due to strong currents and deep dive sites. Beginners should gain more experience before attempting these dives."
 editorTake: |
   Tubbataha is open just three months a year and accessible only by liveaboard. Late-season dives deliver whale sharks on the north atoll, tiger sharks cruising the walls, and mantas at cleaning stations on nearly every dive. The reefs are UNESCO-protected, with some of the healthiest coral in the Philippines. No villages, no resorts, no day boats — just ten liveaboards, forty divers each, and a hundred thousand hectares of pristine ocean. Tubbataha is what the Coral Triangle looked like fifty years ago.
 

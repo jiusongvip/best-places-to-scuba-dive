@@ -12,7 +12,7 @@ const destinations = await getCollection('destinations');
 const dest = destinations.find((d: any) => d.data.slug === slug);
 if (!dest) return Astro.redirect('/404/');
 const dd = dest.data;
-const title = dd.name + ' Scuba Diving Guide' + ((dd.name + ' Scuba Diving Guide').length < 30 ? ' - ' + dd.country : '');
+const title = dd.customTitle || (dd.name + ' Scuba Diving Guide' + ((dd.name + ' Scuba Diving Guide').length < 30 ? ' - ' + dd.country : ''));
 const nearby = destinations.filter((d: any) => d.data.slug !== slug && (d.data.country === dd.country || d.data.ocean === dd.ocean)).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating).slice(0, 4);
 const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const diffLabel: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
@@ -161,7 +161,7 @@ import { imgSrcset } from '../../utils/imgVariants';
       <section>
         <h2 class="text-2xl font-semibold text-navy-950 mb-6">Frequently Asked Questions</h2>
         <div class="space-y-3">
-          {[{ q: 'When is the best time to dive ' + dd.name + '?', a: 'Best months: ' + dd.bestMonths.map((m: number) => monthNames[m]).join(', ') + '. Peak: ' + dd.peakSeason.map((m: number) => monthNames[m]).join('-') + '. Water: ' + dd.waterTempRange + '.' }, { q: 'What certification do I need?', a: dd.certificationRequired.replace(/_/g, ' ') + ' certification recommended. Minimum ' + dd.minDivesRecommended + '+ dives.' }, { q: 'How much does it cost?', a: '$' + dd.averageDailyCostUsd + '/day average. ' + dd.budgetLevel + ' tier. Liveaboard: ' + (dd.liveaboardAvailable ? 'available' : 'not available') + '.' }].map((faq: any) => (
+          {[{ q: 'When is the best time to dive ' + dd.name + '?', a: 'Best months: ' + dd.bestMonths.map((m: number) => monthNames[m]).join(', ') + '. Peak: ' + dd.peakSeason.map((m: number) => monthNames[m]).join('-') + '. Water: ' + dd.waterTempRange + '.' }, { q: 'What certification do I need?', a: dd.certificationRequired.replace(/_/g, ' ') + ' certification recommended. Minimum ' + dd.minDivesRecommended + '+ dives.' }, { q: 'How much does it cost?', a: '$' + dd.averageDailyCostUsd + '/day average. ' + dd.budgetLevel + ' tier. Liveaboard: ' + (dd.liveaboardAvailable ? 'available' : 'not available') + '.' }, ...(dd.extraFaqs || [])].map((faq: any) => (
             <details class="group border border-sand-200 rounded-xl bg-white">
               <summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer font-medium text-navy-900 group-open:text-coral-600 transition-colors text-sm">{faq.q}<svg class="w-4 h-4 transition-transform group-open:rotate-180 text-navy-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary>
               <p class="px-5 pb-4 text-sm text-navy-600 leading-relaxed">{faq.a}</p>

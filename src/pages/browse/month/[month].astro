@@ -14,7 +14,10 @@ const best = allDests.filter((d: any) => d.data.bestMonths.includes(m)).sort((a:
 const avoid = allDests.filter((d: any) => !d.data.bestMonths.includes(m)).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
 
 const monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
-const title = 'Best Places to Scuba Dive in ' + monthNames[m];
+const customMonthTitles: Record<number, string> = {
+  10: 'Best Places to Scuba Dive in October: Where to Go Diving in October'
+};
+const title = customMonthTitles[m] || ('Best Places to Scuba Dive in ' + monthNames[m]);
 
 const diffLabel: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
 const budgetLabel: Record<string, string> = { budget: 'Budget', mid_range: 'Mid-Range', premium: 'Premium', luxury: 'Luxury' };

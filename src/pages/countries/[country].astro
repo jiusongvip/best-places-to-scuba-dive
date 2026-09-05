@@ -14,7 +14,10 @@ const countryNames: Record<string, string> = {};
 allDests.forEach((d: any) => { countryNames[d.data.countrySlug] = d.data.country; });
 const countryName = countryNames[country || ''] || country || '';
 const dests = allDests.filter((d: any) => d.data.countrySlug === country).sort((a: any, b: any) => b.data.overallRating - a.data.overallRating);
-const title = 'Scuba Diving in ' + countryName + ' - Top Dive Sites';
+const customTitles: Record<string, string> = {
+  philippines: 'Scuba Diving Philippines: Top Dive Destinations & Best Time to Go'
+};
+const title = customTitles[country || ''] || ('Scuba Diving in ' + countryName + ' - Top Dive Sites');
 
 // Aggregate data for intro
 const oceans = [...new Set(dests.map((d: any) => d.data.ocean))];
@@ -101,6 +104,51 @@ import { imgSrc, imgSrcset } from '../../utils/imgVariants';
         <p>The region is known for {bestML.slice(0, 2).join(' and ').toLowerCase()}{bestML.length > 2 ? ', among other marine life' : ''}. Daily diving costs range from {budgetRange[0]} to {budgetRange[budgetRange.length-1]}, making it accessible for {budgetRange.length > 2 ? 'a range of budgets' : budgetRange.join(' and ') + ' travelers'}.</p>
         <p>Each destination below has been rated by the dive community on visibility, marine life abundance, current conditions, and overall experience. Click through for detailed dive site guides, seasonal calendars, and certification requirements.</p>
       </div>
+      {country === 'philippines' && (
+        <div class="mt-8">
+          <h3 class="text-xl font-semibold text-navy-950 mb-4">Top Dive Regions in the Philippines</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-white border border-sand-200 rounded-xl p-4">
+              <h4 class="font-semibold text-navy-900 mb-2">Tubbataha Reefs</h4>
+              <p class="text-sm text-navy-600">UNESCO World Heritage site, accessible only by liveaboard from March to June. Pristine walls, sharks, and manta rays.</p>
+            </div>
+            <div class="bg-white border border-sand-200 rounded-xl p-4">
+              <h4 class="font-semibold text-navy-900 mb-2">Palawan</h4>
+              <p class="text-sm text-navy-600">Home to El Nido and Coron, with dramatic limestone karst landscapes, World War II wrecks, and vibrant coral gardens.</p>
+            </div>
+            <div class="bg-white border border-sand-200 rounded-xl p-4">
+              <h4 class="font-semibold text-navy-900 mb-2">Anilao</h4>
+              <p class="text-sm text-navy-600">The macro photography capital of the Philippines. Critter diving at its finest with nudibranchs, frogfish, and seahorses.</p>
+            </div>
+            <div class="bg-white border border-sand-200 rounded-xl p-4">
+              <h4 class="font-semibold text-navy-900 mb-2">Malapascua</h4>
+              <p class="text-sm text-navy-600">One of the few places in the world to reliably see thresher sharks at cleaning stations year-round.</p>
+            </div>
+          </div>
+        </div>
+      )}
+      {country === 'philippines' && (
+        <div class="mt-8">
+          <h3 class="text-xl font-semibold text-navy-950 mb-4">Best Time to Dive by Region</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left border-collapse">
+              <thead>
+                <tr class="bg-navy-950 text-white">
+                  <th class="px-4 py-3 font-medium">Destination</th>
+                  <th class="px-4 py-3 font-medium">Best Season</th>
+                  <th class="px-4 py-3 font-medium">Highlights</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-white"><td class="px-4 py-3 font-medium text-navy-900">Tubbataha</td><td class="px-4 py-3 text-navy-600">March - June</td><td class="px-4 py-3 text-navy-600">Sharks, mantas, pristine walls</td></tr>
+                <tr class="bg-sand-100/60"><td class="px-4 py-3 font-medium text-navy-900">Palawan</td><td class="px-4 py-3 text-navy-600">November - May</td><td class="px-4 py-3 text-navy-600">Wrecks, karst landscapes, corals</td></tr>
+                <tr class="bg-white"><td class="px-4 py-3 font-medium text-navy-900">Anilao</td><td class="px-4 py-3 text-navy-600">November - May</td><td class="px-4 py-3 text-navy-600">Macro photography, nudibranchs</td></tr>
+                <tr class="bg-sand-100/60"><td class="px-4 py-3 font-medium text-navy-900">Malapascua</td><td class="px-4 py-3 text-navy-600">December - April</td><td class="px-4 py-3 text-navy-600">Thresher sharks, Monad Shoal</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
         <div class="bg-ocean-50 border border-ocean-200 rounded-xl p-4 text-center">
           <p class="text-2xl font-semibold text-ocean-600">{dests.length}</p>

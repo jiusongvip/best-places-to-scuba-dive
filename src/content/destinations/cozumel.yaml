@@ -34,7 +34,12 @@ familyFriendly: true
 photographyScore: 4
 overallRating: 4.3
 tagline: The drift diving capital with endless walls, turtles, and easy Caribbean access
-description: Cozumel is one of the world's most popular dive destinations for good reason. Its famous drift dives along dramatic walls let divers float effortlessly past colorful sponges and corals, with eagle rays, turtles, and nurse sharks making regular appearances. Clear water, warm temperatures, and easy access from the US make it a perennial favorite.
+description: >
+  Cozumel is one of the world's most popular dive destinations for good reason.
+  Looking for the best places to dive in October? Cozumel should be at the top of your list.
+  Its famous drift dives along dramatic walls let divers float effortlessly past colorful sponges and corals,
+  with eagle rays, turtles, and nurse sharks making regular appearances. Clear water, warm temperatures,
+  and easy access from the US make it a perennial favorite for scuba diving in Cozumel.
 whyDive:
   - Effortless drift diving along dramatic walls
   - Consistently good visibility and warm water
@@ -64,6 +69,16 @@ nearestAirport: Cozumel (CZM)
 timezoneOffset: UTC-5
 imageLocal: /images/cozumel.webp
 imageCredit: Destination image
+customTitle: "Cozumel Diving: Complete Guide to Scuba Diving in Cozumel"
+extraFaqs:
+  - q: Is Cozumel good for beginner scuba diving?
+    a: "Yes, Cozumel is one of the best destinations for beginner scuba diving. The calm, clear waters and numerous shallow reefs make it ideal for first-timers and open water certification dives."
+  - q: What is the best time to dive in Cozumel?
+    a: "The best time to dive in Cozumel is from December to April, when the weather is dry and water visibility is at its best (up to 30 meters). Water temperatures range from 25-28°C during this period."
+  - q: How do I get to Cozumel for scuba diving?
+    a: "Fly into Cancun International Airport (CUN), then take a shuttle or bus to Playa del Carmen, followed by a 45-minute ferry to Cozumel. Alternatively, you can fly directly into Cozumel Airport (CZM) from select US and Mexican cities."
+  - q: Can I see whale sharks in Cozumel?
+    a: "While whale sharks are more commonly seen near Isla Mujeres and Holbox, you can occasionally spot them in Cozumel's waters during the summer months (June to September)."
 editorTake: |
   Drift diving at its finest. The current carries divers past 40-meter walls draped in orange sponges, through swim-throughs bursting with glassy sweepers, and over sand flats where eagle rays bury themselves for camouflage. Palancar Reef is the standout — towering coral pinnacles, tunnels, and caves. Santa Rosa Wall delivers spotted eagle rays soaring past at close range. Warm, clear, easy, and 45 minutes from Houston — among the most accessible world-class diving in the Western Hemisphere.
 
