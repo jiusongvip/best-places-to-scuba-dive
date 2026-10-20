@@ -88,17 +88,39 @@ const cLabels: Record<string, string> = {
 const grouped = groupByContinent(best);
 const groupedAvoid = groupByContinent(avoid);
 
+// Rankings read straight from each destination's own record, so this page can
+// answer "clear water / mantas / sharks" questions in the words people search.
+const byVis = [...best].sort((a: any, b: any) => b.data.visibilityMeters - a.data.visibilityMeters).slice(0, 4);
+const byManta = [...best].sort((a: any, b: any) => b.data.marineLife.mantaRays - a.data.marineLife.mantaRays || b.data.overallRating - a.data.overallRating).slice(0, 4);
+const bySharks = [...best].sort((a: any, b: any) => b.data.marineLife.sharks - a.data.marineLife.sharks || b.data.overallRating - a.data.overallRating).slice(0, 4);
+const rated = (arr: any[], key: string) => arr.map((d: any) => d.data.name + ' (' + (key === 'vis' ? d.data.visibilityMeters + 'm' : d.data.marineLife[key] + '/5') + ')').join(', ');
+
+const faqs = [
+  { q: 'Where is the best scuba diving in ' + monthNames[m] + '?', a: monthTip[m] },
+  { q: 'Which dive destinations have the best visibility in ' + monthNames[m] + '?', a: 'Among the ' + best.length + ' destinations at their peak in ' + monthNames[m] + ', the clearest water is ' + rated(byVis, 'vis') + '. Those are average figures for the season, so a storm day can still fall short of them.' },
+  { q: 'Where can I see manta rays in ' + monthNames[m] + '?', a: 'Manta sightings rate highest in ' + monthNames[m] + ' at ' + rated(byManta, 'mantaRays') + ', on our five-point marine-life scale. Clean-water cleaning stations are where they show up most reliably.' },
+  { q: 'Where can I see sharks in ' + monthNames[m] + '?', a: 'Shark action rates highest in ' + monthNames[m] + ' at ' + rated(bySharks, 'sharks') + ', on our five-point marine-life scale. Passes and channel currents between islands are the usual places to wait for them.' },
+  { q: 'What marine life can I see in ' + monthNames[m] + '?', a: 'In ' + monthNames[m] + ', divers can commonly encounter: ' + (monthLife[m] || ['various species']).join(', ') + '. Specific encounters depend on the destination and local conditions.' },
+  { q: 'Should I avoid any dive destinations in ' + monthNames[m] + '?', a: avoid.length > 0 ? 'Yes — ' + avoid.length + ' destinations in our database are outside their best season in ' + monthNames[m] + '. These include ' + avoid.slice(0, 5).map((d: any) => d.data.name).join(', ') + '. Visibility and conditions may be below peak, but many sites remain diveable year-round.' : 'Most destinations have at least some viable diving in ' + monthNames[m] + '.' },
+];
+
 const schema = {
   '@context':'https://schema.org','@type':'FAQPage',
-  mainEntity: [
-    {'@type':'Question','name':'Where is the best scuba diving in ' + monthNames[m] + '?','acceptedAnswer':{'@type':'Answer','text': top3.length > 0 ? 'Top picks for ' + monthNames[m] + ': ' + top3.map((d: any) => d.data.name + ' (' + d.data.country + ')').join(', ') + '.' : 'Check our destination database for ' + monthNames[m] + ' recommendations.'}},
-    {'@type':'Question','name':'What marine life can I see in ' + monthNames[m] + '?','acceptedAnswer':{'@type':'Answer','text': 'In ' + monthNames[m] + ', you can commonly encounter: ' + (monthLife[m] || ['Various marine species']).join(', ') + '.'}},
-  ]
+  mainEntity: faqs.map((f: any) => ({ '@type':'Question','name':f.q,'acceptedAnswer':{'@type':'Answer','text': f.a } })),
 };
+
+// Name the winners in the search result itself: this page ranks top-20 for many
+// "{Month} diving" queries, and a generic description was losing the click.
+// Falls back to two names, then to the count, so the snippet never truncates.
+const descTail = ' lead diving in ' + monthNames[m] + ' — ' + best.length + ' peak destinations compared by visibility, manta and shark ratings, water temp and cost.';
+const descThree = top3.map((d: any) => d.data.name).join(', ') + descTail;
+const descTwo = top3.slice(0, 2).map((d: any) => d.data.name).join(' and ') + descTail;
+const descGeneric = best.length + ' dive destinations peak in ' + monthNames[m] + ' — compared by visibility, manta and shark ratings, water temperature and daily cost.';
+const pageDesc = descThree.length <= 158 ? descThree : (descTwo.length <= 158 ? descTwo : descGeneric);
 import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
 ---
 
-<BaseLayout title={title} description={'Discover the best scuba diving destinations for ' + monthNames[m] + '. Compare visibility, water temperature, marine life encounters, and difficulty by region.'} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Month' }, { name: monthNames[m] }]}>
+<BaseLayout title={title} description={pageDesc} schema={schema} breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Month' }, { name: monthNames[m] }]}>
   <nav class="sticky top-0 z-50 bg-surface border-b border-border">
     <div class="container-page flex items-center justify-between h-16">
       <a href="/" class="text-xl font-semibold text-navy-950 tracking-tight">DiveAtlas</a>
@@ -146,7 +168,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
                 <div class="grid grid-cols-3 gap-2 text-xs">
                   <div class="bg-sand-100 rounded-lg p-2 text-center"><span class="text-navy-500 block">Vis</span><span class="font-semibold text-navy-800">{dd.visibilityMeters}m</span></div>
                   <div class="bg-sand-100 rounded-lg p-2 text-center"><span class="text-navy-500 block">Temp</span><span class="font-semibold text-navy-800">{dd.waterTempCelsius}&deg;C</span></div>
-                  <div class="bg-sand-100 rounded-lg p-2 text-center"><span class="text-navy-500 block">Cost</span><span class="font-semibold text-navy-800"></span></div>
+                  <div class="bg-sand-100 rounded-lg p-2 text-center"><span class="text-navy-500 block">Cost</span><span class="font-semibold text-navy-800">${dd.averageDailyCostUsd}</span></div>
                 </div>
                 </div>
               </a>
@@ -156,6 +178,34 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
       </div>
     </section>
   )}
+
+  <!-- What people actually ask about a month: water clarity and the big animals -->
+  <section class="py-16 md:py-20 bg-sand-100/50">
+    <div class="container-page">
+      <h2 class="text-2xl md:text-3xl font-semibold text-navy-950 tracking-tight mb-2">Where to Dive in {monthNames[m]} for Clear Water, Manta Rays and Sharks</h2>
+      <p class="text-navy-600 leading-relaxed max-w-3xl mb-10">{best.length} destinations are at their peak this month. These three shortlists rank them by the conditions most divers plan a trip around — how far you can see, and how reliable the big animals are.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          { head: 'Best visibility', list: byVis, fmt: (d: any) => d.data.visibilityMeters + 'm' },
+          { head: 'Best for manta rays', list: byManta, fmt: (d: any) => d.data.marineLife.mantaRays + '/5' },
+          { head: 'Best for sharks', list: bySharks, fmt: (d: any) => d.data.marineLife.sharks + '/5' },
+        ].map((col: any) => (
+          <div class="bg-white border border-sand-200 rounded-xl p-6">
+            <h3 class="font-semibold text-navy-900 mb-4">{col.head}</h3>
+            <ol class="space-y-3">
+              {col.list.map((d: any, i: number) => (
+                <li class="flex items-baseline justify-between gap-3">
+                  <a href={'/destinations/' + d.data.slug + '/'} class="text-sm font-medium text-navy-800 hover:text-coral-600 transition-colors">{i + 1}. {d.data.name}</a>
+                  <span class="text-xs font-semibold text-ocean-700 flex-shrink-0">{col.fmt(d)}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+      <p class="text-sm text-navy-500 mt-6">Visibility is the average figure for the season and shark and manta scores are our own five-point rating — both are the same numbers each destination's own guide page uses.</p>
+    </div>
+  </section>
 
   <!-- Diving Conditions -->
   <section class="py-16 md:py-20">
@@ -260,11 +310,7 @@ import { imgSrc, imgSrcset } from '../../../utils/imgVariants';
     <div class="container-page max-w-3xl">
       <h2 class="text-2xl font-semibold text-navy-950 mb-8 text-center">Frequently Asked Questions</h2>
       <div class="space-y-3">
-        {[
-          { q: 'Where is the best scuba diving in ' + monthNames[m] + '?', a: monthTip[m] },
-          { q: 'What marine life can I see in ' + monthNames[m] + '?', a: 'In ' + monthNames[m] + ', divers can commonly encounter: ' + (monthLife[m] || ['various species']).join(', ') + '. Specific encounters depend on the destination and local conditions.' },
-          { q: 'Should I avoid any dive destinations in ' + monthNames[m] + '?', a: avoid.length > 0 ? 'Yes — ' + avoid.length + ' destinations in our database are outside their best season in ' + monthNames[m] + '. These include ' + avoid.slice(0, 5).map((d: any) => d.data.name).join(', ') + '. Visibility and conditions may be below peak, but many sites remain diveable year-round.' : 'Most destinations have at least some viable diving in ' + monthNames[m] + '.' },
-        ].map((faq: any) => (
+        {faqs.map((faq: any) => (
           <details class="group border border-sand-200 rounded-xl bg-white">
             <summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer font-medium text-navy-900 group-open:text-coral-600 transition-colors text-sm">{faq.q}<svg class="w-4 h-4 transition-transform group-open:rotate-180 text-navy-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary>
             <p class="px-5 pb-4 text-sm text-navy-600 leading-relaxed">{faq.a}</p>

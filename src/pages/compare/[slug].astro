@@ -19,7 +19,6 @@ const destB = allDests.find((d: any) => d.data.slug === slugB);
 if (!destA || !destB) return Astro.redirect('/compare');
 const da = destA.data, db = destB.data;
 const title = da.name + ' vs ' + db.name + ' Scuba Diving';
-const description = 'Compare ' + da.name + ' vs ' + db.name + ' scuba diving: visibility (' + da.visibilityMeters + 'm vs ' + db.visibilityMeters + 'm), daily cost ($' + da.averageDailyCostUsd + ' vs $' + db.averageDailyCostUsd + '), rating (' + da.overallRating + ' vs ' + db.overallRating + ').';
 const diffLabel: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', technical: 'Technical', shark: 'Shark' };
 const budgetLabel: Record<string, string> = { budget: 'Budget', mid_range: 'Mid-Range', premium: 'Premium', luxury: 'Luxury' };
 const currentLabel: Record<string, string> = { mild: 'Mild', moderate: 'Moderate', moderate_to_strong: 'Moderate to Strong', strong: 'Strong' };
@@ -40,6 +39,19 @@ const schema = { '@context':'https://schema.org','@type':'FAQPage', mainEntity: 
   {'@type':'Question','name':'Which is better: ' + da.name + ' or ' + db.name + '?','acceptedAnswer':{'@type':'Answer','text':'For biodiversity: ' + w('coral') + '. For beginners: ' + w('beginner') + '. For budget: ' + w('budget') + '.'}},
   {'@type':'Question','name':'Is ' + da.name + ' more expensive than ' + db.name + '?','acceptedAnswer':{'@type':'Answer','text': da.averageDailyCostUsd > db.averageDailyCostUsd ? da.name + ' ($' + da.averageDailyCostUsd + '/day) is more expensive than ' + db.name + ' ($' + db.averageDailyCostUsd + '/day).' : db.name + ' ($' + db.averageDailyCostUsd + '/day) is more expensive than ' + da.name + ' ($' + da.averageDailyCostUsd + '/day).'}}
 ]};
+// The page already scores eight matchups; put the verdict in the search result,
+// because a page ranking top-10 for "X vs Y" was still losing the click.
+const matchups = ['visibility', 'beginner', 'coral', 'sharks', 'manta', 'macro', 'budget', 'photo'];
+const winsA = matchups.filter(k => w(k) === da.name).length;
+const winsB = matchups.filter(k => w(k) === db.name).length;
+const ties = matchups.length - winsA - winsB;
+const descTail = ' — ' + da.name + ' ' + da.visibilityMeters + 'm visibility, $' + da.averageDailyCostUsd + '/day vs ' + db.name + ' ' + db.visibilityMeters + 'm, $' + db.averageDailyCostUsd + '/day.';
+const tally = Math.max(winsA, winsB) + '-' + Math.min(winsA, winsB) + (ties > 0 ? ' with ' + ties + (ties === 1 ? ' tie' : ' ties') : '') + ' across ' + matchups.length + ' scored matchups';
+const verdict = winsA === winsB
+  ? da.name + ' and ' + db.name + ' draw ' + tally
+  : (winsA > winsB ? da.name + ' edges ' + db.name : db.name + ' edges ' + da.name) + ' ' + tally;
+const descFull = verdict + descTail;
+const description = descFull.length <= 158 ? descFull : 'Compare ' + da.name + ' vs ' + db.name + ' scuba diving: rated ' + da.overallRating + ' vs ' + db.overallRating + ', $' + da.averageDailyCostUsd + ' vs $' + db.averageDailyCostUsd + ' a day.' + descTail;
 import { imgSrc, imgSrcset } from '../../utils/imgVariants';
 ---
 
